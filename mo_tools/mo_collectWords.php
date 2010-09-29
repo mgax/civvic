@@ -19,52 +19,71 @@
  **/
 
 /**
- * Parse the MO archive and extract text from PDFs. If the PDFs do contain
- * text, then build a dictionary from the words.
+ * Parse the MO archive and extract text from PDFs. If the PDFs do contain text, then build a dictionary from the words.
  **/
 
-// If pdftotext produces fewer than PDF_HAS_TEXT_THRESHOLD bytes, then it probably contains images, not text
-define('PDF_HAS_TEXT_THRESHOLD', 1024);
-
+define('PDF_HAS_TEXT_THRESHOLD', 1024); // If pdftotext produces fewer than PDF_HAS_TEXT_THRESHOLD bytes, then it probably contains images, not text
+define('SAVE_EVERY', 100);      // Checkpoint the word map after every SAVE_EVERY PDF files
 mb_internal_encoding("UTF-8");
 
-$wordMap = array();
+$opts = parseOptions();
+$wordMap = isset($opts['resume-wordmap']) ? loadWordMap($opts['resume-wordmap']) : array();
+$saveCount = 0;
+recursiveScan('', $saveCount, $opts);
+saveWordMap($wordMap, $opts['output-dir']);
 
-$opts = getopt(null, array('root:', 'resume:', 'output:', 'broken:'));
-if (!isset($opts['root']) || !isset($opts['output']) || !isset($opts['broken'])) {
-  usage();
-}
+/*************************************************************************/
 
-if (isset($opts['resume'])) {
-  $wordMap = loadWordMap($opts['resume']);
+function parseOptions() {
+  $opts = getopt(null, array('root:', 'resume-wordmap:', 'resume-pdf:', 'output-dir:', 'broken:', 'save-every:'));
+  if (!isset($opts['root']) || !isset($opts['output-dir']) || !isset($opts['broken'])) {
+    usage();
+  }
+  if (!isset($opts['save-every'])) {
+    $opts['save-every'] = SAVE_EVERY;
+  }
+  return $opts;
 }
-recursiveScan($opts['root'], $opts['broken']);
-saveWordMap($wordMap, $opts['output']);
 
 function usage() {
   print "Required arguments:\n";
-  print "--root           Root of PDF directory\n";
-  print "--resume         Load word map from this file\n";
-  print "--output         Output file\n";
-  print "--broken         Move broken PDFs to this directory\n";
+  print "--broken          Move broken PDFs to this directory\n";
+  print "--output-dir      Output directory (files are numbered sequentially)\n";
+  print "--root            Root of PDF directory\n";
+  print "\n";
+  print "Optional arguments:\n";
+  print "--resume-pdf      Parse PDFs beginning with this file (alphabetically)\n";
+  print "--resume-wordmap  Load word map from this file\n";
+  print "--save-every      Save wordmap after every n PDF files processed\n";
   exit(1);
 }
 
-function recursiveScan($path, $brokenPath) {
+function recursiveScan($relPath, &$saveCount, &$opts) {
   global $wordMap;
+  $root = $opts['root'];
 
-  $files = scandir($path);
+  $files = scandir("$root/$relPath");
   foreach ($files as $file) {
-    $full = "$path/$file";
     if ($file == '.' || $file == '..') {
-      // Skip these
-    } else if (is_dir($full)) {
-      recursiveScan($full);
-    } else if (substr($full, -4) == '.pdf') {
-      $text = getTextFromPdf($path, $file, $brokenPath);
+      continue;
+    }
+    if (isset($opts['resume-pdf']) && ("$relPath/$file" < $opts['resume-pdf']) && !startsWith($opts['resume-pdf'], "$relPath/$file")) {
+      continue;
+    }
+
+    $filePath = "$root/$relPath/$file";
+    if (is_dir($filePath)) {
+      recursiveScan("$relPath/$file", $saveCount, $opts);
+    } else if (substr($file, -4) == '.pdf') {
+      $saveCount++;
+      $text = getTextFromPdf($root, $opts['broken'], $relPath, $file);
       if ($text) {
         processWords($text);
-        print "Processed $full... word map has " . count($wordMap) . " entries\n";
+        print "File: $root/$relPath/$file [$saveCount/" . $opts['save-every'] . "] wordmap has " . count($wordMap) . " entries\n";
+      }
+      if ($saveCount == $opts['save-every']) {
+        saveWordMap($wordMap, $opts['output-dir']);
+        $saveCount = 0;
       }
     } else {
       // Unknown file type
@@ -72,12 +91,14 @@ function recursiveScan($path, $brokenPath) {
   }
 }
 
-function getTextFromPdf($path, $pdfFilename, $brokenPath) {
-  $returnCode = executeAndReturnCode("pdftotext '$path/$pdfFilename' /tmp/pdf.txt");
+function getTextFromPdf($root, $broken, $relPath, $filename) {
+  $returnCode = executeAndReturnCode("pdftotext '$root/$relPath/$filename' /tmp/pdf.txt");
   if ($returnCode) {
     // Something went wrong; move the file to the broken file directory
-    print "$path/$pdfFilename is broken, moving to $brokenPath/$pdfFilename\n";
-    rename("$path/$pdfFilename", "$brokenPath/$pdfFilename");
+    print "$root/$relPath/$filename is broken, copying to $broken/$relPath/$filename\n";
+    exec("mkdir -p '$broken/$relPath'");
+    rename("$root/$relPath/$filename", "$broken/$relPath/$filename");
+    return null;
   } else {
     $lines = file("/tmp/pdf.txt");
     unlink("/tmp/pdf.txt");
@@ -148,14 +169,20 @@ function loadWordMap($filename) {
   return $result;
 }
 
-function saveWordMap(&$wordMap, $output) {
+function saveWordMap(&$wordMap, $outputDir) {
   asort($wordMap);
+  exec("mkdir -p '$outputDir'");
 
-  $f = fopen($output, 'w');
+  $files = scandir("$outputDir");
+  $lastFile = $files[count($files) - 1];
+  $file = ($lastFile == '..') ? '00000' : sprintf("%05d", $lastFile + 1);
+
+  $f = fopen("$outputDir/$file", 'w');
   foreach ($wordMap as $word => $count) {
     fwrite($f, "$word $count\n");
   }
   fclose($f);
+  print "Saved wordmap to $outputDir/$file\n";
 }
 
 function executeAndReturnCode($command) {
@@ -164,6 +191,10 @@ function executeAndReturnCode($command) {
   $returnCode = 0;
   exec($command, $output, $returnCode);
   return $returnCode;
+}
+
+function startsWith($str, $substr) {
+  return (substr($str, 0, strlen($substr)) == $substr);
 }
 
 ?>
