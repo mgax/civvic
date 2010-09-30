@@ -1,0 +1,130 @@
+Tesseract 3 data for the Romanian language
+Copyright 2010 Cătălin Frâncu <cata@francu.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+---------------------------------------------------------------------------
+
+How I obtained this data
+========================
+
+* Preamble
+* Generate training images
+* Make box files
+* Training, clustering and character set
+* Dictionary Data
+* Putting it all together
+
+
+PREAMBLE
+
+This was all done with tesseract 3.0, svnversion 457.
+
+
+GENERATE TRAINING IMAGES
+
+I wrote a quick php script to output random capitalized words using
+the letters A_ZĂÂÎȘȚ, ăâîșț, 0-9 and some common punctuation,
+including the Romanian quotation marks „”. There are 5 samples for
+punctuation and uppercase letters, 25 for lowercase letters and about
+16 for digits.
+
+I then imported this text into OpenOffice Writer, copied it 4 times on
+4 different pages and set the font to Times, Times bold, Arial and
+Arial bold respectively. All fonts were 10 pixels and used slightly
+increased horizontal spacing and 1.5 line spacing. I then printed and
+scanned this document into a 4-page TIFF.
+
+
+MAKE BOX FILES
+
+I generated the box file with the command
+
+  tesseract combined.tif combined -l ron batch.nochop makebox
+
+I then ran a custom web-based script to make sure all the symbols and
+boxes were correct.
+
+Finally, I compared the generated box file with the original text to
+make sure I didn't make any typos at the previous step. Thus I
+obtained a box file where I was sure all the boxes were correct.
+
+
+TRAINING, CLUSTERING AND CHARACTER SET
+
+  tesseract combined.tif junk nobatch box.train.stderr
+  mftraining junk.tr
+  cntraining junk.tr
+  unicharset_extractor combined.box
+
+
+DICTIONARY DATA
+
+To obtain the plain text lists of words, I wrote a script that
+extracts plain text from all the MO PDF files. It discards words with
+3 occurrences or less, it dumps the 5,000 most frequent word forms in
+frequent.txt and everything else in regular.txt.
+
+Next, run
+
+  wordlist2dawg frequent.txt freq-dawg unicharset
+  wordlist2dawg regular.txt word-dawg unicharset
+
+One previous approach, that did not work well, was to use the DEX
+online database. However, that database contains 1.4 million inflected
+forms, most of which are useless (they never appear in the MO
+corpus). The rest of this section discusses this approach.
+
+To obtain the plain text lists of words, I started with the SQL database
+from DEX online (http://dexonline.ro). DEX online has a decent, albeit crude,
+measure of lexem frequency. Lexems get frequencies between 0.00 and 1.00,
+uniformly distributed according to the number of occurrences of each lexem
+within the definition corpus (this ranking method may change in the future).
+
+From the SQL prompt, run these two SQL queries:
+
+select distinct inf.formNoAccent
+  from InflectedForm inf, Lexem l
+  where inf.lexemId = l.id
+  group by inf.formNoAccent
+  having max(l.frequency) > 0.89
+  order by max(l.frequency) desc, inf.formNoAccent
+  into outfile '/tmp/frequent.txt';
+
+select distinct inf.formNoAccent
+  from InflectedForm inf, Lexem l
+  where inf.lexemId = l.id
+  group by inf.formNoAccent
+  having max(l.frequency) > 0.19 and max(l.frequency) < 0.90
+  order by max(l.frequency) desc, inf.formNoAccent
+  into outfile '/tmp/other.txt';
+
+Note that we list all the inflected forms of each lexem to account for all the
+declensions / conjugations.
+
+
+
+PUTTING IT ALL TOGETHER
+
+  mv freq-dawg ron.freq-dawg 
+  mv word-dawg ron.word-dawg
+  mv inttemp ron.inttemp
+  mv normproto ron.normproto
+  mv pffmtable ron.pffmtable
+  mv unicharset ron.unicharset
+  touch ron.user-words
+  touch ron.DangAmbigs
+  combine_tessdata /home/cata/Desktop/train/ron.
+
+This produces the file ron.traineddata.
