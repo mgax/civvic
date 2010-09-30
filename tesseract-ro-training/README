@@ -7,3 +7,5 @@ self-trained: Data from an attempt I made to print my own fonts, scan
 
 mo-trained: Data from an attempt I made to train tesseract on several
   pages from the MO archive (up to 1994).
+
+boxingCoach: rudimentary web-based box editor

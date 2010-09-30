@@ -1,0 +1,39 @@
+#flashMessage {
+  border: 2px solid red;
+  margin: 0px auto;
+  padding: 10px;
+  width: 400px;
+}
+
+#leftCol {
+  float: left;
+  padding-right: 30px;
+}
+
+#rightCol {
+  float: left;
+}
+
+#textBox {
+  font-size: 200%;
+}
+
+#crosshair tr td {
+  text-align: center;
+}
+
+#crosshairValue {
+  text-align: center;
+}
+
+#crop {
+  border: 1px dashed #ccc;
+}
+
+.clearer {
+  clear: both;
+}
+
+#actions {
+  margin-top: 20px;
+}
