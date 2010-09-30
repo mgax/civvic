@@ -4,3 +4,6 @@ frequent.txt.gz, regular.txt.gz: Word lists extracted from the MO
 self-trained: Data from an attempt I made to print my own fonts, scan
   the pages, and train tesseract on that. It wasn't very useful because
   the fonts were different from the MO fonts
+
+mo-trained: Data from an attempt I made to train tesseract on several
+  pages from the MO archive (up to 1994).
