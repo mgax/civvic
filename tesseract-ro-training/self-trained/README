@@ -1,0 +1,4 @@
+Generate combined.tif with:
+
+  cd images
+  convert times.jpg times_b.jpg times_i.jpg arial.jpg arial_b.jpg arial_i.jpg combined.tif
