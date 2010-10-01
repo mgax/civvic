@@ -6,7 +6,7 @@ $TIF_FILE = 'combined.tif';
 $BOX_FILE = 'combined.box';
 $BOX_PNG_NAME = 'man/box.png';
 $CONTEXT = 10; // Number of boxes on either side to show (at most)
-$PNG_PAD = 10;  // Padding around the entire PNG image
+$PNG_PAD = 10; // Padding around the entire PNG image
 $BOX_PAD = 2;  // Padding around each box
 
 $pageId = getRequestParameter('pageId', null);
@@ -15,6 +15,8 @@ $text = getRequestParameter('text', null);
 $submitButton = getRequestParameter('submitButton', null);
 $prevButton = getRequestParameter('prevButton', null);
 $mergeButton = getRequestParameter('mergeButton', null);
+$splitButton = getRequestParameter('splitButton', null);
+$deleteButton = getRequestParameter('deleteButton', null);
 $growTop = getRequestParameter('growTop', null);
 $shrinkTop = getRequestParameter('shrinkTop', null);
 $growRight = getRequestParameter('growRight', null);
@@ -62,7 +64,15 @@ if ($prevButton) {
   $crop->text .= $boxMap[$pageId][$boxId + 1]->text;
   array_splice($boxMap[$pageId], $boxId, 2, array($crop));
   saveBoxMap($BOX_FILE, $boxMap, $heights);
-  //  array_splice
+} else if ($splitButton) {
+  $newBox = clone $boxMap[$pageId][$boxId];
+  $newBox->x1 = intval(($newBox->x1 + $newBox->x2)/2);
+  $boxMap[$pageId][$boxId]->x2 = $newBox->x1;
+  array_splice($boxMap[$pageId], $boxId + 1, 0, array($newBox));
+  saveBoxMap($BOX_FILE, $boxMap, $heights);
+} else if ($deleteButton) {
+  array_splice($boxMap[$pageId], $boxId, 1);
+  saveBoxMap($BOX_FILE, $boxMap, $heights);
 } else {
   $pageId = 0;
   $boxId = 0;
@@ -85,9 +95,9 @@ $activeBox = $boxes[$boxId];
 $crop = getSurroundingBox($visibleBoxes);
 
 // Generate the temporary image
-$offX = $crop->x1 - $PNG_PAD;
-$offY = $crop->y1 - $PNG_PAD;
-$cmd = sprintf("convert -crop %dx%d+%d+%d -fill none -stroke '#aaaaaa' ", $crop->getWidth() + 2 * $PNG_PAD, $crop->getHeight() + 2 * $PNG_PAD, $offX, $offY);
+$offX = max($crop->x1 - $PNG_PAD, 0);
+$offY = max($crop->y1 - $PNG_PAD, 0);
+$cmd = sprintf("convert +repage -crop %dx%d+%d+%d -fill none -stroke '#aaaaaa' ", $crop->getWidth() + 2 * $PNG_PAD, $crop->getHeight() + 2 * $PNG_PAD, $offX, $offY);
 // Gray rectangles for all the boxes
 foreach ($visibleBoxes as $id => $b) {
   if ($id != $boxId) {

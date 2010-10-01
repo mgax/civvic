@@ -22,7 +22,9 @@
         Text: <input type="text" id="textBox" name="text" value="{$box->text|escape}" size="5" autocomplete="off"/><br/>
         <input type="submit" name="submitButton" value="Okay" title="Accept the box size and text"/>
         <input type="submit" name="prevButton" value="<<" title="Go to the previous symbol"/>
-        <input type="submit" name="mergeButton" value="Merge w/ next" title="Merge this symbol and the next in a box encompassing both"/>
+        <input type="submit" name="mergeButton" value="Merge w/ next" title="Merge this symbol and the next in a box encompassing both"/><br/>
+        <input type="submit" name="splitButton" value="Split" title="Split this symbol in two"/>
+        <input type="submit" name="deleteButton" value="Delete" title="Delete this symbol"/>
       </form>
     </div>
 
