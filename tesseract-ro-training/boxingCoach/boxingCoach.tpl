@@ -24,7 +24,9 @@
         <input type="submit" name="prevButton" value="<<" title="Go to the previous symbol"/>
         <input type="submit" name="mergeButton" value="Merge w/ next" title="Merge this symbol and the next in a box encompassing both"/><br/>
         <input type="submit" name="splitButton" value="Split" title="Split this symbol in two"/>
-        <input type="submit" name="deleteButton" value="Delete" title="Delete this symbol"/>
+        <input type="submit" name="deleteButton" value="Delete" title="Delete this symbol"/><br/>
+        <input type="submit" name="saveButton" value="Save to file" title="Save boxes to file (otherwise they are saved in memcache)"/>
+        <input type="submit" name="loadButton" value="Load from file" title="Load boxes from file (replace memcache copy)"/>
       </form>
     </div>
 
@@ -47,7 +49,7 @@
               <input type="submit" name="shrinkLeft" value="→" title="Shrink left"/>
             </td>
             <td>
-              <input id="crosshairValue" type="text" name="pixels" value="1" size="2"/>
+              <input id="crosshairValue" type="text" name="pixels" value="1" size="2" autocomplete="off"/>
             </td>
             <td>
               <input type="submit" name="shrinkRight" value="←" title="Shrink right"/>

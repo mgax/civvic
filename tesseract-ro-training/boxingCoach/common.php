@@ -1,6 +1,7 @@
 <?
 
 mb_internal_encoding("UTF-8");
+ini_set('memory_limit', '256000000');
 
 class Box {
   public $text, $x1, $y1, $x2, $y2, $page;
@@ -53,7 +54,7 @@ class Image {
 /**
  * Returns a list of boxes, mapped by page number
  */
-function readBoxFile($boxFile, $heights) {
+function loadBoxMapFromFile($boxFile, $heights) {
   $result = array();
   $lines = file($boxFile, FILE_IGNORE_NEW_LINES);
   foreach ($lines as $line) {
@@ -68,7 +69,12 @@ function readBoxFile($boxFile, $heights) {
   return $result;
 }
 
-function saveBoxMap($boxFile, $boxMap, $heights) {
+function loadBoxMapFromMemcache() {
+  $memcache = memcache_connect('localhost', 11211);
+  return memcache_get($memcache, 'mo_boxMap');
+}
+
+function saveBoxMapToFile($boxFile, $boxMap, $heights) {
   $f = fopen($boxFile, 'w');
   if (!$f) {
     setFlashMessage("Could not open $boxFile for writing.");
@@ -80,6 +86,11 @@ function saveBoxMap($boxFile, $boxMap, $heights) {
     }
   }
   fclose($f);
+}
+
+function saveBoxMapToMemcache($boxMap) {
+  $memcache = memcache_connect('localhost', 11211);
+  memcache_set($memcache, 'mo_boxMap', $boxMap);
 }
 
 /**
@@ -131,6 +142,57 @@ function getSurroundingBox($boxes) {
     $result->y2 = max($result->y2, $b->y2);
   }
   return $result;
+}
+
+/**
+ * Takes a PNG containing the symbol to be split and finds the X split point.
+ * This algorithm is particular to the text I am working with.
+ * The failsafe is to return 1/2 of the image width, if the heuristics don't work.
+ */
+function findSplitPoint($filename) {
+  $contents = file_get_contents($filename) or die("Cannot open file $filename\n");
+  $image = imagecreatefromstring($contents) or die("The file does not appear to contain an image\n");
+  list($width, $height) = getimagesize($filename);
+
+  $pixels = array(); // pixel counts on each column
+
+  for ($x = 0; $x < $width; $x++) {
+    $pixels[$x] = 0;
+    for ($y = 0; $y < $height; $y++) {
+      $rgb = imagecolorat($image, $x, $y);
+      if (!$rgb) {
+        $pixels[$x]++;
+      }
+    }
+  }
+  
+  // Look for a letter (3 columns with 10 or more pixels on the average)
+  $i = 1;
+  while (($i < $width - 1) && ($pixels[$i - 1] + $pixels[$i] + $pixels[$i + 1] <= 30)) {
+    $i++;
+  }
+  if ($i >= $width - 1) {
+    return intval($width / 2);
+  }
+
+  // Now look for a gap (3 columns with 4 or less pixels on the average
+  while (($i < $width - 1) && ($pixels[$i - 1] + $pixels[$i] + $pixels[$i + 1] > 12)) {
+    $i++;
+  }  
+  if ($i >= $width - 1) {
+    return intval($width / 2);
+  }
+
+  // Now look for the start of the next letter
+  $j = $i;
+  while (($j < $width - 1) && ($pixels[$j - 1] + $pixels[$j] + $pixels[$j + 1] <= 30)) {
+    $j++;
+  }  
+  if ($j >= $width - 1) {
+    return intval($width / 2);
+  }
+
+  return intval(($i + $j) / 2);
 }
 
 function getRequestParameter($name, $default) {

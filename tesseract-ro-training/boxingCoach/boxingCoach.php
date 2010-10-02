@@ -5,9 +5,10 @@ require_once('smarty/Smarty.class.php');
 $TIF_FILE = 'combined.tif';
 $BOX_FILE = 'combined.box';
 $BOX_PNG_NAME = 'man/box.png';
+$SPLIT_PNG_NAME = 'man/split.png';
 $CONTEXT = 10; // Number of boxes on either side to show (at most)
-$PNG_PAD = 10; // Padding around the entire PNG image
-$BOX_PAD = 2;  // Padding around each box
+$PNG_PAD = 5; // Padding around the entire PNG image
+$BOX_PAD = 0;  // Padding around each box
 
 $pageId = getRequestParameter('pageId', null);
 $boxId = getRequestParameter('boxId', null);
@@ -17,6 +18,8 @@ $prevButton = getRequestParameter('prevButton', null);
 $mergeButton = getRequestParameter('mergeButton', null);
 $splitButton = getRequestParameter('splitButton', null);
 $deleteButton = getRequestParameter('deleteButton', null);
+$saveButton = getRequestParameter('saveButton', null);
+$loadButton = getRequestParameter('loadButton', null);
 $growTop = getRequestParameter('growTop', null);
 $shrinkTop = getRequestParameter('shrinkTop', null);
 $growRight = getRequestParameter('growRight', null);
@@ -29,7 +32,7 @@ $pixels = getRequestParameter('pixels', null);
 $skipButton = getRequestParameter('skipButton', null);
 
 $heights = getPageHeights($TIF_FILE);
-$boxMap = readBoxFile($BOX_FILE, $heights);
+$boxMap = loadBoxMapFromMemcache();
 
 if ($prevButton) {
   $boxId = max(0, $boxId - 1);
@@ -41,7 +44,7 @@ if ($prevButton) {
   $box->x2 += $growRight ? +$pixels : ($shrinkRight ? -$pixels : 0);
   $box->y2 += $growBottom ? +$pixels : ($shrinkBottom ? -$pixels : 0);
   $boxMap[$pageId][$boxId] = $box;
-  saveBoxMap($BOX_FILE, $boxMap, $heights);
+  saveBoxMapToMemcache($boxMap);
 } else if ($skipButton) {
   if (!isset($boxMap[$pageId]) || !isset($boxMap[$pageId][$boxId])) {
     setFlashMessage("Page {$pageId}, symbol {$boxId} doesn't exist. Skipping to the beginning.");
@@ -52,7 +55,7 @@ if ($prevButton) {
   $boxMap[$pageId][$boxId]->text;
   if ($text != $boxMap[$pageId][$boxId]->text) {
     $boxMap[$pageId][$boxId]->text = $text;
-    saveBoxMap($BOX_FILE, $boxMap, $heights);
+    saveBoxMapToMemcache($boxMap);
   }
   $boxId++;
   if ($boxId >= count($boxMap[$pageId])) {
@@ -63,16 +66,30 @@ if ($prevButton) {
   $crop = getSurroundingBox(array_slice($boxMap[$pageId], $boxId, 2));
   $crop->text .= $boxMap[$pageId][$boxId + 1]->text;
   array_splice($boxMap[$pageId], $boxId, 2, array($crop));
-  saveBoxMap($BOX_FILE, $boxMap, $heights);
+  saveBoxMapToMemcache($boxMap);
 } else if ($splitButton) {
+  // Generate the temporary image of just that box
+  $b = $boxMap[$pageId][$boxId];
+  $cmd = sprintf("convert +repage -crop %dx%d+%d+%d %s[%d] %s",  $b->getWidth(), $b->getHeight(), $b->x1, $b->y1, $TIF_FILE, $pageId, $SPLIT_PNG_NAME);
+  executeAndAssert($cmd);
+
+  // Now find the X split point
+  $offX = findSplitPoint($SPLIT_PNG_NAME);
+
+  // Now perform the actual split
   $newBox = clone $boxMap[$pageId][$boxId];
-  $newBox->x1 = intval(($newBox->x1 + $newBox->x2)/2);
+  $newBox->x1 += $offX;
   $boxMap[$pageId][$boxId]->x2 = $newBox->x1;
   array_splice($boxMap[$pageId], $boxId + 1, 0, array($newBox));
-  saveBoxMap($BOX_FILE, $boxMap, $heights);
+  saveBoxMapToMemcache($boxMap);
 } else if ($deleteButton) {
   array_splice($boxMap[$pageId], $boxId, 1);
-  saveBoxMap($BOX_FILE, $boxMap, $heights);
+  saveBoxMapToMemcache($boxMap);
+} else if ($saveButton) {
+  saveBoxMapToFile($BOX_FILE, $boxMap, $heights);
+} else if ($loadButton) {
+  $boxMap = loadBoxMapFromFile($BOX_FILE, $heights);
+  saveBoxMapToMemcache($boxMap);
 } else {
   $pageId = 0;
   $boxId = 0;
@@ -105,7 +122,7 @@ foreach ($visibleBoxes as $id => $b) {
   }
 }
 // Red rectangle for the active box
-$cmd .= sprintf("-stroke '#ff0000' -strokewidth 2 -draw 'rectangle %d,%d %d,%d' ",
+$cmd .= sprintf("-stroke '#ff0000' -strokewidth 1 -draw 'rectangle %d,%d %d,%d' ",
 		 $activeBox->x1 - $offX - $BOX_PAD, $activeBox->y1 - $offY - $BOX_PAD, $activeBox->x2 - $offX + $BOX_PAD, $activeBox->y2 - $offY + $BOX_PAD);
 $cmd .= "{$TIF_FILE}[{$pageId}] {$BOX_PNG_NAME}";
 executeAndAssert($cmd);
