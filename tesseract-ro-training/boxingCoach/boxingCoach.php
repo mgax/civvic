@@ -1,4 +1,31 @@
 <?
+/**
+ * Copyright 2010 Cătălin Frâncu <cata@francu.com>
+ *
+ * This file is part of Civvic.
+ *
+ * Civvic is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Civvic is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Civvic.  If not, see <http://www.gnu.org/licenses/>.
+ **/
+
+/**
+ * Rudimentary web-based box editor.
+ * Setup:
+ *   - Create a man/directory, make sure apache user can write in it
+ *   - Put your tif/box pair in combined.tif and combined.box
+ *   - Give apache user write permissions on combined.box
+ *   - Get memcached up and running on port 11211
+ **/
 
 require_once('common.php');
 require_once('smarty/Smarty.class.php');
