@@ -1,11 +1,17 @@
 frequent.txt.gz, regular.txt.gz: Word lists extracted from the MO
   corpus with mo_collectWords.php and mo_dictionaries.php
 
-self-trained: Data from an attempt I made to print my own fonts, scan
+boxingCoach: rudimentary web-based box editor
+
+tessdata-001: Data from an attempt I made to print my own fonts, scan
   the pages, and train tesseract on that. It wasn't very useful because
   the fonts were different from the MO fonts
 
-mo-trained: Data from an attempt I made to train tesseract on several
+tessdata-002: Data from an attempt I made to train tesseract on several
   pages from the MO archive (up to 1994).
 
-boxingCoach: rudimentary web-based box editor
+tessdata-003: Romanian data downloaded from the Tesseract website. This
+  gives by far the best results so far.
+
+tessdata-004: Copied from 003, then replaced the word and freq dawgs with
+  the word lists extracted from the MO corpus.
