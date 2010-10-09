@@ -1,0 +1,9 @@
+When I installed MediaWiki, I made these changes inside the
+installation directory:
+
+- After the web-based configuration, I moved LocalSettings.php into
+  the parent directory.
+- Added this to the bottom of LocalSettings.php in order to enable short URLs:
+
+  $wgArticlePath = "/wiki/$1";  # Virtual path. This directory MUST be different from the one used in $wgScriptPath
+  $wgUsePathInfo = true;        # Enable use of pretty URLs
