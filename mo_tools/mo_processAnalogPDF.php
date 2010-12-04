@@ -30,15 +30,19 @@ function usage() {
 }
 
 function fixDocument($s) {
-  $s = str_replace(array('ä', 'Ä', 'ã', 'Ã', 'å', 'Å', 'ş', 'Ş', 'ţ', 'Ţ'),
-                   array('ă', 'Ă', 'ă', 'Ă', 'ă', 'Ă', 'ș', 'Ș', 'ț', 'Ț'),
+  $s = str_replace(array('ä', 'Ä', 'ã', 'Ã', 'å', 'Å', 'ş', 'Ş', 'ţ', 'Ţ', '~', '_', 'í', 'ì', '“'),
+                   array('ă', 'Ă', 'ă', 'Ă', 'ă', 'Ă', 'ș', 'Ș', 'ț', 'Ț', '-', '-', 'i', 'i', '”'),
                    $s);
+  $s = str_replace('--', '-', $s);
   $s = preg_replace("/\b-\n\b/", '', $s);
   $s = preg_replace("/\b(S|s)(i|î)nt(em|eti|eți)?\b/", "$1unt$3", $s);
   $s = preg_replace("/\bin\b/", 'în', $s);
   $s = preg_replace("/\bIn\b/", 'În', $s);
   $s = preg_replace("/\bsi\b/", 'și', $s);
   $s = preg_replace("/\bSi\b/", 'Și', $s);
+  $s = preg_replace("/ind\b/", 'ând', $s);
+  $s = preg_replace("/privând\b/", 'privind', $s);
+  $s = preg_replace("/\n-/", "\n*", $s);
   $s = preg_replace("/ ([;:?!.,])/", "$1", $s);
   $s = fixWords($s);
   return $s;
@@ -97,6 +101,12 @@ function processToken($token) {
   if (count($words)) {
     // TODO: try to find a frequent one
     print "Replacing [{$token}] with [" . $words[0]->form . "]\n";
+    return $words[0]->form;
+  }
+  // Try to find a (preferably frequent) word at Levenshtein distance 1
+  $words = db_find(new Word(), "dist2('{$token}', formUtf8General) order by frequent desc");
+  if (count($words)) {
+    print "       Replacing [{$token}] with [" . $words[0]->form . "]\n";
     return $words[0]->form;
   }
   return $token; // No better replacement
