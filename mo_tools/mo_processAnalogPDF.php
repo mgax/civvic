@@ -22,6 +22,11 @@ file_put_contents($args['output'], $text) or die("Cannot write specified output 
 
 /*************************************************************************/
 
+function checkToken($token) {
+  $result = processToken($token);
+  print "checkToken: [$token] --> [$result]\n";
+}
+
 function usage() {
   print "Required arguments:\n";
   print "  --input       Input file name (should be a PDF file)\n";
@@ -40,10 +45,14 @@ function fixDocument($s) {
   $s = preg_replace("/\bIn\b/", 'În', $s);
   $s = preg_replace("/\bsi\b/", 'și', $s);
   $s = preg_replace("/\bSi\b/", 'Și', $s);
+  $s = preg_replace("/\bln\b/", 'în', $s);
   $s = preg_replace("/ind\b/", 'ând', $s);
   $s = preg_replace("/privând\b/", 'privind', $s);
+  $s = preg_replace("/\bintr-/", "într-", $s);
   $s = preg_replace("/\n-/", "\n*", $s);
   $s = preg_replace("/ ([;:?!.,])/", "$1", $s);
+  $s = preg_replace("/(.*) +d *[ce] *c *r *[ce] *t *[ce] *a *z *(a|ă|á|à) *:/", "'''$1''' decretează:", $s);
+  $s = preg_replace("/(.*) +h *[o0] *t *ă *r *ă *(ș|Ș) *t *(e|a) *:/", "'''$1''' hotărăște:", $s);
   $s = fixWords($s);
   return $s;
 }
@@ -89,6 +98,7 @@ function processToken($token) {
     $i = $pos + 1;
   }
   if ($token != $origToken) {
+    $token = repeatCapitalization($token, $origToken);
     print "Replacing [$origToken] with [$token]\n";
   }
 
@@ -100,16 +110,26 @@ function processToken($token) {
   $words = db_find(new Word(), "formUtf8General = '{$token}'");
   if (count($words)) {
     // TODO: try to find a frequent one
-    print "Replacing [{$token}] with [" . $words[0]->form . "]\n";
-    return $words[0]->form;
+    $result = repeatCapitalization($words[0]->form, $token);
+    print "Replacing [{$token}] with [{$result}]\n";
+    return $result;
   }
   // Try to find a (preferably frequent) word at Levenshtein distance 1
-  $words = db_find(new Word(), "dist2('{$token}', formUtf8General) order by frequent desc");
+  $words = db_find(new Word(), "dist2('" . mb_strtolower($token) . "', formUtf8General) order by frequent desc");
   if (count($words)) {
-    print "       Replacing [{$token}] with [" . $words[0]->form . "]\n";
-    return $words[0]->form;
+    $result = repeatCapitalization($words[0]->form, $token);
+    print "       Replacing [{$token}] with [{$result}]\n";
+    return $result;
   }
   return $token; // No better replacement
+}
+
+function repeatCapitalization($token, $origToken) {
+  $origChar = string_getCharAt($origToken, 0);
+  if (string_isUppercase($origChar)) {
+    $token = mb_strtoupper(string_getCharAt($token, 0)) . mb_substr($token, 1);
+  }
+  return $token;
 }
 
 function pdfToText($pdfFilename) {

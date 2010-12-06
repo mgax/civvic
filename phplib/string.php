@@ -26,4 +26,12 @@ function string_isUnicodeLetter($char) {
   return ctype_alpha($char) || in_array($char, $GLOBALS['string_unicode']);
 }
 
+function string_isLowercase($s) {
+  return $s != mb_strtoupper($s);
+}
+
+function string_isUppercase($s) {
+  return $s != mb_strtolower($s);
+}
+
 ?>
