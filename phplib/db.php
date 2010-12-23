@@ -20,4 +20,9 @@ function db_find($obj, $where) {
   return $obj->find($where);
 }
 
+function db_getSingleValue($query) {
+  $recordSet = db_execute($query);
+  return $recordSet->fields[0];
+}
+
 ?>

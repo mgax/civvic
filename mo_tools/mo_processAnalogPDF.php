@@ -51,7 +51,7 @@ function fixDocument($s) {
   $s = preg_replace("/\bintr-/", "într-", $s);
   $s = preg_replace("/\n-/", "\n*", $s);
   $s = preg_replace("/ ([;:?!.,])/", "$1", $s);
-  $s = preg_replace("/(.*) +d *[ce] *c *r *[ce] *t *[ce] *a *z *(a|ă|á|à) *[:1]/", "'''$1''' decretează:", $s);
+  $s = preg_replace("/(.*) +d *[ce] *c *r *[ce] *t *[ce] *a *[z2] *(a|ă|á|à) *[:1]/", "'''$1''' decretează:", $s);
   $s = preg_replace("/(.*) +h *[o0] *t *(a|ă) *r *ă *(ș|Ș) *t *(e|a) *[:1]/", "'''$1''' hotărăște:", $s);
   $s = fixWords($s);
   return $s;
