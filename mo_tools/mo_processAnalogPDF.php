@@ -139,6 +139,11 @@ function pdfToText($pdfFilename) {
   print "Command: $command\n";
   sys_executeAndAssert($command);
 
+  // pdftoppm does not do any zero-padding in the resulting file names, so we do it here.
+  sys_executeAndAssert("rename 's/-([0-9])\.ppm/-000$1.ppm/' {$ppmBaseName}*");
+  sys_executeAndAssert("rename 's/-([0-9][0-9])\.ppm/-00$1.ppm/' {$ppmBaseName}*");
+  sys_executeAndAssert("rename 's/-([0-9][0-9][0-9])\.ppm/-0$1.ppm/' {$ppmBaseName}*");
+
   $files = scandir(CONF_TMP_DIR);
   foreach ($files as $file) {
     $file = CONF_TMP_DIR . $file;
