@@ -7,13 +7,20 @@ require_once('phplib/activeRecords.php');
 require_once('phplib/string.php');
 require_once('phplib/sys.php');
 
+define('VERSION', '1.0');
+
 $I_PREFIXES = array('ne', 're', 'micro', 'sub', 'bine', 'dez', 'nemai', 'pre', 'semi', 'supra');
 
 db_init(CONF_DATABASE_TOOLS);
 
-$args = cl_getArguments(array("input:", "output:"), array("input", "output"));
+$args = cl_getArguments(array("input:", "output:", "version"), array());
 if (!$args) {
   usage();
+}
+
+if (array_key_exists('version', $args)) {
+  print VERSION . "\n";
+  exit();
 }
 
 $text = pdfToText($args['input']);
