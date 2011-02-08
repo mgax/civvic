@@ -1,0 +1,30 @@
+body {
+  margin: 0px;
+}
+
+#header {
+  background: #204C58;
+  border-bottom: 1px solid black;
+  color: #fff;
+  margin: 0px;
+  padding: 8px;
+}
+
+#logo {
+  float: left;
+  font-family: serif;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#identity {
+  float: right;
+}
+
+#identity a {
+  color: #fff;
+}
+
+.clearer {
+  clear: both;
+}

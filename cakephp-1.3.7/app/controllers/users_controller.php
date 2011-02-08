@@ -10,23 +10,32 @@ class UsersController extends AppController {
     
     if ($this->RequestHandler->isPost() && !$this->Openid->isOpenIDResponse()) {
       try {
-	$this->Openid->authenticate($this->data['OpenidUrl']['openid'], $returnTo, $realm);
+        $this->Openid->authenticate($this->data['OpenidUrl']['openid'], $returnTo, $realm);
       } catch (InvalidArgumentException $e) {
-	$this->set('error', 'Invalid OpenID');
+        $this->set('error', 'Invalid OpenID');
       } catch (Exception $e) {
-	$this->set('error', $e->getMessage());
+        $this->set('error', $e->getMessage());
       }
     } elseif ($this->Openid->isOpenIDResponse()) {
       $response = $this->Openid->getResponse($returnTo);
       
       if ($response->status == Auth_OpenID_CANCEL) {
-	$this->set('error', 'Verification cancelled');
+        $this->set('error', 'Verification cancelled');
       } elseif ($response->status == Auth_OpenID_FAILURE) {
-	$this->set('error', 'OpenID verification failed: '.$response->message);
+        $this->set('error', 'OpenID verification failed: ' . $response->message);
       } elseif ($response->status == Auth_OpenID_SUCCESS) {
-	echo 'successfully authenticated!';
-	exit;
+        echo 'successfully authenticated!';
+        $this->Session->write("openId", $response->identity_url);
+        $this->redirect("/");
+        exit;
       }
+    }
+  }
+
+  public function logout() {
+    if ($this->Session->valid()) {
+      $this->Session->destroy();
+      $this->redirect('/');
     }
   }
 }
