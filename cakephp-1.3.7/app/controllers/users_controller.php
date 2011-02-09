@@ -6,7 +6,7 @@ class UsersController extends AppController {
   
   public function login() {
     $realm = 'http://' . $_SERVER['HTTP_HOST'];
-    $returnTo = $realm . '/users/login';
+    $returnTo = $realm . Router::url('/users/login');
     
     if ($this->RequestHandler->isPost() && !$this->Openid->isOpenIDResponse()) {
       try {

@@ -17,6 +17,11 @@ body {
   font-weight: bold;
 }
 
+#logo a {
+  color: #fff;
+  text-decoration: none;
+}
+
 #identity {
   float: right;
 }

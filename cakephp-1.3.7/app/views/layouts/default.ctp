@@ -8,15 +8,15 @@
   <body>
     <div id="header">
       <div id="logo">
-        civvic.ro
+        <?php echo $html->link('civvic.ro', '/') ?>
       </div>
       <div id="identity">
         <?php echo $this->Html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
         <?php if ($this->Session->read("openId")) {?>
           Utilizator: <?php print $this->Session->read("openId"); ?>
-          <a href="/users/logout">deconectare</a>
+          <?php echo $html->link('deconectare', '/users/logout') ?>
         <?php } else { ?>
-          <a href="/users/login">conectare</a>
+          <?php echo $html->link('conectare', '/users/login') ?>
         <?php } ?>
       </div>
       <div class="clearer"></div>
