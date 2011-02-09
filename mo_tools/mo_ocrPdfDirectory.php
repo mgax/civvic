@@ -42,9 +42,9 @@ function recursiveScan($path) {
 
     if (string_endsWith($full, '.pdf') || string_endsWith($full, '.PDF')) {
       $md5Sum = md5_file($full);
-      $rawText = RawText::get("pdfMd5 = '$md5Sum'");
+      $rawText = RawText::get("pdf_md5 = '$md5Sum'");
       if ($rawText) {
-	print "$full already parsed as {$rawText->scriptType}, {$rawText->issue}/{$rawText->year}\n";
+	print "$full already parsed as {$rawText->script_type}, {$rawText->issue}/{$rawText->year}\n";
       } else {
 	print "Processing $full\n";
 	$arr = getYearAndIssueFromFileName($full);
@@ -54,14 +54,14 @@ function recursiveScan($path) {
 	  $rawText = new RawText();
 	  $rawText->year = $arr['year'];
 	  $rawText->issue = $arr['issue'];
-	  $rawText->pdfMd5 = $md5Sum;
-	  $rawText->extractedText = $text;
-	  $rawText->scriptType = 'analog';
-	  $rawText->scriptVersion = ANALOG_SCRIPT_VERSION;
+	  $rawText->pdf_md5 = $md5Sum;
+	  $rawText->extracted_text = $text;
+	  $rawText->script_type = 'analog';
+	  $rawText->script_version = ANALOG_SCRIPT_VERSION;
 	  $rawText->save();
 
 	  $pdfDocument = new PdfDocument();
-	  $pdfDocument->rawTextId = $rawText->id;
+	  $pdfDocument->raw_text_id = $rawText->id;
 	  $pdfDocument->contents = file_get_contents($full);
 	  $pdfDocument->save();
 	  print "$full saved as analog {$rawText->issue}/{$rawText->year} md5=$md5Sum\n";

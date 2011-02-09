@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
     <title>Civvic.ro</title>
-    <?php echo $this->Html->css('main'); ?>
+    <?php echo $html->css('main'); ?>
   </head>
   <body>
     <div id="header">
@@ -11,7 +11,7 @@
         <?php echo $html->link('civvic.ro', '/') ?>
       </div>
       <div id="identity">
-        <?php echo $this->Html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
+        <?php echo $html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
         <?php if ($this->Session->read("openId")) {?>
           Utilizator: <?php print $this->Session->read("openId"); ?>
           <?php echo $html->link('deconectare', '/users/logout') ?>

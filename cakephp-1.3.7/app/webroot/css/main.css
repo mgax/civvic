@@ -6,7 +6,7 @@ body {
   background: #204C58;
   border-bottom: 1px solid black;
   color: #fff;
-  margin: 0px;
+  margin: 0px 0px 10px 0px;
   padding: 8px;
 }
 
@@ -32,4 +32,14 @@ body {
 
 .clearer {
   clear: both;
+}
+
+#rawOcrText {
+  margin: 0px 30px;
+}
+
+#rawOcrText pre {
+  background: #ddd;
+  border: 1px solid #888;
+  padding: 10px;
 }
