@@ -48,3 +48,9 @@
  * Inflector::rules('plural', array('rules' => array(), 'irregular' => array(), 'uninflected' => array()));
  *
  */
+
+setlocale(LC_ALL, "ro_RO.utf8");
+bindtextdomain("messages", "../locale");
+textdomain("messages");
+
+?>

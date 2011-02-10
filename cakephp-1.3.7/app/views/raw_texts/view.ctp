@@ -1,6 +1,7 @@
 <h1>Monitorul Oficial <?php echo $rawText['RawText']['issue'] . "/" . $rawText['RawText']['year'] ?></h1>
 
 <p>
+  Stadiu: <?php echo RawText::progresses($rawText['RawText']['progress']) ?><br/>
   Procesat: <?php echo $rawText['RawText']['created'] ?><br/>
   Tipul documentului PDF: <?php echo $rawText['RawText']['script_type'] ?><br/>
   Versiunea scriptului de procesare: <?php echo $rawText['RawText']['script_version'] ?><br/>

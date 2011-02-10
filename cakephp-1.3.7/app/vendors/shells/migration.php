@@ -1,5 +1,7 @@
 <?php
 
+App::import('Lib', 'StringManipulation');
+App::import('Lib', 'Db');
 define('PATCH_DIR', 'app/schema-changes');
 define('PATCH_REGEXP', '/^\d{5}\./');
 
