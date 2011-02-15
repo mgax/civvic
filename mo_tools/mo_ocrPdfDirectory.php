@@ -42,8 +42,9 @@ function recursiveScan($path) {
 
     if (string_endsWith($full, '.pdf') || string_endsWith($full, '.PDF')) {
       $md5Sum = md5_file($full);
-      $rawText = RawText::get("pdf_md5 = '$md5Sum'");
-      if ($rawText) {
+      $pdfDocument = PdfDocument::get("md5_sum = '$md5Sum'");
+      if ($pdfDocument) {
+        $rawText = RawText::get("id = '{$pdfDocument->raw_text_id}'");
 	print "$full already parsed as {$rawText->script_type}, {$rawText->issue}/{$rawText->year}\n";
       } else {
 	print "Processing $full\n";
@@ -54,15 +55,17 @@ function recursiveScan($path) {
 	  $rawText = new RawText();
 	  $rawText->year = $arr['year'];
 	  $rawText->issue = $arr['issue'];
-	  $rawText->pdf_md5 = $md5Sum;
 	  $rawText->extracted_text = $text;
 	  $rawText->script_type = 'analog';
 	  $rawText->script_version = ANALOG_SCRIPT_VERSION;
+          $rawText->progress = 0; // PROGRESS_NEW
 	  $rawText->save();
 
 	  $pdfDocument = new PdfDocument();
 	  $pdfDocument->raw_text_id = $rawText->id;
 	  $pdfDocument->contents = file_get_contents($full);
+	  $pdfDocument->md5_sum = $md5Sum;
+          $pdfDocument->page_count = getPageCount($full);
 	  $pdfDocument->save();
 	  print "$full saved as analog {$rawText->issue}/{$rawText->year} md5=$md5Sum\n";
 	} else {
@@ -93,12 +96,16 @@ function getYearAndIssueFromFileName($fullPath) {
 // Decide whether we need to use the analog script (OCR) or the digital script (pdftotext)
 // See how much text pdftotext extracts
 function getDocumentType($fullName) {
-  $output = sys_executeAndReturnOutput("pdfinfo $fullName |grep Pages|awk '{print $2}'");
-  $numPages = $output[0];
+  $numPages = getPageCount($fullName);
   sys_executeAndAssert("pdftotext $fullName /tmp/output.txt");
   $filesize = filesize("/tmp/output.txt");
   $bytesPerPage = $filesize / $numPages;
   return ($bytesPerPage > 300) ? TYPE_DIGITAL : TYPE_ANALOG;
+}
+
+function getPageCount($fullName) {
+  $output = sys_executeAndReturnOutput("pdfinfo $fullName |grep Pages|awk '{print $2}'");
+  return $output[0];
 }
 
 function getOcrText($fullName) {

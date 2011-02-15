@@ -34,6 +34,28 @@ body {
   clear: both;
 }
 
+/* Flash CSS code taken from http://www.jankoatwarpspeed.com/post/2008/05/22/CSS-Message-Boxes-for-different-message-types.aspx */
+div.flash {
+  background-position: 10px center;
+  background-repeat: no-repeat;
+  border: 1px solid;
+  margin: 10px auto;
+  padding:15px 10px 15px 50px;
+  width: 400px;
+}
+
+div.flash_success {
+  background-color: #dff2bf;
+  background-image:url('../img/knob/valid.png');
+  color: #4f8a10;
+}
+
+div.flash_failure {
+  color: #d8000c;
+  background-color: #ffbaba;
+  background-image: url('../img/knob/cancel.png');
+}
+
 #rawOcrText {
   margin: 0px 30px;
 }

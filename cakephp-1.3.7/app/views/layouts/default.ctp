@@ -2,18 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-    <title>Civvic.ro</title>
+    <title>Administrare civvic.ro</title>
     <?php echo $html->css('main'); ?>
   </head>
   <body>
     <div id="header">
       <div id="logo">
-        <?php echo $html->link('civvic.ro', '/') ?>
+        <?php echo $html->link('admin.civvic.ro', '/') ?>
       </div>
       <div id="identity">
         <?php echo $html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
-        <?php if ($this->Session->read("openId")) {?>
-          Utilizator: <?php print $this->Session->read("openId"); ?>
+        <?php if ($this->Session->read('user')) {?>
+          Utilizator: <?php $user = $this->Session->read('user'); print $user['User']['openid']; ?>
           <?php echo $html->link('deconectare', '/users/logout') ?>
         <?php } else { ?>
           <?php echo $html->link('conectare', '/users/login') ?>
@@ -21,6 +21,7 @@
       </div>
       <div class="clearer"></div>
     </div>
+    <?php echo $this->Session->flash() ?>
     <div id="mainContainer">
       <?php echo $content_for_layout ?>
     </div>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: civvic.ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-10 14:16+0200\n"
+"POT-Creation-Date: 2011-02-15 13:36+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Cătălin Frâncu <cata@francu.com>\n"
 "Language-Team: civvic.ro <contact@civvic.ro>\n"
@@ -16,19 +16,39 @@ msgstr ""
 "X-Poedit-Basepath: /home/cata/Desktop/civvic/cakephp\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: app/models/raw_text.php:12
+#: app/models/raw_text.php:14
 msgid "progressNew"
 msgstr "new"
 
-#: app/models/raw_text.php:13
+#: app/models/raw_text.php:15
 msgid "progressAssigned"
 msgstr "assigned"
 
-#: app/models/raw_text.php:14
+#: app/models/raw_text.php:16
 msgid "progressComplete"
 msgstr "complete"
 
-#: app/models/raw_text.php:15
+#: app/models/raw_text.php:17
 msgid "progressError"
 msgstr "error"
+
+#: app/controllers/raw_texts_controller.php:30
+msgid "You need to be authenticated to claim a PDF document."
+msgstr "You need to be authenticated to claim a PDF document."
+
+#: app/controllers/raw_texts_controller.php:32
+msgid "This PDF document is already assigned."
+msgstr "This PDF document is already assigned."
+
+#: app/controllers/raw_texts_controller.php:34
+msgid "This PDF document is already marked as completed."
+msgstr "This PDF document is already marked as completed."
+
+#: app/controllers/raw_texts_controller.php:36
+msgid "This PDF document is in an error state and needs to be reviewed by an administrator."
+msgstr "This PDF document is in an error state and needs to be reviewed by an administrator."
+
+#: app/controllers/raw_texts_controller.php:41
+msgid "Document claimed."
+msgstr "Document claimed."
 

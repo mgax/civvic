@@ -2,7 +2,7 @@
 
 class UsersController extends AppController {
   public $components = array('Openid', 'RequestHandler');
-  public $uses = array();
+  public $uses = array('User');
   
   public function login() {
     $realm = 'http://' . $_SERVER['HTTP_HOST'];
@@ -25,7 +25,14 @@ class UsersController extends AppController {
         $this->set('error', 'OpenID verification failed: ' . $response->message);
       } elseif ($response->status == Auth_OpenID_SUCCESS) {
         echo 'successfully authenticated!';
-        $this->Session->write("openId", $response->identity_url);
+        $user = $this->User->findByOpenid($response->identity_url);
+        if (!$user) {
+          $this->User->create();
+          $this->User->set('openid', $response->identity_url);
+          $this->User->save();
+          $user = $this->User->read();
+        }
+        $this->Session->write("user", $user);
         $this->redirect("/");
         exit;
       }

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: civvic.ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-10 14:18+0200\n"
+"POT-Creation-Date: 2011-02-15 13:41+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Cătălin Frâncu <cata@francu.com>\n"
 "Language-Team: civvic.ro <contact@civvic.ro>\n"
@@ -16,19 +16,51 @@ msgstr ""
 "X-Poedit-Basepath: /home/cata/Desktop/civvic/cakephp\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: app/models/raw_text.php:12
+#: app/models/raw_text.php:14
 msgid "progressNew"
 msgstr "nou"
 
-#: app/models/raw_text.php:13
+#: app/models/raw_text.php:15
 msgid "progressAssigned"
 msgstr "repartizat"
 
-#: app/models/raw_text.php:14
+#: app/models/raw_text.php:16
 msgid "progressComplete"
 msgstr "complet"
 
-#: app/models/raw_text.php:15
+#: app/models/raw_text.php:17
 msgid "progressError"
 msgstr "eroare"
+
+#: app/controllers/raw_texts_controller.php:30
+msgid "You need to be authenticated to claim a PDF document."
+msgstr "Trebuie să fiți conectat pentru a revendica un document PDF."
+
+#: app/controllers/raw_texts_controller.php:32
+msgid "This PDF document is already assigned."
+msgstr "Acest document PDF este deja repartizat."
+
+#: app/controllers/raw_texts_controller.php:34
+msgid "This PDF document is already marked as completed."
+msgstr "Acest document PDF este deja marcat drept complet."
+
+#: app/controllers/raw_texts_controller.php:36
+msgid "This PDF document is in an error state and needs to be reviewed by an administrator."
+msgstr "Acest document PDF este într-o stare de eroare și trebuie examinat de un administrator."
+
+#: app/controllers/raw_texts_controller.php:41
+msgid "Document claimed."
+msgstr "Ați revendicat documentul."
+
+#: app/controllers/raw_texts_controller.php:56
+msgid "Document unclaimed."
+msgstr "Ați renunțat la document."
+
+#: app/controllers/raw_texts_controller.php:58
+msgid "You need to be authenticated to unclaim a PDF document."
+msgstr "Trebuie să fiți conectat pentru a renunța la  un document PDF."
+
+#: app/controllers/raw_texts_controller.php:60
+msgid "You do not own this PDF document."
+msgstr "Nu dețineți acest document PDF."
 
