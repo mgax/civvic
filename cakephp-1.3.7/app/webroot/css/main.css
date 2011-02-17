@@ -3,10 +3,10 @@ body {
 }
 
 #header {
-  background: #204C58;
+  background: #204c58;
   border-bottom: 1px solid black;
   color: #fff;
-  margin: 0px 0px 10px 0px;
+  margin: 0px;
   padding: 8px;
 }
 
@@ -32,6 +32,32 @@ body {
 
 .clearer {
   clear: both;
+}
+
+#menubar {
+  background: #307284;
+  border-bottom: 1px solid black;
+  margin: 0px 0px 10px 0px;
+  padding: 0px;
+}
+
+#menubar ul {
+  margin: 0px;
+  padding: 3px 10px;
+}
+
+#menubar li {
+  display: inline;
+  padding-right: 10px;
+}
+
+#menubar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#menubar a:hover {
+  text-decoration: underline;
 }
 
 /* Flash CSS code taken from http://www.jankoatwarpspeed.com/post/2008/05/22/CSS-Message-Boxes-for-different-message-types.aspx */

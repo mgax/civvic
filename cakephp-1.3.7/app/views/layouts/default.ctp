@@ -13,7 +13,7 @@
       <div id="identity">
         <?php echo $html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
         <?php if ($this->Session->read('user')) {?>
-          Utilizator: <?php $user = $this->Session->read('user'); print $user['User']['openid']; ?>
+          <?php $user = $this->Session->read('user'); print User::displayValue($user['User']['openid']); ?>
           <?php echo $html->link('deconectare', '/users/logout') ?>
         <?php } else { ?>
           <?php echo $html->link('conectare', '/users/login') ?>
@@ -21,6 +21,14 @@
       </div>
       <div class="clearer"></div>
     </div>
+
+    <div id="menubar">
+      <ul>
+        <li><?php echo $html->link('lista MO', '/raw_texts/index') ?></li>
+        <li><?php echo $html->link('ajutor', '/pages/help') ?></li>
+      </ul>
+    </div>
+
     <?php echo $this->Session->flash() ?>
     <div id="mainContainer">
       <?php echo $content_for_layout ?>

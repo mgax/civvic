@@ -2,7 +2,6 @@
 
 class UsersController extends AppController {
   public $components = array('Openid', 'RequestHandler');
-  public $uses = array('User');
   
   public function login() {
     $realm = 'http://' . $_SERVER['HTTP_HOST'];
