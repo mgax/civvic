@@ -6,9 +6,10 @@ class RawTextsController extends AppController {
   function index() {
     $sessionUser = $this->Session->read('user');
     $conditions = array();
+    $limit = 50;
     if (!empty($this->data)) {
       $data = $this->data['RawText'];
-      if ($data['year']) {
+      if ($data['year']['year']) {
         $conditions['year'] = $data['year']['year'];
       }
       if ($data['Progress'] !== '') {
@@ -17,8 +18,11 @@ class RawTextsController extends AppController {
       if ($data['mine'] && $sessionUser) {
         $conditions['owner'] = $sessionUser['User']['id'];
       }
+      if ($data['limit']) {
+        $limit = $data['limit'];
+      }
     }
-    $this->set('rawTexts', $this->RawText->find('all', array('conditions' => $conditions, 'order' => array('year asc', 'issue + 0 asc'))));
+    $this->set('rawTexts', $this->RawText->find('all', array('conditions' => $conditions, 'order' => array('year asc', 'issue + 0 asc'), 'limit' => $limit)));
     $this->set('progresses', RawText::progresses());
   }
 
