@@ -4,7 +4,22 @@ class RawTextsController extends AppController {
   var $uses = array('PdfDocument', 'RawText');
 
   function index() {
-    $this->set('rawTexts', $this->RawText->find('all'));
+    $sessionUser = $this->Session->read('user');
+    $conditions = array();
+    if (!empty($this->data)) {
+      $data = $this->data['RawText'];
+      if ($data['year']) {
+        $conditions['year'] = $data['year']['year'];
+      }
+      if ($data['Progress'] !== '') {
+        $conditions['progress'] = $data['Progress'];
+      }
+      if ($data['mine'] && $sessionUser) {
+        $conditions['owner'] = $sessionUser['User']['id'];
+      }
+    }
+    $this->set('rawTexts', $this->RawText->find('all', array('conditions' => $conditions, 'order' => array('year asc', 'issue + 0 asc'))));
+    $this->set('progresses', RawText::progresses());
   }
 
   function view($id) {

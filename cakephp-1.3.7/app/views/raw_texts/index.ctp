@@ -1,3 +1,20 @@
+<?php echo $this->Form->create('RawText', array('action' => 'index', 'inputDefaults' => array('div' => false))) ?>
+  <ul id="rawTextFilter">
+    <li>
+      <?php echo $this->Form->label('year', 'Anul:') ?>
+      <?php echo $this->Form->year('year', 1989, 2011, null, array('orderYear' => 'asc')) ?>
+    </li>
+    <li><?php echo $this->Form->input('Progress', array('label' => 'Stadiul:', 'empty' => true)) ?></li>
+    <?php if ($this->Session->read('user')): ?>
+      <li>
+        <?php echo $this->Form->checkbox('mine') ?>
+        <?php echo $this->Form->label('mine', 'Deținute de mine', array('class' => 'spaced')) ?>
+      </li>
+    <?php endif ?>
+    <li><?php echo $this->Form->submit('Filtrează', array('div' => false)) ?></li>
+  </ul>
+<?php echo $this->Form->end() ?>
+
 <table>
   <tr>
     <th>Număr</th>
