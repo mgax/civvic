@@ -15,7 +15,7 @@ class RawTextsController extends AppController {
       if ($data['Progress'] !== '') {
         $conditions['progress'] = $data['Progress'];
       }
-      if ($data['mine'] && $sessionUser) {
+      if ($sessionUser && $data['mine']) {
         $conditions['owner'] = $sessionUser['User']['id'];
       }
       if ($data['limit']) {

@@ -7,7 +7,7 @@ require_once('phplib/activeRecords.php');
 require_once('phplib/string.php');
 require_once('phplib/sys.php');
 
-define('VERSION', '1.0');
+define('VERSION', '1.1');
 
 $I_PREFIXES = array('ne', 're', 'micro', 'sub', 'bine', 'dez', 'nemai', 'pre', 'semi', 'supra');
 
@@ -42,8 +42,8 @@ function usage() {
 }
 
 function fixDocument($s) {
-  $s = str_replace(array('ä', 'Ä', 'ã', 'Ã', 'å', 'Å', 'ş', 'Ş', 'ţ', 'Ţ', '~', '_', 'í', 'ì', '“'),
-                   array('ă', 'Ă', 'ă', 'Ă', 'ă', 'Ă', 'ș', 'Ș', 'ț', 'Ț', '-', '-', 'i', 'i', '”'),
+  $s = str_replace(array('ä', 'Ä', 'ã', 'Ã', 'å', 'Å', 'ş', 'Ş', 'ţ', 'Ţ', '~', '_', 'í', 'ì', '“', ',,'),
+                   array('ă', 'Ă', 'ă', 'Ă', 'ă', 'Ă', 'ș', 'Ș', 'ț', 'Ț', '-', '-', 'i', 'i', '”', '„'),
                    $s);
   $s = str_replace('--', '-', $s);
   $s = preg_replace("/\b-\n\b/", '', $s);
