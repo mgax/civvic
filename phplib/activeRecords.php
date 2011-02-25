@@ -8,8 +8,7 @@ class BaseObject extends ADOdb_Active_Record {
   public function save() {
     if ($this->created === null) {
       $this->created = $this->modified = date('Y-m-d H:i:s');
-    }
-    if (is_string($this->modified)) {
+    } else if (is_string($this->modified)) {
       $this->modified = date('Y-m-d H:i:s');
     }
     parent::save();

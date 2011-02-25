@@ -7,7 +7,10 @@ class RawTextsController extends AppController {
     $sessionUser = $this->Session->read('user');
     $conditions = array();
     $limit = 50;
-    if (!empty($this->data)) {
+    if (empty($this->data)) {
+      $conditions['progress'] = RawText::PROGRESS_NEW;
+      $this->data['RawText']['Progress'] = RawText::PROGRESS_NEW;
+    } else {
       $data = $this->data['RawText'];
       if ($data['year']['year']) {
         $conditions['year'] = $data['year']['year'];

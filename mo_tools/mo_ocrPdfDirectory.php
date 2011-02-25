@@ -35,42 +35,43 @@ function recursiveScan($path) {
       continue;
     }
     $full = "$path/$file";
-
+    
     if (is_dir($full)) {
       recursiveScan($full);
     }
-
+    
     if (string_endsWith($full, '.pdf') || string_endsWith($full, '.PDF')) {
       $md5Sum = md5_file($full);
       $pdfDocument = PdfDocument::get("md5_sum = '$md5Sum'");
       if ($pdfDocument) {
         $rawText = RawText::get("id = '{$pdfDocument->raw_text_id}'");
-	print "$full already parsed as {$rawText->script_type}, {$rawText->issue}/{$rawText->year}\n";
+        print "$full already parsed as {$rawText->script_type}, {$rawText->issue}/{$rawText->year}\n";
       } else {
-	print "Processing $full\n";
-	$arr = getYearAndIssueFromFileName($full);
-	$type = getDocumentType($full);
-	if ($type == TYPE_ANALOG) {
-	  $text = getOcrText($full);
-	  $rawText = new RawText();
-	  $rawText->year = $arr['year'];
-	  $rawText->issue = $arr['issue'];
-	  $rawText->extracted_text = $text;
-	  $rawText->script_type = 'analog';
-	  $rawText->script_version = ANALOG_SCRIPT_VERSION;
+        print "Processing $full\n";
+        $arr = getYearAndIssueFromFileName($full);
+        $type = getDocumentType($full);
+        if ($type == TYPE_ANALOG) {
+          $text = getOcrText($full);
+          $rawText = new RawText();
+          $rawText->year = $arr['year'];
+          $rawText->issue = $arr['issue'];
+          $rawText->extracted_text = $text;
+          $rawText->script_type = 'analog';
+          $rawText->script_version = ANALOG_SCRIPT_VERSION;
           $rawText->progress = 0; // PROGRESS_NEW
-	  $rawText->save();
-
-	  $pdfDocument = new PdfDocument();
-	  $pdfDocument->raw_text_id = $rawText->id;
-	  $pdfDocument->contents = file_get_contents($full);
-	  $pdfDocument->md5_sum = $md5Sum;
+          $rawText->save();
+          var_dump($rawText->ErrorMsg());
+          
+          $pdfDocument = new PdfDocument();
+          $pdfDocument->raw_text_id = $rawText->id;
+          $pdfDocument->contents = file_get_contents($full);
+          $pdfDocument->md5_sum = $md5Sum;
           $pdfDocument->page_count = getPageCount($full);
-	  $pdfDocument->save();
-	  print "$full saved as analog {$rawText->issue}/{$rawText->year} md5=$md5Sum\n";
-	} else {
-	  print "Cannot handle digital documents yet, skipping\n";
-	}
+          $pdfDocument->save();
+          print "$full saved as analog {$rawText->issue}/{$rawText->year} md5=$md5Sum\n";
+        } else {
+          print "Cannot handle digital documents yet, skipping\n";
+        }
       }
     }
   }
