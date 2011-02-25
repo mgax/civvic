@@ -2,9 +2,9 @@
   <ul id="rawTextFilter">
     <li>
       <?php echo $this->Form->label('year', 'Anul:') ?>
-      <?php echo $this->Form->year('year', 1989, 2011, null, array('orderYear' => 'asc')) ?>
+      <?php echo $this->Form->year('year', 1989, 2011, null, array('orderYear' => 'asc', 'empty' => 'oricare')) ?>
     </li>
-    <li><?php echo $this->Form->input('Progress', array('label' => 'Stadiul:', 'empty' => true)) ?></li>
+    <li><?php echo $this->Form->input('Progress', array('label' => 'Stadiul:', 'empty' => 'oricare')) ?></li>
     <?php if ($this->Session->read('user')): ?>
       <li>
         <?php echo $this->Form->checkbox('mine') ?>
