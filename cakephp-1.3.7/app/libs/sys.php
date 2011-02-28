@@ -8,7 +8,6 @@ function sys_die($msg) {
 function sys_executeAndAssert($command) {
   $exit_code = 0;
   $output = null;
-  print "Executing: [$command]\n";
   exec($command, $output, $exit_code);
   if ($exit_code) {
     sys_die("Failed command: $command (code $exit_code)");

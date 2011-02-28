@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Client-specific configuration. Each client will need to copy this to config.php and personalize.
+ **/
+
+define('CONF_TESSDATA_PREFIX', '/home/cata/projects/civvic.ro/tesseract-svn/');
+define('CONF_TESSERACT_BINARY', '/home/cata/projects/civvic.ro/tesseract-svn/api/tesseract');
+define('CONF_TMP_DIR', '/tmp/');
+
+?>

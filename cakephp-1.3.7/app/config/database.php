@@ -81,6 +81,7 @@ class DATABASE_CONFIG {
 		'password' => '',
 		'database' => 'civvic_tools',
 		'prefix' => '',
+                'encoding' => 'utf8',
 	);
 
 	var $test = array(
