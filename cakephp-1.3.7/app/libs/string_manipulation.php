@@ -126,6 +126,11 @@ function __string_fixOcrToken($token) {
     print "Replacing [{$token}] with [{$result}]\n";
     return $result;
   }
+
+  if (strlen($token) >= 40) {
+    return $token; // Don't even bother, this isn't a word.
+  }
+
   // Try to find a (preferably frequent) word at Levenshtein distance 1
   $words = $wordObject->find('all', array('conditions' => array("dist2('" . mb_strtolower($token) . "', form_utf8_general)" => true),
                                           'order' => 'Word.frequent desc'));

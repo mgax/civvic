@@ -39,10 +39,10 @@ class ocrPdfDirectoryShell extends Shell {
         $md5Sum = md5_file($full);
         $pdfDocument = $this->PdfDocument->findByMd5Sum($md5Sum);
         if ($pdfDocument) {
-          $rawText = $this->RawText->findById($pdfDocument['PdfDocument']['id']);
+          $rawText = $this->RawText->findById($pdfDocument['PdfDocument']['raw_text_id']);
           print "$full already parsed as {$rawText['RawText']['script_type']}, {$rawText['RawText']['issue']}/{$rawText['RawText']['year']}\n";
         } else {
-          print "Processing $full\n";
+          print "Processing $full, " . pdf_getPageCount($full) . " pages.\n";
           $arr = pdf_getYearAndIssueFromFileName($full);
           $type = pdf_getDocumentType($full);
           if ($type == PDF_TYPE_ANALOG) {

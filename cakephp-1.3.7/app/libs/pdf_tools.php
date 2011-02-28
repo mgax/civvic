@@ -53,7 +53,7 @@ function pdf_ocr($pdfFilename) {
     $file = CONF_TMP_DIR . $file;
     if (string_startsWith($file, $ppmBaseName)) {
       if (string_endsWith($file, '.ppm')) {
-        print "Running tesseract on {$file}\n";
+        // print "Running tesseract on {$file}\n";
         $command = "TESSDATA_PREFIX='" . CONF_TESSDATA_PREFIX . "' " . CONF_TESSERACT_BINARY . " $file $file -l ron";
         print "Command: $command\n";
         sys_executeAndAssert($command);
