@@ -19,10 +19,10 @@
   </ul>
 <?php echo $this->Form->end() ?>
 
-<table>
+<table id="moList">
   <tr>
     <th>Număr</th>
-    <th>Numărul de pagini</th>
+    <th>Pagini</th>
     <th>Stadiu</th>
     <th>Deținător</th>
   </tr>

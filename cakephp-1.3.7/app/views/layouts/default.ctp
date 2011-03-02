@@ -24,7 +24,7 @@
 
     <div id="menubar">
       <ul>
-        <li><?php echo $html->link('lista MO', '/raw_texts/index') ?></li>
+        <li><?php echo $html->link('Lista Monitoarelor Oficiale', '/raw_texts/index') ?></li>
         <li><?php echo $html->link('ajutor', '/pages/help') ?></li>
       </ul>
     </div>

@@ -59,6 +59,10 @@
       versiunea <?php echo $rawText['RawText']['script_version'] ?>
     </td>
   </tr>
+  <tr>
+    <td>Pagina Civvic.ro:</td>
+    <td><a href="<?php echo $wikiUrl ?>" target="_blank"><?php echo $wikiUrl ?></a></td>
+  </tr>
 </table>
 
 <div id="rawOcrText">

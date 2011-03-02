@@ -34,6 +34,7 @@ class RawTextsController extends AppController {
     $this->RawText->id = $id;
     $rawText = $this->RawText->read();
     $this->set('rawText', $rawText);
+    $this->set('wikiUrl', "http://civvic.ro/wiki/Monitorul_Oficial_{$rawText['RawText']['issue']}/{$rawText['RawText']['year']}");
     $this->set('canClaim', !$rawText['RawText']['owner']);
     $this->set('owns', $rawText['RawText']['owner'] == $sessionUser['User']['id']);
   }
