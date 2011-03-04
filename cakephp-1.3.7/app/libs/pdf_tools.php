@@ -11,6 +11,7 @@ function pdf_getDocumentType($fullName) {
   sys_executeAndAssert("pdftotext $fullName /tmp/output.txt");
   $filesize = filesize("/tmp/output.txt");
   $bytesPerPage = $filesize / $numPages;
+  print "$numPages pages, $filesize text bytes, $bytesPerPage bytes per page\n";
   return ($bytesPerPage > 300) ? PDF_TYPE_DIGITAL : PDF_TYPE_ANALOG;
 }
 
