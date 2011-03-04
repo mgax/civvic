@@ -13,7 +13,7 @@
     <?php endif ?>
     <li>
       <?php echo $this->Form->label('limit', 'Afișează:') ?>
-      <?php echo $this->Form->select('limit', array('10' => '10', '20' => '20', '50' => '50', '100' => '100'), '50') ?>
+      <?php echo $this->Form->select('limit', array('10' => '10', '20' => '20', '50' => '50', '100' => '100'), $limit) ?>
     </li>
     <li><?php echo $this->Form->submit('Filtrează', array('div' => false)) ?></li>
   </ul>

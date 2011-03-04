@@ -25,6 +25,7 @@ class RawTextsController extends AppController {
         $limit = $data['limit'];
       }
     }
+    $this->set('limit', $limit);
     $this->set('rawTexts', $this->RawText->find('all', array('conditions' => $conditions, 'order' => array('year asc', 'issue + 0 asc'), 'limit' => $limit)));
     $this->set('progresses', RawText::progresses());
   }
@@ -36,7 +37,7 @@ class RawTextsController extends AppController {
     $this->set('rawText', $rawText);
     $this->set('wikiUrl', "http://civvic.ro/wiki/Monitorul_Oficial_{$rawText['RawText']['issue']}/{$rawText['RawText']['year']}");
     $this->set('canClaim', !$rawText['RawText']['owner']);
-    $this->set('owns', $rawText['RawText']['owner'] == $sessionUser['User']['id']);
+    $this->set('owns', $sessionUser && $rawText['RawText']['owner'] == $sessionUser['User']['id']);
   }
 
   function view_text_only($id) {
