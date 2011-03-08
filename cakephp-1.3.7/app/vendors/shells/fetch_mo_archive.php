@@ -45,18 +45,16 @@ class FetchMoArchiveShell extends Shell {
       if (file_exists($fullPath)) {
         print "$fullPath already exists, skipping\n";
       } else {
-        // Fetch the PDF document
-        $contents = file_get_contents($url);
-        if (!$contents) {
-          die("Cannot retrieve document $url\n");
+        // Fetch the PDF document and save it
+        $contents = @file_get_contents($url);
+        if ($contents) {
+          if (!file_put_contents($fullPath, $contents)) {
+            die("Cannot save file $fullPath\n");
+          }
+          print "Saved $url as $fullPath\n";
+        } else {
+          print("WARNING: Cannot retrieve document $url\n");
         }
-
-        // Save it
-        if (!file_put_contents($fullPath, $contents)) {
-          die("Cannot save file $fullPath\n");
-        }
-
-        print "Saved $url as $fullPath\n";
       }
       return;
     }
