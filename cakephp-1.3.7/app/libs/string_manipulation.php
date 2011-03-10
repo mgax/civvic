@@ -142,4 +142,22 @@ function __string_fixOcrToken($token) {
   return $token; // No better replacement
 }
 
+function string_fixDigitalPdf($s) {
+  $s = str_replace(array('ã', 'Ã', 'Ñ', 'º', 'ª', 'þ', 'Þ', '”', 'Ò', '—', '•'),
+                   array('ă', 'Ă', '-', 'ș', 'Ș', 'ț', 'Ț', '„', '”', '-', '*'),
+                   $s);
+  $s = preg_replace('/(\nArt. [0-9])/', "\n$1", $s);
+  $s = preg_replace('/(\n\([0-9]+\) )/', "\n$1", $s);
+  $s = preg_replace('/(\n[a-z]\) )/', "\n$1", $s);
+  $s = preg_replace('/\.\n([A-Z]|Ă|Â|Î|Ș|Ț)/', ".\n\n$1", $s);
+  $s = preg_replace('/\.\n([A-Z]|Ă|Â|Î|Ș|Ț)/', ".\n\n$1", $s);
+  $s = preg_replace('/^\-/m', "*", $s);
+  $s = preg_replace('/\nARTICOLUL ([0-9a-zA-Z]+)\n([^\n]+)\n/', "\n'''Articolul $1 - $2'''\n", $s);
+  $s = preg_replace('/\nARTICOLUL ([0-9a-zA-Z]+)\n\n/', "\n'''Articolul $1'''\n", $s);
+  $s = preg_replace('/\nGuvernul României h o t ă r ă ș t e *:\n/', "\n\n'''Guvernul României''' hotărăște:\n", $s);
+  $s = preg_replace('/\nHOTĂRÂRE\nprivind (.*)\n\n/sU', "\n=== Hotărâre privind $1 ===\n\n", $s);
+  $s = preg_replace('/([^\n])\n([a-z]|ă|â|î|ș|ț)/', "$1 $2", $s);
+  return $s;
+}
+
 ?>

@@ -1,5 +1,7 @@
 <?php
 
+App::import('Lib', 'Config');
+
 define('PDF_ANALOG_SCRIPT_VERSION', '1.2');
 define('PDF_TYPE_ANALOG', 1);
 define('PDF_TYPE_DIGITAL', 2);
@@ -67,5 +69,25 @@ function pdf_ocr($pdfFilename) {
   return $result;
 }
 
+function pdf_copyText($fullName) {
+  $tmpName = tempnam(CONF_TMP_DIR, 'mo_');
+  sys_executeAndAssert("pdftotext $fullName $tmpName");
+  $result = file_get_contents($tmpName);
+  unlink($tmpName);
+  return $result;
+}
+
+function pdf_pdfToText($filename) {
+  $type = pdf_getDocumentType($filename);
+
+  if ($type == PDF_TYPE_ANALOG) {
+    $text = pdf_ocr($filename);
+    $text = string_fixOcr($text);
+  } else {
+    $text = pdf_copyText($filename);
+    $text = string_fixDigitalPdf($text);
+  }
+  return $text;
+}
 
 ?>
