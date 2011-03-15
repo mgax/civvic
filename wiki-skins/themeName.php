@@ -8,10 +8,10 @@
 define('CIVVIC_SKIN_NAME', 'themeName');
 require_once(CIVVIC_SKIN_NAME . '/civvic.php');
 
-class SkinBlana extends SkinCivvicBase {
+class SkinThemeName extends SkinCivvicBase {
 }
 
-class BlanaTemplate extends CivvicTemplateBase {
+class ThemeNameTemplate extends CivvicTemplateBase {
 }
 
 ?>
