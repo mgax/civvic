@@ -1765,52 +1765,61 @@ address {
   margin: 5px 0 5px 10px;
 }
 
-#header {
-  background: #fff;
-  position: relative;
-  min-height: 39px;
-  height: 5em;
-  padding: 0;
-  height: 3em;
-  padding: 15px 0;
-}
-
 #ignored {
 }
 
+#header {
+  background: #fff;
+  height: 3em;
+  margin-bottom: 1em;
+  min-height: 39px;
+  padding: 15px 0;
+  position: relative;
+}
+
 #header h1 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
+  border: 0;
   font-size: 2px;
   height: 8px;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
   z-index: 100;
 }
 
 #header h1 a {
+  background: transparent url(logo.png) 5px 1px no-repeat;
+  color: #c90012;
   display: block;
+  font-family: serif;
+  font-size: 50px;
   height: 64px;
+  padding-left: 75px;
   text-decoration: none;
 }
 
 #header ul {
-  width: auto;
-  position: absolute;
   bottom: 0;
-  right: 0;
-  margin: 0;
-  padding: 0 15px 0 0;
+  line-height: 1.5em;
   list-style: none;
+  margin: 0;
+  padding: 0;
+  padding-right: 1em;
+  position: absolute;
+  right: 0;
+  width: auto;
   z-index: 90;
 }
 
 #header li {
-  float: right;
   background: transparent url(header_tab.gif) 100% -600px no-repeat;
-  padding: 0 6px 0 0;
-  margin: 0 1px 0 0;
   border-bottom: 1px solid #515358;
+  display: inline;
+  float: right;
+  margin: 0;
+  padding: 0 20px 0 0;
+  white-space: nowrap;
 }
 
 #header ul a {
@@ -1831,23 +1840,28 @@ address {
   background-position: 100% -400px;
 }
 
-body.sectionAbout li#menu_aboutus a, body.sectionProducts li#menu_products a, body.sectionSupport li#menu_support a, body.sectionDevelopers li#menu_developers a, body.sectionStore li#menu_store a {
+#header ul li.selected a {
   background-position: 0 -200px;
-  color: #039;
+  color: #455372;
 }
 
-body.sectionAbout li#menu_aboutus, body.sectionProducts li#menu_products, body.sectionSupport li#menu_support, body.sectionDevelopers li#menu_developers, body.sectionStore li#menu_store {
+#header ul li.selected {
   background-position: 100% -200px;
   border-bottom: 1px solid #fff;
 }
 
-body.sectionAbout li#menu_aboutus:hover, body.sectionProducts li#menu_products:hover, body.sectionSupport li#menu_support:hover, body.sectionDevelopers li#menu_developers:hover, body.sectionStore li#menu_store:hover {
-  background-position: 100% 0;
-}
-
-body.sectionAbout li#menu_aboutus:hover a, body.sectionProducts li#menu_products:hover a, body.sectionSupport li#menu_support:hover a, body.sectionDevelopers li#menu_developers:hover a, body.sectionStore li#menu_store:hover a {
+#header ul li.selected:hover a {
   background-position: 0 0;
   color: #333;
+}
+
+#header ul li.selected:hover {
+  background-position: 100% 0;
+  border-bottom: 1px solid #fff;
+}
+
+div#header {
+  clear: both;
 }
 
 #header form {
@@ -1867,10 +1881,6 @@ body.sectionAbout li#menu_aboutus:hover a, body.sectionProducts li#menu_products
 
 #header form input {
   font-size: 85%;
-}
-
-#searchform div {
-  margin-top: 0;
 }
 
 #header form #submit {
@@ -1894,6 +1904,29 @@ body.sectionAbout li#menu_aboutus:hover a, body.sectionProducts li#menu_products
 
 #header form #searchInput:hover, #header form #searchInput:focus {
   background: #fff;
+}
+
+body.sectionAbout li#menu_aboutus a, body.sectionProducts li#menu_products a, body.sectionSupport li#menu_support a, body.sectionDevelopers li#menu_developers a, body.sectionStore li#menu_store a {
+  background-position: 0 -200px;
+  color: #039;
+}
+
+body.sectionAbout li#menu_aboutus, body.sectionProducts li#menu_products, body.sectionSupport li#menu_support, body.sectionDevelopers li#menu_developers, body.sectionStore li#menu_store {
+  background-position: 100% -200px;
+  border-bottom: 1px solid #fff;
+}
+
+body.sectionAbout li#menu_aboutus:hover, body.sectionProducts li#menu_products:hover, body.sectionSupport li#menu_support:hover, body.sectionDevelopers li#menu_developers:hover, body.sectionStore li#menu_store:hover {
+  background-position: 100% 0;
+}
+
+body.sectionAbout li#menu_aboutus:hover a, body.sectionProducts li#menu_products:hover a, body.sectionSupport li#menu_support:hover a, body.sectionDevelopers li#menu_developers:hover a, body.sectionStore li#menu_store:hover a {
+  background-position: 0 0;
+  color: #333;
+}
+
+#searchform div {
+  margin-top: 0;
 }
 
 #nav:before {
@@ -2059,23 +2092,6 @@ body.sectionAbout li#menu_aboutus:hover a, body.sectionProducts li#menu_products
   width: 35%;
 }
 
-#header {
-  margin-bottom: 1em;
-}
-
-#header ul {
-  margin: 0 0 1em 0;
-  padding: 0;
-  line-height: 1.5em;
-}
-
-#header li {
-  display: inline;
-  padding: 0 20px 0 0;
-  margin: 0;
-  white-space: nowrap;
-}
-
 #getcd {
   margin: 1em 0 0 45px;
 }
@@ -2223,10 +2239,6 @@ tt, code, pre {
 
 code {
   color: green;
-}
-
-#header h1 {
-  border: 0;
 }
 
 .note {
@@ -2535,48 +2547,6 @@ address {
   text-align: center;
   font-size: 90%;
   color: #666666;
-}
-
-#header ul {
-  margin: 0;
-  padding-right: 1em;
-}
-
-#header li {
-  padding: 0 6px 0 0;
-  margin-right: 1px;
-}
-
-#header ul li.selected a {
-  background-position: 0 -200px;
-  color: #455372;
-}
-
-#header ul li.selected {
-  background-position: 100% -200px;
-  border-bottom: 1px solid #fff;
-}
-
-#header ul li.selected:hover a {
-  background-position: 0 0;
-  color: #333;
-}
-
-#header ul li.selected:hover {
-  background-position: 100% 0;
-  border-bottom: 1px solid #fff;
-}
-
-div#header {
-  clear: both;
-}
-
-#header h1 a {
-  background: transparent url(logo.png) 5px 1px no-repeat;
-  color: #c90012;
-  font-family: serif;
-  font-size: 50px;
-  padding-left: 75px;
 }
 
 table.diff {
