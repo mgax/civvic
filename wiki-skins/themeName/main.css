@@ -1813,7 +1813,7 @@ address {
 }
 
 #header li {
-  background: transparent url(header_tab.gif) 100% -600px no-repeat;
+  background: #c90012;
   border-bottom: 1px solid #515358;
   display: inline;
   float: right;
@@ -1826,7 +1826,7 @@ address {
   float: left;
   display: block;
   padding: 4px 4px 4px 10px;
-  background: transparent url(header_tab.gif) 0 -600px no-repeat;
+  background: #c90012;
   font-weight: bold;
   color: #fff;
   text-decoration: none;
@@ -1841,12 +1841,13 @@ address {
 }
 
 #header ul li.selected a {
-  background-position: 0 -200px;
-  color: #455372;
+  background: white;
+  color: #c90012;
 }
 
 #header ul li.selected {
-  background-position: 100% -200px;
+  background: white;
+  border: 1px solid #c90012;
   border-bottom: 1px solid #fff;
 }
 
