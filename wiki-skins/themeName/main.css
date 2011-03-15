@@ -5,13 +5,6 @@
   width: 100%;
 }
 
-#content {
-  margin: 2.8em 0 0 12.2em;
-  padding: 0 1em 1em 1em;
-  position: relative;
-  z-index: 2;
-}
-
 #column-one {
   padding-top: 160px;
 }
@@ -22,14 +15,22 @@
   border: 1px solid #aaa;
   color: black;
   line-height: 1.5em;
+  margin: 2.8em 0 0 12.2em;
+  padding: 0 1em 1em 1em;
+  position: relative;
+  z-index: 2;
 }
 
 body {
-  background: #f9f9f9 url(headbg.jpg) 0 0 no-repeat;
+  background: #fff;
   color: black;
-  font: x-small sans-serif;
-  margin: 0;
+  font-family: "Droid Sans", Verdana, 'Bitstream Vera Sans', 'DejaVu Sans';
+  font-size: 0.75em;
+  letter-spacing: 0.5px;
+  margin: 5px;
+  min-width: 610px;
   padding: 0;
+  word-spacing: 1.5px;
 }
 
 #globalWrapper {
@@ -1764,10 +1765,6 @@ address {
   margin: 5px 0 5px 10px;
 }
 
-body {
-  background: #fff;
-}
-
 #header {
   background: #fff;
   position: relative;
@@ -2020,11 +2017,6 @@ body.sectionAbout li#menu_aboutus:hover a, body.sectionProducts li#menu_products
   padding-right: 1em;
 }
 
-body {
-  min-width: 610px;
-  margin: 20px;
-}
-
 #container {
   max-width: 100%;
   margin: 0 auto;
@@ -2194,15 +2186,6 @@ li#pt-userpage, li#pt-anonuserpage, li#pt-login {
 
 .os-suggest {
   font-size: 100%;
-}
-
-body {
-  font-family: "Droid Sans", Verdana, 'Bitstream Vera Sans', 'DejaVu Sans';
-  font-size: 0.75em;
-  word-spacing: 1.5px;
-  letter-spacing: 0.5px;
-  color: #000;
-  margin: 5px;
 }
 
 input {
