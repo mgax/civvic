@@ -4,13 +4,13 @@
 
 /* Basic Structure */
 	body {
-		background: #fff url("body_back.gif") repeat-x;
+		background: #fff;
 	}
 
 /* Header */
 
 	#header {
-		background: #455372 url("header_bl.png") bottom left repeat-x;
+		background: #fff;
 		position: relative;
 		min-height: 39px;
 		height: 5em;
@@ -25,16 +25,12 @@
 		left: 0;
 		margin: 0;
 		font-size: 2px;
-		background: url("header_tl.gif") no-repeat;
 		height: 8px;
 		z-index: 100; /* above the UL */
 	}
 	#header h1 a {
 		display: block;
-		width: 268px;
 		height: 64px;
-		background: transparent url("header_logo.gif") no-repeat;
-		text-indent: -700em;
 		text-decoration: none;
 	}
 	#header ul {
@@ -45,7 +41,6 @@
 		margin: 0;
 		padding: 0 15px 0 0;
 		list-style: none;
-		background: url("header_br.gif") no-repeat bottom right;
 		z-index: 90; /* below the H1 */
 	}
 	#header li {
@@ -109,7 +104,6 @@
 		top: 0;
 		right: 0;
 		padding: 12px 20px 0 0;
-		background: url("header_tr.gif") no-repeat top right;
 		margin: 0; /* need for IE Mac */
 		text-align: right; /* need for IE Mac */
 		white-space: nowrap; /* for Opera */

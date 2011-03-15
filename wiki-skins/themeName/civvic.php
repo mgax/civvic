@@ -112,8 +112,8 @@ class CivvicTemplateBase extends QuickTemplate {
     <?php if($this->data['sitenotice']) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
 
 	<div id="header" class="noprint">
-		<a name="top" id="contentTop"></a>
-		<h1><a href="<?php echo htmlspecialchars($this->data['nav_urls']['mainpage']['href'])?>"<?php echo $skin->tooltipAndAccesskey('p-logo') ?>></a></h1>
+    <a name="top" id="contentTop"></a>
+		<h1><a href="<?php echo htmlspecialchars($this->data['nav_urls']['mainpage']['href'])?>"<?php echo $skin->tooltipAndAccesskey('p-logo') ?>>CIVVIC.RO</a></h1>
 
 		<ul> <!-- Start of content action buttons -->
             <?php foreach($this->data['content_actions'] as $key => $tab) {
