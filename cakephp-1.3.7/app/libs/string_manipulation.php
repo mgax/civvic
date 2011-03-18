@@ -157,6 +157,20 @@ function string_fixDigitalPdf($s) {
   $s = preg_replace('/\nGuvernul României h o t ă r ă ș t e *:\n/', "\n\n'''Guvernul României''' hotărăște:\n", $s);
   $s = preg_replace('/\nHOTĂRÂRE\nprivind (.*)\n\n/sU', "\n=== Hotărâre privind $1 ===\n\n", $s);
   $s = preg_replace('/([^\n])\n([a-z]|ă|â|î|ș|ț)/', "$1 $2", $s);
+
+  // Remove diagonal watermark
+  $watermark = 'Produs electronic destinat exclusiv informării gratuite a persoanelor fizice asupra actelor ce se publică în Monitorul Oficial al României';
+  $watermark = str_replace(' ', '', $watermark);
+  $lines = preg_split("/\n/", $s);
+  $keepLines = array();
+  foreach ($lines as $l) {
+    $lNoSpace = str_replace(' ', '', $l);
+    if ($lNoSpace != $watermark && (!$lNoSpace || strlen($lNoSpace) > 5 || strpos($watermark, $lNoSpace) === false)) {
+      $keepLines[] = $l;
+    }
+  }
+  $s = implode("\n", $keepLines);
+
   return $s;
 }
 
