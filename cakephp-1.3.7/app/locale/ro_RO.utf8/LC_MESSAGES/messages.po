@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: civvic.ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-15 13:41+0200\n"
+"POT-Creation-Date: 2011-03-24 11:51+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Cătălin Frâncu <cata@francu.com>\n"
 "Language-Team: civvic.ro <contact@civvic.ro>\n"
@@ -16,51 +16,73 @@ msgstr ""
 "X-Poedit-Basepath: /home/cata/Desktop/civvic/cakephp\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: app/models/raw_text.php:14
+#: app/models/raw_text.php:18
 msgid "progressNew"
 msgstr "nou"
 
-#: app/models/raw_text.php:15
+#: app/models/raw_text.php:19
 msgid "progressAssigned"
 msgstr "repartizat"
 
-#: app/models/raw_text.php:16
+#: app/models/raw_text.php:20
 msgid "progressComplete"
 msgstr "complet"
 
-#: app/models/raw_text.php:17
+#: app/models/raw_text.php:21
 msgid "progressError"
 msgstr "eroare"
 
-#: app/controllers/raw_texts_controller.php:30
+#: app/models/raw_text.php:27
+msgid "difficultyLow"
+msgstr "scăzută"
+
+#: app/models/raw_text.php:28
+msgid "difficultyMedium"
+msgstr "medie"
+
+#: app/models/raw_text.php:29
+msgid "difficultyHigh"
+msgstr "ridicată"
+
+#: app/controllers/raw_texts_controller.php:54
 msgid "You need to be authenticated to claim a PDF document."
 msgstr "Trebuie să fiți conectat pentru a revendica un document PDF."
 
-#: app/controllers/raw_texts_controller.php:32
+#: app/controllers/raw_texts_controller.php:56
 msgid "This PDF document is already assigned."
 msgstr "Acest document PDF este deja repartizat."
 
-#: app/controllers/raw_texts_controller.php:34
-msgid "This PDF document is already marked as completed."
-msgstr "Acest document PDF este deja marcat drept complet."
-
-#: app/controllers/raw_texts_controller.php:36
-msgid "This PDF document is in an error state and needs to be reviewed by an administrator."
-msgstr "Acest document PDF este într-o stare de eroare și trebuie examinat de un administrator."
-
-#: app/controllers/raw_texts_controller.php:41
+#: app/controllers/raw_texts_controller.php:63
 msgid "Document claimed."
 msgstr "Ați revendicat documentul."
 
-#: app/controllers/raw_texts_controller.php:56
+#: app/controllers/raw_texts_controller.php:80
 msgid "Document unclaimed."
 msgstr "Ați renunțat la document."
 
-#: app/controllers/raw_texts_controller.php:58
+#: app/controllers/raw_texts_controller.php:82
 msgid "You need to be authenticated to unclaim a PDF document."
 msgstr "Trebuie să fiți conectat pentru a renunța la  un document PDF."
 
-#: app/controllers/raw_texts_controller.php:60
+#: app/controllers/raw_texts_controller.php:84
+#: app/controllers/raw_texts_controller.php:101
 msgid "You do not own this PDF document."
 msgstr "Nu dețineți acest document PDF."
+
+#: app/controllers/raw_texts_controller.php:97
+msgid "Progress updated."
+msgstr "Stadiu actualizat cu succes."
+
+#: app/controllers/raw_texts_controller.php:99
+msgid "You need to be authenticated to update a document's progress."
+msgstr "Trebuie să fiți conectat pentru a actualiza stadiul documentului."
+
+#~ msgid "This PDF document is already marked as completed."
+#~ msgstr "Acest document PDF este deja marcat drept complet."
+#~ msgid ""
+#~ "This PDF document is in an error state and needs to be reviewed by an "
+#~ "administrator."
+#~ msgstr ""
+#~ "Acest document PDF este într-o stare de eroare și trebuie examinat de un "
+#~ "administrator."
 
