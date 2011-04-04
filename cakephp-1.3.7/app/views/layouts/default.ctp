@@ -1,3 +1,4 @@
+<?php $user = $this->Session->read('user'); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -12,8 +13,8 @@
       </div>
       <div id="identity">
         <?php echo $html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
-        <?php if ($this->Session->read('user')) {?>
-          <?php $user = $this->Session->read('user'); print User::displayValue($user['User']['openid']); ?>
+        <?php if ($user) {?>
+          <?php print User::displayValue($user['User']['openid']); ?>
           <?php echo $html->link('deconectare', '/users/logout') ?>
         <?php } else { ?>
           <?php echo $html->link('conectare', '/users/login') ?>
@@ -25,6 +26,9 @@
     <div id="menubar">
       <ul>
         <li><?php echo $html->link('Lista Monitoarelor Oficiale', '/raw_texts/index') ?></li>
+        <?php if ($user['User']['admin']) { ?>
+          <li><?php echo $html->link('utilizatori', '/users'); ?></li>
+        <?php } ?>
         <li><?php echo $html->link('ajutor', '/pages/help') ?></li>
       </ul>
     </div>

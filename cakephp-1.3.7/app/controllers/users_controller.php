@@ -1,5 +1,7 @@
 <?php
 
+App::import('Lib', 'StringManipulation');
+
 class UsersController extends AppController {
   public $components = array('Openid', 'RequestHandler');
   
@@ -42,6 +44,30 @@ class UsersController extends AppController {
     if ($this->Session->valid()) {
       $this->Session->destroy();
       $this->redirect('/');
+    }
+  }
+
+  public function index() {
+    $sessionUser = $this->Session->read('user');
+    if (!$sessionUser || !$sessionUser['User']['admin']) {
+      $this->Session->setFlash(_('Only admins can see the user list.'), 'flash_failure');
+      $this->redirect('/');
+      exit();
+    }
+    if (empty($this->data)) {
+      $this->set('users', $this->User->find('all', array('order' => 'openid asc')));
+      $this->set('myId', $sessionUser['User']['id']);
+    } else {
+      foreach ($this->data['User'] as $name => $value) {
+        if (string_startsWith($name, 'admin_')) {
+          $this->User->id = substr($name, 6);
+          $this->User->read();
+          $this->User->set('admin', $value);
+          $this->User->save();
+        }
+      }
+      $this->redirect('');
+      exit();
     }
   }
 }
