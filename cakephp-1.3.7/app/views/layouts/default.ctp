@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
     <title>Administrare civvic.ro</title>
     <?php echo $html->css('main'); ?>
+    <?php echo $scripts_for_layout; ?>
   </head>
   <body>
     <div id="header">

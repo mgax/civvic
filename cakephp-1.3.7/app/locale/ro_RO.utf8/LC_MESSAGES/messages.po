@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: civvic.ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-24 11:51+0200\n"
+"POT-Creation-Date: 2011-04-04 16:22+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Cătălin Frâncu <cata@francu.com>\n"
 "Language-Team: civvic.ro <contact@civvic.ro>\n"
@@ -16,31 +16,35 @@ msgstr ""
 "X-Poedit-Basepath: /home/cata/Desktop/civvic/cakephp\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: app/models/raw_text.php:18
+#: app/models/raw_text.php:19
 msgid "progressNew"
 msgstr "nou"
 
-#: app/models/raw_text.php:19
+#: app/models/raw_text.php:20
 msgid "progressAssigned"
 msgstr "repartizat"
 
-#: app/models/raw_text.php:20
+#: app/models/raw_text.php:21
 msgid "progressComplete"
 msgstr "complet"
 
-#: app/models/raw_text.php:21
+#: app/models/raw_text.php:22
 msgid "progressError"
 msgstr "eroare"
 
-#: app/models/raw_text.php:27
+#: app/models/raw_text.php:23
+msgid "progressVerified"
+msgstr "verificat"
+
+#: app/models/raw_text.php:29
 msgid "difficultyLow"
 msgstr "scăzută"
 
-#: app/models/raw_text.php:28
+#: app/models/raw_text.php:30
 msgid "difficultyMedium"
 msgstr "medie"
 
-#: app/models/raw_text.php:29
+#: app/models/raw_text.php:31
 msgid "difficultyHigh"
 msgstr "ridicată"
 
@@ -76,6 +80,10 @@ msgstr "Stadiu actualizat cu succes."
 #: app/controllers/raw_texts_controller.php:99
 msgid "You need to be authenticated to update a document's progress."
 msgstr "Trebuie să fiți conectat pentru a actualiza stadiul documentului."
+
+#: app/controllers/users_controller.php:53
+msgid "Only admins can see the user list."
+msgstr "Numai administratorii pot vedea lista utilizatorilor."
 
 #~ msgid "This PDF document is already marked as completed."
 #~ msgstr "Acest document PDF este deja marcat drept complet."

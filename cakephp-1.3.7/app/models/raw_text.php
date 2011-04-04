@@ -9,6 +9,7 @@ class RawText extends AppModel {
   const PROGRESS_ASSIGNED = 1;
   const PROGRESS_COMPLETE = 2;
   const PROGRESS_ERROR = 3;
+  const PROGRESS_VERIFIED = 4;
 
   const DIFFICULTY_LOW = 1;
   const DIFFICULTY_MEDIUM = 2;
@@ -19,6 +20,7 @@ class RawText extends AppModel {
                      self::PROGRESS_ASSIGNED => _('progressAssigned'),
                      self::PROGRESS_COMPLETE => _('progressComplete'),
                      self::PROGRESS_ERROR => _('progressError'),
+                     self::PROGRESS_VERIFIED => _('progressVerified'),
                      );
     return parent::enum($value, $options);
   }
