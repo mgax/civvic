@@ -92,12 +92,12 @@ div.flash_failure {
   padding: 10px;
 }
 
-#rawTextFilter {
+.rawTextFilter {
   margin: 0px;
   padding: 0px;
 }
 
-#rawTextFilter li {
+.rawTextFilter li {
   display: inline;
   list-style: none;
   margin-right: 10px;

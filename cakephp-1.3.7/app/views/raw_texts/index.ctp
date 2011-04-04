@@ -1,19 +1,17 @@
 <?php echo $this->Html->script(array('jquery', 'jquery.tablesorter.min', 'jquery.tablesorter.pager')); ?>
 <?php echo $this->Html->css('jquery.tablesorter/style.css', null, array('inline' => false)); ?>
 <?php echo $this->Form->create('RawText', array('action' => 'index', 'inputDefaults' => array('div' => false))) ?>
-  <ul id="rawTextFilter">
+  <ul class="rawTextFilter">
     <li>
       <?php echo $this->Form->label('year', 'Anul:'); ?>
       <?php echo $this->Form->year('year', 1989, 2011, null, array('orderYear' => 'asc', 'empty' => 'oricare')); ?>
     </li>
     <li><?php echo $this->Form->input('Progress', array('label' => 'Stadiul:', 'empty' => 'oricare')); ?></li>
     <li><?php echo $this->Form->input('Difficulty', array('label' => 'Dificultatea:', 'empty' => 'oricare')); ?></li>
-    <?php if ($this->Session->read('user')): ?>
-      <li>
-        <?php echo $this->Form->checkbox('mine') ?>
-        <?php echo $this->Form->label('mine', 'Deținute de mine', array('class' => 'spaced')) ?>
-      </li>
-    <?php endif ?>
+  </ul>
+  <ul class="rawTextFilter">
+    <li>Deținute de <?php echo $this->Form->radio('ownerChoices', $ownerChoices, array('value' => $selectedOwner, 'legend' => false, 'separator' => '&nbsp;&nbsp;')); ?></li>
+    <li><?php echo $this->Form->input('owner', array('label' => '')); ?></li>
     <li><?php echo $this->Form->submit('Filtrează', array('div' => false)) ?></li>
   </ul>
 <?php echo $this->Form->end() ?>

@@ -9,6 +9,7 @@ class RawTextsController extends AppController {
     if (empty($this->data)) {
       $conditions['progress'] = RawText::PROGRESS_NEW;
       $this->data['RawText']['Progress'] = RawText::PROGRESS_NEW;
+      $this->set('selectedOwner', 'anyone');
     } else {
       $data = $this->data['RawText'];
       if ($data['year']['year']) {
@@ -20,11 +21,17 @@ class RawTextsController extends AppController {
       if ($data['Difficulty'] !== '') {
         $conditions['difficulty'] = $data['Difficulty'];
       }
-      if ($sessionUser && $data['mine']) {
+      if ($sessionUser && $data['ownerChoices'] == 'mine') {
         $conditions['owner'] = $sessionUser['User']['id'];
+      } else if ($data['ownerChoices'] == 'substring' && $data['owner']) {
+        $conditions['User.openid like'] = "%{$data['owner']}%";
       }
+      $this->set('selectedOwner', $data['ownerChoices']);
     }
     $this->set('rawTexts', $this->RawText->find('all', array('conditions' => $conditions, 'order' => array('year asc', 'issue + 0 asc'), 'limit' => 1000)));
+    $this->set('ownerChoices', $sessionUser
+               ? array('anyone' => 'oricine', 'mine' => 'mine', 'substring' => 'persoana (subșir):')
+               : array('anyone' => 'oricine', 'substring' => 'persoana (subșir):')); // No "mine" option unless user is logged in
     $this->set('progresses', RawText::progresses());
     $this->set('difficulties', RawText::difficulties());
   }
