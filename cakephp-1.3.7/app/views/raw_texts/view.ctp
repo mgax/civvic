@@ -46,6 +46,15 @@
         <?php endif; ?>
       </td>
     </tr>
+  <?php else: ?>
+    <tr>
+      <td>Stadiu:</td>
+      <td><?php echo RawText::progresses($rawText['RawText']['progress']); ?></td>
+    </tr>
+    <tr>
+      <td>Dificultate:</td>
+      <td><?php echo RawText::difficulties($rawText['RawText']['difficulty']); ?></td>
+    </tr>
   <?php endif; ?>
   <tr>
     <td>Pagini:</td>

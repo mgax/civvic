@@ -44,6 +44,7 @@ class RawTextsController extends AppController {
     $this->set('wikiUrl', "http://civvic.ro/wiki/Monitorul_Oficial_{$rawText['RawText']['issue']}/{$rawText['RawText']['year']}");
     $this->set('canClaim', !$rawText['RawText']['owner']);
     $this->set('owns', $sessionUser && $rawText['RawText']['owner'] == $sessionUser['User']['id']);
+    $this->set('progresses', RawText::progresses());
   }
 
   function view_text_only($id) {
