@@ -23,27 +23,31 @@
       <?php endif; ?>
     </td>
   </tr>
-  <?php if ($owns): ?>
+  <?php if ($owns || $admin): ?>
     <tr>
       <td>Stadiu:</td>
       <td>
-        <?php if ($rawText['RawText']['progress'] == RawText::PROGRESS_ASSIGNED): ?>
-          în lucru
-        <?php else: ?>
-          <?php echo $html->link('în lucru', '/raw_texts/set_progress/' . $rawText['RawText']['id'] . '/' . RawText::PROGRESS_ASSIGNED); ?>
-        <?php endif; ?>
-        |
-        <?php if ($rawText['RawText']['progress'] == RawText::PROGRESS_COMPLETE): ?>
-          complet
-        <?php else: ?>
-          <?php echo $html->link('complet', '/raw_texts/set_progress/' . $rawText['RawText']['id'] . '/' . RawText::PROGRESS_COMPLETE); ?>
-        <?php endif; ?>
-        |
-        <?php if ($rawText['RawText']['progress'] == RawText::PROGRESS_ERROR): ?>
-          eroare
-        <?php else: ?>
-          <?php echo $html->link('eroare', '/raw_texts/set_progress/' . $rawText['RawText']['id'] . '/' . RawText::PROGRESS_ERROR); ?>
-        <?php endif; ?>
+        <?php foreach($progresses as $p => $displayValue): ?>
+          <?php if ($p != RawText::PROGRESS_NEW) { ?>|<?php } ?>
+          <?php if ($rawText['RawText']['progress'] == $p): ?>
+            <b><?=$displayValue?></b>
+          <?php else: ?>
+            <?php echo $html->link($displayValue, '/raw_texts/set_progress/' . $rawText['RawText']['id'] . '/' . $p); ?>
+          <?php endif; ?>
+        <?php endforeach; ?>
+      </td>
+    </tr>
+    <tr>
+      <td>Dificultate:</td>
+      <td>
+        <?php foreach($difficulties as $d => $displayValue): ?>
+          <?php if ($d != RawText::DIFFICULTY_LOW) { ?>|<?php } ?>
+          <?php if ($rawText['RawText']['difficulty'] == $d): ?>
+            <b><?=$displayValue?></b>
+          <?php else: ?>
+            <?php echo $html->link($displayValue, '/raw_texts/set_difficulty/' . $rawText['RawText']['id'] . '/' . $d); ?>
+          <?php endif; ?>
+        <?php endforeach; ?>
       </td>
     </tr>
   <?php else: ?>
