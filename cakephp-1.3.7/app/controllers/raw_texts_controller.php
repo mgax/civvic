@@ -1,7 +1,7 @@
 <?php
 
 class RawTextsController extends AppController {
-  var $uses = array('PdfDocument', 'RawText');
+  var $uses = array('PdfDocument', 'RawText', 'User');
 
   function index() {
     $sessionUser = $this->Session->read('user');
@@ -131,6 +131,43 @@ class RawTextsController extends AppController {
     }
     $this->redirect("/raw_texts/view/{$id}");
     exit;
+  }
+
+  function report() {
+    $sessionUser = $this->Session->read('user');
+    if (!$sessionUser || !$sessionUser['User']['admin']) {
+      $this->Session->setFlash(_('Only admins can view reports.'), 'flash_failure');
+      $this->redirect('/');
+    }
+    $this->set('rawTexts', $this->RawText->findAllByProgress(RawText::PROGRESS_COMPLETE));
+    $totals = $this->RawText->query(sprintf("select User.id, RawText.difficulty, sum(PdfDocument.page_count) as pages from users User, raw_texts RawText, pdf_documents PdfDocument " .
+                                            "where User.id = RawText.owner and RawText.id = PdfDocument.raw_text_id and RawText.progress = %d ".
+                                            "group by User.id, RawText.difficulty;", RawText::PROGRESS_COMPLETE));
+    $users = array();
+    $pageCounts = array();
+    foreach ($totals as $row) {
+      $userId = $row['User']['id'];
+      if (!array_key_exists($userId, $users)) {
+        $users[$userId] = $this->User->findById($userId);
+      }
+      if (!array_key_exists($userId, $pageCounts)) {
+        $pageCounts[$userId] = array(RawText::DIFFICULTY_LOW => 0, RawText::DIFFICULTY_MEDIUM => 0, RawText::DIFFICULTY_HIGH => 0);
+      }
+      $pageCounts[$userId][$row['RawText']['difficulty']] = $row[0]['pages'];
+    }
+    $this->set('users', $users);
+    $this->set('pageCounts', $pageCounts);
+    $this->set('difficulties', RawText::difficulties());
+  }
+
+  function mark_verified($userId) {
+    $sessionUser = $this->Session->read('user');
+    if (!$sessionUser || !$sessionUser['User']['admin']) {
+      $this->Session->setFlash(_('Only admins can verify / unverify a document.'), 'flash_failure');
+      $this->redirect('/');
+    }
+    $this->RawText->updateAll(array('progress' => RawText::PROGRESS_VERIFIED), array('owner' => $userId, 'progress' => RawText::PROGRESS_COMPLETE));
+    $this->redirect('/raw_texts/report');
   }
 }
 

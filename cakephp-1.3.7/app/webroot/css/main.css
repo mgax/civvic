@@ -103,6 +103,22 @@ div.flash_failure {
   margin-right: 10px;
 }
 
+table {
+  border-collapse: collapse;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+table td, table th {
+  border: 1px solid #777;
+  padding: 3px 5px;
+  text-align: center;
+}
+
+td.left {
+  text-align: left;
+}
+
 table#moList {
   border-collapse: collapse;
   margin-left: 10px;
