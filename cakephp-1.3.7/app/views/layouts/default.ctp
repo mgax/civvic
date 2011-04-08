@@ -15,7 +15,7 @@
       <div id="identity">
         <?php echo $html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
         <?php if ($user) {?>
-          <?php print User::displayValue($user['User']['openid']); ?>
+          <?php print User::displayValue($user['User']); ?>
           <?php echo $html->link('deconectare', '/users/logout') ?>
         <?php } else { ?>
           <?php echo $html->link('conectare', '/users/login') ?>

@@ -11,7 +11,7 @@ class UsersController extends AppController {
     
     if ($this->RequestHandler->isPost() && !$this->Openid->isOpenIDResponse()) {
       try {
-        $this->Openid->authenticate($this->data['OpenidUrl']['openid'], $returnTo, $realm);
+        $this->Openid->authenticate($this->data['OpenidUrl']['openid'], $returnTo, $realm, array('sreg_required' => array('email', 'nickname'), 'sreg_optional' => array()));
       } catch (InvalidArgumentException $e) {
         $this->set('error', 'Invalid OpenID');
       } catch (Exception $e) {
@@ -27,13 +27,19 @@ class UsersController extends AppController {
       } elseif ($response->status == Auth_OpenID_SUCCESS) {
         echo 'successfully authenticated!';
         $user = $this->User->findByOpenid($response->identity_url);
-        if (!$user) {
+        if ($user) {
+          $this->User->id = $user['User']['id'];
+        } else {
           $this->User->create();
           $this->User->set('openid', $response->identity_url);
-          $this->User->save();
-          $user = $this->User->read();
         }
-        $this->Session->write("user", $user);
+        // Update the nickname / email if they were provided
+        $sregResponse = Auth_OpenID_SRegResponse::fromSuccessResponse($response);
+        $sregContents = $sregResponse->contents();
+        $this->User->set('email', array_key_exists('email', $sregContents) ? $sregContents['email'] : null);
+        $this->User->set('nickname', array_key_exists('nickname', $sregContents) ? $sregContents['nickname'] : null);
+        $this->User->save();
+        $this->Session->write("user", $this->User->read());
         $this->redirect("/");
         exit;
       }

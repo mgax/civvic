@@ -24,7 +24,11 @@ class RawTextsController extends AppController {
       if ($sessionUser && $data['ownerChoices'] == 'mine') {
         $conditions['owner'] = $sessionUser['User']['id'];
       } else if ($data['ownerChoices'] == 'substring' && $data['owner']) {
-        $conditions['User.openid like'] = "%{$data['owner']}%";
+        $conditions['OR'] = array(
+          'User.openid like' => "%{$data['owner']}%",
+          'User.email like' => "%{$data['owner']}%",
+          'User.nickname like' => "%{$data['owner']}%",
+        );
       }
       $this->set('selectedOwner', $data['ownerChoices']);
     }

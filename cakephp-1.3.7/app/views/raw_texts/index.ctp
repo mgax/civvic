@@ -34,7 +34,7 @@
         <td><?php echo $rawText['PdfDocument']['page_count']; ?></td>
         <td><?php echo RawText::progresses($rawText['RawText']['progress']) ?></td>
         <td><?php echo RawText::difficulties($rawText['RawText']['difficulty']) ?></td>
-        <td><?php echo User::displayValue($rawText['User']['openid']); ?></td>
+        <td><?php echo User::displayValue($rawText['User']); ?></td>
       </tr>
     <?php endforeach; ?>
   </tbody>

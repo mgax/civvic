@@ -9,7 +9,7 @@
     <td>Revendicat:</td>
     <td>
       <?php if ($rawText['RawText']['owner']): ?>
-        <?php echo User::displayValue($rawText['User']['openid']); ?>
+        <?php echo User::displayValue($rawText['User']); ?>
       <?php else: ?>
         nu
       <?php endif; ?>

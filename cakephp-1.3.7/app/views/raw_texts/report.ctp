@@ -20,7 +20,7 @@
         <td><?php echo $r['PdfDocument']['page_count']; ?></td>
         <td><?php echo RawText::progresses($r['RawText']['progress']) ?></td>
         <td><?php echo RawText::difficulties($r['RawText']['difficulty']) ?></td>
-        <td class="left"><?php echo User::displayValue($r['User']['openid']); ?></td>
+        <td class="left"><?php echo User::displayValue($r['User']); ?></td>
       </tr>
     <?php endforeach; ?>
   </tbody>
@@ -49,7 +49,7 @@
   </tr>
   <?php foreach ($pageCounts as $userId => $diffBreakdown): ?>
     <tr>
-     <?php $username = User::displayValue($users[$userId]['User']['openid']); ?>
+     <?php $username = User::displayValue($users[$userId]['User']); ?>
       <td class="left"><?=$username?></td>
       <td><?php echo $diffBreakdown[RawText::DIFFICULTY_LOW]; ?></td>
       <td><?php echo $diffBreakdown[RawText::DIFFICULTY_MEDIUM]; ?></td>
