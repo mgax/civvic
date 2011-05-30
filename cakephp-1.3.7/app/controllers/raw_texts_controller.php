@@ -32,7 +32,7 @@ class RawTextsController extends AppController {
       }
       $this->set('selectedOwner', $data['ownerChoices']);
     }
-    $this->set('rawTexts', $this->RawText->find('all', array('conditions' => $conditions, 'order' => array('year asc', 'issue + 0 asc'), 'limit' => 1000)));
+    $this->set('rawTexts', $this->RawText->find('all', array('conditions' => $conditions, 'order' => array('year asc', 'issue + 0 asc'), 'limit' => 200)));
     $this->set('ownerChoices', $sessionUser
                ? array('anyone' => 'oricine', 'mine' => 'mine', 'substring' => 'persoana (subșir):')
                : array('anyone' => 'oricine', 'substring' => 'persoana (subșir):')); // No "mine" option unless user is logged in
