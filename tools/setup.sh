@@ -17,6 +17,9 @@ for sample_file in `find $CIVVIC_DIR/cakephp/ | grep "\\.sample$"`; do
     fi
 done
 
+# Grant write permissions to some directories
+chmod -R 777 $CIVVIC_DIR/cakephp/app/tmp
+
 if [ ${#todos[@]} -gt 0 ]
     then
     echo ""
