@@ -23,7 +23,7 @@
  *
  * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-class OpenidComponent extends Object {
+class OpenidComponent extends Component {
     private $controller = null;
     private $importPrefix = '';
     private $useDatabase = false;
@@ -299,7 +299,7 @@ class OpenidComponent extends Object {
             throw new Exception('Could not redirect to server: '.$formHtml->message);
         }
 
-        echo '<html><head><title>' . __('OpenID Authentication Redirect', true) . '</title></head>'.
+        echo '<html><head><title>' . __('OpenID Authentication Redirect') . '</title></head>'.
              "<body onload='document.getElementById(\"".$formId."\").submit()'>".
              $formHtml.'</body></html>';
         exit;

@@ -6,12 +6,12 @@ class RawTextsController extends AppController {
   function index() {
     $sessionUser = $this->Session->read('user');
     $conditions = array();
-    if (empty($this->data)) {
+    if (empty($this->request->data)) {
       $conditions['progress'] = RawText::PROGRESS_NEW;
-      $this->data['RawText']['Progress'] = RawText::PROGRESS_NEW;
+      $this->request->data['RawText']['Progress'] = RawText::PROGRESS_NEW;
       $this->set('selectedOwner', 'anyone');
     } else {
-      $data = $this->data['RawText'];
+      $data = $this->request->data['RawText'];
       if ($data['year']['year']) {
         $conditions['year'] = $data['year']['year'];
       }

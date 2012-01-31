@@ -11,7 +11,7 @@ class UsersController extends AppController {
     
     if ($this->RequestHandler->isPost() && !$this->Openid->isOpenIDResponse()) {
       try {
-        $this->Openid->authenticate($this->data['OpenidUrl']['openid'], $returnTo, $realm, array('sreg_required' => array('email', 'nickname'), 'sreg_optional' => array()));
+        $this->Openid->authenticate($this->request->data['OpenidUrl']['openid'], $returnTo, $realm, array('sreg_required' => array('email', 'nickname'), 'sreg_optional' => array()));
       } catch (InvalidArgumentException $e) {
         $this->set('error', 'Invalid OpenID');
       } catch (Exception $e) {
@@ -60,11 +60,11 @@ class UsersController extends AppController {
       $this->redirect('/');
       exit();
     }
-    if (empty($this->data)) {
+    if (empty($this->request->data)) {
       $this->set('users', $this->User->find('all', array('order' => 'openid asc')));
       $this->set('myId', $sessionUser['User']['id']);
     } else {
-      foreach ($this->data['User'] as $name => $value) {
+      foreach ($this->request->data['User'] as $name => $value) {
         if (string_startsWith($name, 'admin_')) {
           $this->User->id = substr($name, 6);
           $this->User->read();
