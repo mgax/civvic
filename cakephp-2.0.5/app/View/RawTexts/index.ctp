@@ -29,7 +29,7 @@
     <?php foreach ($rawTexts as $rawText): ?>
       <tr>
         <td>
-          <?php echo $html->link($rawText['RawText']['issue'] . '/' . $rawText['RawText']['year'], array('controller' => 'raw_texts', 'action' => 'view', $rawText['RawText']['id'])); ?>
+          <?php echo $this->Html->link($rawText['RawText']['issue'] . '/' . $rawText['RawText']['year'], array('controller' => 'raw_texts', 'action' => 'view', $rawText['RawText']['id'])); ?>
         </td>
         <td><?php echo $rawText['PdfDocument']['page_count']; ?></td>
         <td><?php echo RawText::progresses($rawText['RawText']['progress']) ?></td>

@@ -1,7 +1,7 @@
 <h1>Monitorul Oficial <?php echo $rawText['RawText']['issue'] . "/" . $rawText['RawText']['year'] ?></h1>
 
 <p>
-  <?php echo $html->link('înapoi la lista Monitoarelor Oficiale', 'index'); ?>
+  <?php echo $this->Html->link('înapoi la lista Monitoarelor Oficiale', 'index'); ?>
 </p>
 
 <table>
@@ -15,11 +15,11 @@
       <?php endif; ?>
 
       <?php if ($canClaim): ?>
-        <?php echo $html->link('revendică', '/raw_texts/claim/' . $rawText['RawText']['id']); ?>
+        <?php echo $this->Html->link('revendică', '/raw_texts/claim/' . $rawText['RawText']['id']); ?>
       <?php endif; ?>
 
       <?php if ($owns): ?>
-        <?php echo $html->link('renunță', '/raw_texts/unclaim/' . $rawText['RawText']['id']); ?>
+        <?php echo $this->Html->link('renunță', '/raw_texts/unclaim/' . $rawText['RawText']['id']); ?>
       <?php endif; ?>
     </td>
   </tr>
@@ -32,7 +32,7 @@
           <?php if ($rawText['RawText']['progress'] == $p): ?>
             <b><?=$displayValue?></b>
           <?php else: ?>
-            <?php echo $html->link($displayValue, '/raw_texts/set_progress/' . $rawText['RawText']['id'] . '/' . $p); ?>
+            <?php echo $this->Html->link($displayValue, '/raw_texts/set_progress/' . $rawText['RawText']['id'] . '/' . $p); ?>
           <?php endif; ?>
         <?php endforeach; ?>
       </td>
@@ -45,7 +45,7 @@
           <?php if ($rawText['RawText']['difficulty'] == $d): ?>
             <b><?=$displayValue?></b>
           <?php else: ?>
-            <?php echo $html->link($displayValue, '/raw_texts/set_difficulty/' . $rawText['RawText']['id'] . '/' . $d); ?>
+            <?php echo $this->Html->link($displayValue, '/raw_texts/set_difficulty/' . $rawText['RawText']['id'] . '/' . $d); ?>
           <?php endif; ?>
         <?php endforeach; ?>
       </td>
@@ -79,8 +79,8 @@
 </table>
 
 <div id="rawOcrText">
-  <?php echo $html->link('vezi strict textul (pentru copiere)', '/raw_texts/view_text_only/' . $rawText['RawText']['id']); ?> |
-  <?php echo $html->link('descarcă PDF original', '/pdf/view/' . $rawText['RawText']['id']); ?>
+  <?php echo $this->Html->link('vezi strict textul (pentru copiere)', '/raw_texts/view_text_only/' . $rawText['RawText']['id']); ?> |
+  <?php echo $this->Html->link('descarcă PDF original', '/pdf/view/' . $rawText['RawText']['id']); ?>
   <pre><?php echo $rawText['RawText']['extracted_text'] ?></pre>
 </div>
 

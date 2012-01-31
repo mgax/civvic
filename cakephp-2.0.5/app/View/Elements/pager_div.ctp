@@ -3,11 +3,11 @@
 
 <div id="pager" class="pager">
   <form>
-    <?php echo $html->image('silk/control_start_blue.png', array('class' => 'first')) ?>
-    <?php echo $html->image('silk/control_rewind_blue.png', array('class' => 'prev')) ?>
+    <?php echo $this->Html->image('silk/control_start_blue.png', array('class' => 'first')) ?>
+    <?php echo $this->Html->image('silk/control_rewind_blue.png', array('class' => 'prev')) ?>
     <input type="text" class="pagedisplay"/>
-    <?php echo $html->image('silk/control_fastforward_blue.png', array('class' => 'next')) ?>
-    <?php echo $html->image('silk/control_end_blue.png', array('class' => 'last')) ?>
+    <?php echo $this->Html->image('silk/control_fastforward_blue.png', array('class' => 'next')) ?>
+    <?php echo $this->Html->image('silk/control_end_blue.png', array('class' => 'last')) ?>
     <select class="pagesize">
       <option value="10">10</option>
       <option selected="selected" value="20">20</option>

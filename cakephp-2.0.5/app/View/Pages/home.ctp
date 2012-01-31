@@ -4,6 +4,6 @@
 digitizarea și publicarea arhivei Monitorului Oficial.</p>
 
 <?php if ($user['User']['admin']) { ?>
-  <?php echo $html->link('Raport lunar', '/raw_texts/report'); ?>
+  <?php echo $this->Html->link('Raport lunar', '/raw_texts/report'); ?>
 
 <?php } ?>

@@ -15,7 +15,7 @@
     <?php foreach ($rawTexts as $r): ?>
       <tr>
         <td>
-          <?php echo $html->link($r['RawText']['issue'] . '/' . $r['RawText']['year'], array('controller' => 'raw_texts', 'action' => 'view', $r['RawText']['id'])); ?>
+          <?php echo $this->Html->link($r['RawText']['issue'] . '/' . $r['RawText']['year'], array('controller' => 'raw_texts', 'action' => 'view', $r['RawText']['id'])); ?>
         </td>
         <td><?php echo $r['PdfDocument']['page_count']; ?></td>
         <td><?php echo RawText::progresses($r['RawText']['progress']) ?></td>
@@ -54,7 +54,7 @@
       <td><?php echo $diffBreakdown[RawText::DIFFICULTY_LOW]; ?></td>
       <td><?php echo $diffBreakdown[RawText::DIFFICULTY_MEDIUM]; ?></td>
       <td><?php echo $diffBreakdown[RawText::DIFFICULTY_HIGH]; ?></td>
-      <td><?php echo $html->link('marchează ca verificat', "/raw_texts/mark_verified/{$userId}", null,
+      <td><?php echo $this->Html->link('marchează ca verificat', "/raw_texts/mark_verified/{$userId}", null,
                                  "Verificați toate documentele pentru {$username}? Asigurați-vă că ați tipărit această pagină."); ?></td>
     </tr>
   <?php endforeach; ?>  
