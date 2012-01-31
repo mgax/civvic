@@ -4,21 +4,21 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
     <title>Administrare civvic.ro</title>
-    <?php echo $html->css('main'); ?>
+    <?php echo $this->Html->css('main'); ?>
     <?php echo $scripts_for_layout; ?>
   </head>
   <body>
     <div id="header">
       <div id="logo">
-        <?php echo $html->link('admin.civvic.ro', '/') ?>
+        <?php echo $this->Html->link('admin.civvic.ro', '/') ?>
       </div>
       <div id="identity">
-        <?php echo $html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
+        <?php echo $this->Html->image('openid-16x16.png', array('alt' => 'OpenId logo')) ?>
         <?php if ($user) {?>
           <?php print User::displayValue($user['User']); ?>
-          <?php echo $html->link('deconectare', '/users/logout') ?>
+          <?php echo $this->Html->link('deconectare', '/users/logout') ?>
         <?php } else { ?>
-          <?php echo $html->link('conectare', '/users/login') ?>
+          <?php echo $this->Html->link('conectare', '/users/login') ?>
         <?php } ?>
       </div>
       <div class="clearer"></div>
@@ -26,11 +26,11 @@
 
     <div id="menubar">
       <ul>
-        <li><?php echo $html->link('Lista Monitoarelor Oficiale', '/raw_texts/index') ?></li>
+        <li><?php echo $this->Html->link('Lista Monitoarelor Oficiale', '/raw_texts/index') ?></li>
         <?php if ($user['User']['admin']) { ?>
-          <li><?php echo $html->link('utilizatori', '/users'); ?></li>
+          <li><?php echo $this->Html->link('utilizatori', '/users'); ?></li>
         <?php } ?>
-        <li><?php echo $html->link('ajutor', '/pages/help') ?></li>
+        <li><?php echo $this->Html->link('ajutor', '/pages/help') ?></li>
       </ul>
     </div>
 
