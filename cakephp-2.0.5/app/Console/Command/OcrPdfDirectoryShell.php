@@ -5,7 +5,7 @@ App::import('Lib', 'PdfTools');
 App::import('Lib', 'StringManipulation');
 App::import('Lib', 'Sys');
 
-class ocrPdfDirectoryShell extends Shell {
+class OcrPdfDirectoryShell extends Shell {
   var $uses = array('PdfDocument', 'RawText', 'Word');
 
   function main() {
