@@ -1,0 +1,96 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: civvic.ro\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-04 16:20+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Cătălin Frâncu <cata@francu.com>\n"
+"Language-Team: civvic.ro <contact@civvic.ro>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Basepath: /home/cata/Desktop/civvic/cakephp\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: app/models/raw_text.php:19
+msgid "progressNew"
+msgstr "new"
+
+#: app/models/raw_text.php:20
+msgid "progressAssigned"
+msgstr "assigned"
+
+#: app/models/raw_text.php:21
+msgid "progressComplete"
+msgstr "complete"
+
+#: app/models/raw_text.php:22
+msgid "progressError"
+msgstr "error"
+
+#: app/models/raw_text.php:23
+msgid "progressVerified"
+msgstr "verified"
+
+#: app/models/raw_text.php:29
+msgid "difficultyLow"
+msgstr "low"
+
+#: app/models/raw_text.php:30
+msgid "difficultyMedium"
+msgstr "medium"
+
+#: app/models/raw_text.php:31
+msgid "difficultyHigh"
+msgstr "high"
+
+#: app/controllers/raw_texts_controller.php:54
+msgid "You need to be authenticated to claim a PDF document."
+msgstr "You need to be authenticated to claim a PDF document."
+
+#: app/controllers/raw_texts_controller.php:56
+msgid "This PDF document is already assigned."
+msgstr "This PDF document is already assigned."
+
+#: app/controllers/raw_texts_controller.php:63
+msgid "Document claimed."
+msgstr "Document claimed."
+
+#: app/controllers/raw_texts_controller.php:80
+msgid "Document unclaimed."
+msgstr "Document unclaimed."
+
+#: app/controllers/raw_texts_controller.php:82
+msgid "You need to be authenticated to unclaim a PDF document."
+msgstr "You need to be authenticated to unclaim a PDF document."
+
+#: app/controllers/raw_texts_controller.php:84
+#: app/controllers/raw_texts_controller.php:101
+msgid "You do not own this PDF document."
+msgstr "You do not own this PDF document."
+
+#: app/controllers/raw_texts_controller.php:97
+msgid "Progress updated."
+msgstr "Progress updated."
+
+#: app/controllers/raw_texts_controller.php:99
+msgid "You need to be authenticated to update a document's progress."
+msgstr "You need to be authenticated to update a document's progress."
+
+#: app/controllers/users_controller.php:53
+msgid "Only admins can see the user list."
+msgstr "Only admins can see the user list."
+
+#~ msgid "This PDF document is already marked as completed."
+#~ msgstr "This PDF document is already marked as completed."
+#~ msgid ""
+#~ "This PDF document is in an error state and needs to be reviewed by an "
+#~ "administrator."
+#~ msgstr ""
+#~ "This PDF document is in an error state and needs to be reviewed by an "
+#~ "administrator."
+
