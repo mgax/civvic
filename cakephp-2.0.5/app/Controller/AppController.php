@@ -1,7 +1,9 @@
 <?php
 
+App::uses('User', 'Model');
+
 class AppController extends Controller {
-  public $uses = array('User');
+  public $helpers = array('Form', 'Session');
 }
 
 ?>

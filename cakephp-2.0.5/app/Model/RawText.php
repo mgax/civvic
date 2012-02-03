@@ -1,9 +1,11 @@
 <?php
 
+App::uses('AppModel', 'Model');
+
 class RawText extends AppModel {
-  var $name = 'RawText';
-  var $hasOne = 'PdfDocument';
-  var $belongsTo = array('User' => array('className' => 'User', 'foreignKey' => 'owner')); 
+  public $name = 'RawText';
+  public $hasOne = 'PdfDocument';
+  public $belongsTo = array('User' => array('className' => 'User', 'foreignKey' => 'owner')); 
 
   const PROGRESS_NEW = 0;
   const PROGRESS_ASSIGNED = 1;

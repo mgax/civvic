@@ -1,7 +1,10 @@
 <?php
 
+App::uses('PdfDocument', 'Model');
+App::uses('RawText', 'Model');
+
 class RawTextsController extends AppController {
-  var $uses = array('PdfDocument', 'RawText', 'User');
+  public $name = 'RawTexts';
 
   function index() {
     $sessionUser = $this->Session->read('user');

@@ -63,3 +63,9 @@ Cache::config('default', array('engine' => 'File'));
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
+
+setlocale(LC_ALL, "ro_RO.utf8");
+bindtextdomain("messages", "../Locale");
+textdomain("messages");
+
+?>

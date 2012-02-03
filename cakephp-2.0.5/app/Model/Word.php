@@ -1,6 +1,8 @@
 <?php
 
+App::uses('AppModel', 'Model');
+
 class Word extends AppModel {
-  var $name = 'Word';
+  public $name = 'Word';
 }
 ?>

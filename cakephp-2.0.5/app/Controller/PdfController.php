@@ -1,8 +1,10 @@
 <?php
 
-class PdfController extends AppController {
-  var $uses = array('PdfDocument', 'RawText');
+App::uses('PdfDocument', 'Model');
+App::uses('RawText', 'Model');
 
+class PdfController extends AppController {
+  public $name = 'PdfDocuments';
   /*
    * Renders a PDF document. No view is necessary.
    */

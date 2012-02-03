@@ -3,7 +3,8 @@
 App::import('Lib', 'StringManipulation');
 
 class UsersController extends AppController {
-  public $components = array('Openid', 'RequestHandler');
+  public $name = 'Users';
+  public $components = array('Openid', 'RequestHandler', 'Session');
   
   public function login() {
     $realm = 'http://' . $_SERVER['HTTP_HOST'];
@@ -39,7 +40,8 @@ class UsersController extends AppController {
         $this->User->set('email', array_key_exists('email', $sregContents) ? $sregContents['email'] : null);
         $this->User->set('nickname', array_key_exists('nickname', $sregContents) ? $sregContents['nickname'] : null);
         $this->User->save();
-        $this->Session->write("user", $this->User->read());
+        $idioticArray = $this->User->read();
+        $this->Session->write('user', $idioticArray['User']);
         $this->redirect("/");
         exit;
       }

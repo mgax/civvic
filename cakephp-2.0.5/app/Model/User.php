@@ -1,8 +1,10 @@
 <?php
 
+App::uses('AppModel', 'Model');
+
 class User extends AppModel {
-  var $name = 'User';
-  var $hasMany = array('RawText' => array('className' => 'RawText', 'foreignKey' => 'owner'));
+  public $name = 'User';
+  public $hasMany = array('RawText' => array('className' => 'RawText', 'foreignKey' => 'owner'));
 
   static function displayValue($data) {
     if (array_key_exists('nickname', $data) && $data['nickname']) {

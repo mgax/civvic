@@ -1,7 +1,10 @@
 <?php
 
+App::uses('AppModel', 'Model');
+
 class PdfDocument extends AppModel {
-  var $name = 'PdfDocument';
-  var $belongsTo = 'RawText';
+  public $name = 'PdfDocument';
+  public $belongsTo = 'RawText';
 }
+
 ?>

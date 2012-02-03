@@ -1,7 +1,9 @@
 <?php
 
+App::uses('AppModel', 'Model');
+
 class Variable extends AppModel {
-  var $name = 'Variable';
+  public $name = 'Variable';
 
   function peek($name, $default = false) {
     $v = $this->find('first', array('conditions' => array('name' => $name)));
