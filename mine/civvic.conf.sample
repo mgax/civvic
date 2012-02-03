@@ -1,0 +1,3 @@
+[general]
+
+smartyClass = "/usr/share/php/smarty/Smarty.class.php"
