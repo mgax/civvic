@@ -1,0 +1,3 @@
+To convert the AI file to a png file:
+
+convert -density 150 civvic.ro-logo.ai a.png

@@ -1,0 +1,8 @@
+#leftColumn {
+  width: 200px;
+  float: left;
+}
+
+#main {
+  float: right;
+}

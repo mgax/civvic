@@ -2,10 +2,20 @@
 <html>
   <head>
     <title>Civvic.ro</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="{$wwwRoot}/css/main.css?v=1" rel="stylesheet" type="text/css"/>
   </head>
 
   <body>
-    Pagina aici
+    <div id="leftColumn">
+      <div id="logo">
+        <a href="{$wwwRoot}"><img src="img/logo.png" title="Civvic logo"/></a>
+      </div>
+      Meniu
+    </div>
+    <div id="main">
+      {include file=$templateName}
+    </div>
   </body>
 
 </html>

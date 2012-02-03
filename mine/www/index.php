@@ -1,6 +1,6 @@
 <?php
 
-require_once '../lib/util.php';
+require_once '../lib/Util.php';
 
 SmartyWrap::display('index.tpl');
 
