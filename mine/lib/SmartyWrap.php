@@ -1,11 +1,10 @@
 <?php
 
-require_once Config::get('general.smartyClass');
-
 class SmartyWrap {
   private static $theSmarty = null;
 
-  static function init() {
+  static function init($smartyClass) {
+    require_once $smartyClass;
     self::$theSmarty = new Smarty();
     self::$theSmarty->template_dir = Util::$rootPath . '/templates';
     self::$theSmarty->compile_dir = Util::$rootPath . '/templates_c';

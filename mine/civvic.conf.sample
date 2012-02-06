@@ -1,3 +1,9 @@
 [general]
 
+; Database connection
+; database = "mysql://user[:password]@host/database"
+database = "mysql://root@localhost/civvic_mine"
+
+; Location of the smarty class file.
+; This can be an absolute file name or relative to one of the paths in include_path
 smartyClass = "/usr/share/php/smarty/Smarty.class.php"
