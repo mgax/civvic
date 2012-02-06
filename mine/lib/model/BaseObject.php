@@ -18,11 +18,9 @@ class BaseObject extends Model {
 
   function save() {
     /* Auto-save created and modified fields */
-    if (count($this->as_array('modified')) == 1) {
-      $this->modified = time();
-    }
-    if (count($this->as_array('created')) == 1 && !$this->created) {
-      $this->created = time();
+    $this->modified = time();
+    if (!$this->created) {
+      $this->created = $this->modified;
     }
     return parent::save();
   }

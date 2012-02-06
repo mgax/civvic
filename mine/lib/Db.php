@@ -24,6 +24,27 @@ class Db {
                  'database' => $matches[6]);
   }
 
+  static function tableExists($tableName) {
+    $r = ORM::for_table($tableName)->raw_query("show tables like '$tableName'", null)->find_one();
+    return ($r !== false);
+  }
+
+  /** Returns a DB result set that you can iterate with foreach($result as $row) **/
+  static function execute($query, $fetchStyle = PDO::FETCH_BOTH) {
+    return ORM::get_db()->query($query, $fetchStyle);
+  }
+
+  static function executeSqlFile($fileName) {
+    $statements = file_get_contents($fileName);
+    $statements = explode(";\n", $statements);
+    foreach ($statements as $statement) {
+      $statement = trim($statement);
+      if ($statement != '') {
+        self::execute($statement);
+      }
+    }
+  }
+
 }
 
 ?>
