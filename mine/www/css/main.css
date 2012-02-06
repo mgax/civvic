@@ -1,8 +1,69 @@
-#leftColumn {
-  width: 200px;
+body {
+  font-family: sans-serif;
+  margin: 5px auto;
+  width: 1024px;
+}
+
+#sidebar {
   float: left;
+  width: 140px;
 }
 
 #main {
   float: right;
+  width: 884px;
+}
+
+#userActions {
+  float: right;
+}
+
+#openidLink {
+  background: url("../img/openid/openid-16x16.png") no-repeat;
+  padding-left: 20px;
+}
+
+#template {
+  clear: both;
+}
+
+/** auth/ pages **/
+
+#openidProviders a {
+  margin-right: 20px;
+}
+
+#openidProviders a img {
+  vertical-align: middle;
+}
+
+#openidHeadline span {
+  vertical-align: 12px;
+}
+
+/** flash messages **/
+
+div.flashMessage {
+  clear: both;
+  margin: 10px auto;
+  padding: 10px 10px 10px 35px;
+  width: 480px;
+}
+
+div.infoType {
+  background: #cfc url("../img/silk/accept.png") 8px 12px no-repeat;
+  border: 1px solid green;
+  color: green;
+}
+
+div.warningType {
+  background: #feefb3 url("../img/silk/error.png") 8px 12px no-repeat;
+  border: 1px solid #9f6000;
+  color: #9f6000;
+}
+
+div.errorType {
+  background: #fcc url("../img/silk/exclamation.png") 8px 12px no-repeat;
+  border: 1px solid red;
+  color: red;
 }
