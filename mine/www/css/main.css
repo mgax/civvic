@@ -27,6 +27,11 @@ body {
   clear: both;
 }
 
+a.delete {
+  background: url("../img/silk/cross.png") no-repeat;
+  padding-left: 20px;
+}
+
 /** auth/ pages **/
 
 #openidProviders a {

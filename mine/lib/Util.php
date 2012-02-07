@@ -58,6 +58,14 @@ class Util {
     }
   }
 
+  static function requireAdmin() {
+    self::requireLoggedIn();
+    if (!Session::getUser()->admin) {
+      FlashMessage::add('Nu aveți acces la această pagină.');
+      self::redirect(self::$wwwRoot);
+    }
+  }
+
   static function redirect($location) {
     FlashMessage::saveToSession();
     header("HTTP/1.1 301 Moved Permanently");

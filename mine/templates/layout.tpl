@@ -11,7 +11,9 @@
       <div id="logo">
         <a href="{$wwwRoot}"><img src="{$wwwRoot}/img/logo.png" title="Civvic logo"/></a>
       </div>
-      Meniu
+      {if $user && $user->admin}
+        <a href="tipuri-acte">tipuri de acte</a>
+      {/if}
     </div>
     <div id="main">
       <div id="userActions">
