@@ -9,6 +9,7 @@ class SmartyWrap {
     self::$theSmarty->template_dir = Util::$rootPath . '/templates';
     self::$theSmarty->compile_dir = Util::$rootPath . '/templates_c';
     self::assign('wwwRoot', Util::$wwwRoot);
+    self::assign('user', Session::getUser());
   }
 
   static function assign($name, $value) {

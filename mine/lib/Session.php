@@ -1,10 +1,15 @@
 <?php
 
+define("ONE_MONTH_IN_SECONDS", 30 * 86400);
+
 class Session {
 
   static function init() {
     if (isset($_COOKIE[session_name()])) {
       session_start();
+    }
+    if (self::getUser() == null) {
+      self::loadUserFromCookie();
     }
   }
 
@@ -45,6 +50,56 @@ class Session {
       setcookie(session_name(), '', time() - 3600, '/'); // expire it
     }
   }
+
+  static function login($user) {
+    self::set('user', $user);
+    $cookie = Model::factory('LoginCookie')->create();
+    $cookie->userId = $user->id;
+    $cookie->value = StringUtil::randomCapitalLetters(12);
+    $cookie->save();
+    $cookieName = Config::get('general.loginCookieName');
+    setcookie($cookieName, $cookie->value, time() + ONE_MONTH_IN_SECONDS, '/');
+
+    // If the user still doesn't have a nickname, redirect them to their account page so they can choose one
+    if (!$user->nickname) {
+      Util::redirect(Util::$wwwRoot . '/auth/contul-meu');
+    }
+    Util::redirect(Util::$wwwRoot);
+  }
+
+  static function logout() {
+    $cookieName = Config::get('general.loginCookieName');
+    if (array_key_exists($cookieName, $_COOKIE)) {
+      $cookie = LoginCookie::get_by_value($_COOKIE[$cookieName]);
+      if ($cookie) {
+        $cookie->delete();
+      }
+    }
+    setcookie($cookieName, NULL, time() - 3600, '/');
+    unset($_COOKIE[$cookieName]);
+    self::kill();
+    Util::redirect(Util::$wwwRoot);
+  }
+
+  static function loadUserFromCookie() {
+    $cookieName = Config::get('general.loginCookieName');
+    if (!array_key_exists($cookieName, $_COOKIE)) {
+      return;
+    }
+    $cookie = LoginCookie::get_by_value($_COOKIE[$cookieName]);
+    $user = $cookie ? User::get_by_id($cookie->userId) : null;
+    if ($user) {
+      self::set('user', $user);
+    } else {
+      // The cookie is invalid
+      setcookie($cookieName, NULL, time() - 3600, '/');
+      unset($_COOKIE[$cookieName]);
+      if ($cookie) {
+        $cookie->delete();
+      }
+    }
+  }
+
 }
 
 ?>

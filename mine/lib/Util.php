@@ -13,10 +13,10 @@ class Util {
     require_once self::$rootPath . '/lib/idiorm/idiorm.php';
     require_once self::$rootPath . '/lib/idiorm/paris.php';
     Config::load(self::$rootPath . "/civvic.conf");
-    SmartyWrap::init(Config::get('general.smartyClass'));
     Db::init(Config::get('general.database'));
     Session::init();
     FlashMessage::restoreFromSession();
+    SmartyWrap::init(Config::get('general.smartyClass'));
   }
   
   private static function definePaths() {
@@ -51,6 +51,13 @@ class Util {
     }
   }
 
+  static function requireLoggedIn() {
+    if (!Session::getUser()) {
+      FlashMessage::add('Pentru a avea acces la această pagină, trebuie să vă autentificați', 'warning');
+      self::redirect(self::$wwwRoot . '/auth/login');
+    }
+  }
+
   static function redirect($location) {
     FlashMessage::saveToSession();
     header("HTTP/1.1 301 Moved Permanently");
@@ -58,11 +65,7 @@ class Util {
     exit;
   }
 
-  static function getRequestParameter($name) {
-    return self::getRequestParameterWithDefault($name, NULL);
-  }
-
-  static function getRequestParameterWithDefault($name, $default) {
+  static function getRequestParameter($name, $default = null) {
     return array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : $default;
   }
 

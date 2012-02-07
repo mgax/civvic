@@ -15,7 +15,12 @@
     </div>
     <div id="main">
       <div id="userActions">
-        <a id="openidLink" href="{$wwwRoot}/auth/login">autentificare cu OpenID</a>
+        {if $user}
+          {$user->getDisplayName()}
+          <a href="{$wwwRoot}/auth/logout">deconectare</a>
+        {else}
+          <a id="openidLink" href="{$wwwRoot}/auth/login">autentificare cu OpenID</a>
+        {/if}
       </div>
       {include file="bits/flashMessage.tpl"}
       <div id="template">

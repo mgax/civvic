@@ -4,6 +4,9 @@
 ; database = "mysql://user[:password]@host/database"
 database = "mysql://root@localhost/civvic_mine"
 
+; Name of the cookie we set on the client browser for persistent logins
+loginCookieName = "CivvicLogin"
+
 ; Location of the smarty class file.
 ; This can be an absolute file name or relative to one of the paths in include_path
 smartyClass = "/usr/share/php/smarty/Smarty.class.php"
