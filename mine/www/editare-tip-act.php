@@ -30,12 +30,12 @@ if ($submitButton) {
   if ($actType->validate()) {
     $actType->save();
     FlashMessage::add('Datele au fost salvate.', 'info');
-    Util::redirect("tip-act?id={$actType->id}");
+    Util::redirect('tipuri-acte');
   }
 }
 
 SmartyWrap::assign('actType', $actType);
 SmartyWrap::assign('pageTitle', $actType->id ? "Tip de act: $actType->name" : 'Tip de act');
-SmartyWrap::display('tip-act.tpl');
+SmartyWrap::display('editare-tip-act.tpl');
 
 ?>

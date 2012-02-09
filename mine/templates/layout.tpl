@@ -11,9 +11,12 @@
       <div id="logo">
         <a href="{$wwwRoot}"><img src="{$wwwRoot}/img/logo.png" title="Civvic logo"/></a>
       </div>
-      {if $user && $user->admin}
-        <a href="tipuri-acte">tipuri de acte</a>
-      {/if}
+      <ul id="sideMenu">
+        {if $user && $user->admin}
+          <li><a href="tipuri-acte">tipuri de acte</a></li>
+          <li><a href="acte">acte</a></li>
+        {/if}
+      </ul>
     </div>
     <div id="main">
       <div id="userActions">

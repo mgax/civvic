@@ -5,7 +5,7 @@
     Creează un tip de act
   {/if}
 </h3>
-<form action="tip-act" method="post">
+<form action="editare-tip-act" method="post">
   {if $actType->id}
     <input type="hidden" name="id" value="{$actType->id}"/>
   {/if}
@@ -16,7 +16,7 @@
 <br/>
 
 {if $actType->id}
-  <a class="delete" href="tip-act?deleteId={$actType->id}"
+  <a class="delete" href="editare-tip-act?deleteId={$actType->id}"
      onclick="return confirm('Confirmați ștergerea tipului de act \'{$actType->name}\'?');">șterge</a>
   <br/><br/>
 {/if}

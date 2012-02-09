@@ -9,6 +9,14 @@ body {
   width: 140px;
 }
 
+#sideMenu {
+  padding-left: 0px;
+}
+
+#sideMenu li {
+  list-style-type: none;
+}
+
 #main {
   float: right;
   width: 884px;

@@ -2,9 +2,9 @@
 
 <ul>
   {foreach from=$actTypes item=at}
-     <li><a href="tip-act?id={$at->id}">{$at->name}</a></li>
+     <li><a href="editare-tip-act?id={$at->id}">{$at->name}</a></li>
   {/foreach}
 </ul>
 
-<a href="tip-act">adaugă un nou tip de act</a>
+<a href="editare-tip-act">adaugă un nou tip de act</a>
 
