@@ -32,6 +32,7 @@ if ($submitButton) {
   $act->name = $name;
   $act->year = $year;
   $act->actTypeId = $actTypeId;
+  $act->status = $status;
   if ($act->validate()) {
     $act->save();
     FlashMessage::add('Datele au fost salvate.', 'info');
@@ -41,6 +42,7 @@ if ($submitButton) {
 
 SmartyWrap::assign('act', $act);
 SmartyWrap::assign('actTypes', Model::factory('ActType')->order_by_asc('name')->find_many());
+SmartyWrap::assign('actStatuses', Act::$statuses);
 SmartyWrap::assign('pageTitle', $act->id ? "Act: $act->name" : 'Act');
 SmartyWrap::display('editare-act.tpl');
 

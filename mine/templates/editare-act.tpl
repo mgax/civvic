@@ -13,8 +13,9 @@
   Nume: <input type="text" name="name" value="{$act->name}"/><br/>
   An: <input type="text" name="year" value="{$act->year}"/><br/>
 
-  Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" actTypes=$actTypes selected=$act->actTypeId}
-  <br/>
+  Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" actTypes=$actTypes selected=$act->actTypeId}<br/>
+  Stare: {include file="bits/actStatusDropdown.tpl" name="status" actStatuses=$actStatuses selected=$act->status}<br/>
+
   <input type="submit" name="submitButton" value="Salvează"/>
 </form>
 
