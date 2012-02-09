@@ -77,6 +77,17 @@ class Util {
     return array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : $default;
   }
 
+  static function makePostRequest($url, $data) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'civvic.ro');
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+  }
+
 }
 
 ?>
