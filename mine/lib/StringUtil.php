@@ -22,6 +22,10 @@ class StringUtil {
     return $result;
   }
 
+  static function isValidYear($s) {
+    return preg_match('/^\d\d\d\d$/', $s) && $s >= 1800 && $s <= 2100;
+  }
+
 }
 
 ?>
