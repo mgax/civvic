@@ -23,7 +23,24 @@ class StringUtil {
   }
 
   static function isValidYear($s) {
-    return preg_match('/^\d\d\d\d$/', $s) && $s >= 1800 && $s <= 2100;
+    return self::isNumberBetween($s, 1800, 2100);
+  }
+
+  static function isNumberBetween($s, $min, $max) {
+    if (!preg_match('/^\d+$/', $s)) {
+      return false;
+    }
+    $i = (int)$s;
+    return $i >= $min && $i <= $max;
+  }
+
+  static function isValidDate($s) {
+    return self::isDateBetween($s, '1800-01-01', '2100-12-31');
+  }
+
+  static function isDateBetween($s, $ymd1, $ymd2) {
+    $a = date_parse($s);
+    return $a && ($a['error_count'] == 0) && ($a['warning_count'] == 0) && ($s >= $ymd1) && ($s <= $ymd2);
   }
 
 }

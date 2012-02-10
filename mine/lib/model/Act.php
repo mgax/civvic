@@ -17,10 +17,14 @@ class Act extends BaseObject {
     if (!$this->actTypeId) {
       FlashMessage::add('Actul trebuie să aibă un tip.');
     }
-    if (!$this->status) {
-      FlashMessage::add('Actul trebuie să aibă o stare.');
+    if (!StringUtil::isValidDate($this->issueDate)) {
+      FlashMessage::add('Data trebuie să fie între 1800 și 2100.');
     }
     return !FlashMessage::getMessage();
+  }
+
+  function countVersions() {
+    return Model::factory('ActVersion')->where('actId', $this->id)->count();
   }
 
 }

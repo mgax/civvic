@@ -40,6 +40,14 @@ a.delete {
   padding-left: 20px;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+textarea {
+  width: 100%;
+}
+
 /** auth/ pages **/
 
 #openidProviders a {
@@ -79,4 +87,14 @@ div.errorType {
   background: #fcc url("../img/silk/exclamation.png") 8px 12px no-repeat;
   border: 1px solid red;
   color: red;
+}
+
+/** act versions **/
+
+table.actVersionTable {
+}
+
+table.actVersionTable th, table.actVersionTable td {
+  border: 1px solid #777;
+  padding: 3px 5px;
 }
