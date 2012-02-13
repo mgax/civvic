@@ -40,18 +40,10 @@ if ($addVersionButton) {
   } else if (!$numVersions && $otherVersionNumber != '0') {
     FlashMessage::add("Numărul versiunii trebuie să fie 0, deoarece încă nu există versiuni.");
   } else {
-    $av = Model::factory('ActVersion')->create();
-    // Populate as much information as possible
-    if (!$numVersions) {
-      $av->actId = $act->id;
-      $av->modifyingActId = $act->id;
-      $av->status = ACT_STATUS_VALID;
-      $av->contents = '';
-      $av->diff = '';
-      $av->versionNumber = 1;
-      $av->current = true;
+    if ($numVersions) {
+      $av = ActVersion::insertVersion($act, ($versionPlacement == 'before'), $otherVersionNumber);
     } else {
-      // ******************* Populate this version, shift the order of other versions, copy the diff etc.
+      $av = ActVersion::createVersionOne($act);
     }
     $av->save();
     Util::redirect("editare-act?id={$act->id}");
