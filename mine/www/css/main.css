@@ -98,3 +98,11 @@ table.actVersionTable th, table.actVersionTable td {
   border: 1px solid #777;
   padding: 3px 5px;
 }
+
+div.wikiHtmlPreview {
+  border: 1px solid #ddd;
+  height: 300px;
+  margin: 10px 0;
+  padding: 5px;
+  overflow: auto;
+}
