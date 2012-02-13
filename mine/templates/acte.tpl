@@ -2,7 +2,7 @@
 
 <ul>
   {foreach from=$acts item=a}
-     <li><a href="editare-act?id={$a->id}">{$a->number} / {$a->year}</a> {$a->name}</li>
+     <li><a href="act?id={$a->id}">{$a->number} / {$a->year}</a> {$a->name}</li>
   {/foreach}
 </ul>
 

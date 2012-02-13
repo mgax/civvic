@@ -88,6 +88,28 @@ class Util {
     return $result;
   }
 
+  /**
+   * Remove some ugly GET parameters and redirect to the remaining URL.
+   **/
+  static function hideRequestParameters(/** Variable-length argument list **/) {
+    $needToRedirect = false;
+    $newQueryString = '';
+    $hide = func_get_args();
+
+    foreach ($_GET as $name => $value) {
+      if (in_array($name, $hide)) {
+        $needToRedirect = true;
+      } else {
+        $newQueryString .= $newQueryString ? '&' : '?';
+        $newQueryString .= "$name=$value";
+      }
+    }
+
+    if ($needToRedirect) {
+      self::redirect($_SERVER['PHP_SELF'] . $newQueryString);
+    }
+  }
+
 }
 
 ?>
