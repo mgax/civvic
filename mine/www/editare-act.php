@@ -62,7 +62,7 @@ if ($submitButton) {
   if ($act->validate()) {
     $act->save();
     FlashMessage::add('Datele au fost salvate.', 'info');
-    Util::redirect('acte');
+    Util::redirect("editare-act?id={$act->id}");
   }
 }
 

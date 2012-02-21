@@ -37,6 +37,12 @@ class Act extends BaseObject {
     return Model::factory('ActVersion')->where('actId', $this->id)->count();
   }
 
+  function getDisplayId() {
+    return ($this->year && $this->number)
+      ? "{$this->number} / {$this->year}"
+      : $this->issueDate;
+  }
+
 }
 
 ?>

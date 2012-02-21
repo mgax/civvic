@@ -44,7 +44,7 @@ class ActVersion extends BaseObject {
     $av->contents = '';
     $av->htmlContents = '';
     $av->diff = '';
-    $av->versionNumber = $hi;
+    $av->versionNumber = 1;
     $av->current = true;
     return $av;
   }
