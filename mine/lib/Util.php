@@ -23,7 +23,7 @@ class Util {
     self::$rootPath = realpath(__DIR__ . '/..');
     $scriptName = $_SERVER['SCRIPT_NAME'];
     $pos = strrpos($scriptName, '/www/');
-    self::$wwwRoot = ($pos === false) ? '' : substr($scriptName, 0, $pos + 4);
+    self::$wwwRoot = ($pos === false) ? '/' : substr($scriptName, 0, $pos + 5);
   }
 
   static function getFullServerUrl() {
@@ -54,7 +54,7 @@ class Util {
   static function requireLoggedIn() {
     if (!Session::getUser()) {
       FlashMessage::add('Pentru a avea acces la această pagină, trebuie să vă autentificați', 'warning');
-      self::redirect(self::$wwwRoot . '/auth/login');
+      self::redirect(self::$wwwRoot . 'auth/login');
     }
   }
 

@@ -62,7 +62,7 @@ class Session {
 
     // If the user still doesn't have a nickname, redirect them to their account page so they can choose one
     if (!$user->nickname) {
-      Util::redirect(Util::$wwwRoot . '/auth/contul-meu');
+      Util::redirect(Util::$wwwRoot . 'auth/contul-meu');
     }
     Util::redirect(Util::$wwwRoot);
   }
