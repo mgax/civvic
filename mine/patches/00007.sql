@@ -10,5 +10,5 @@ create table monitor (
   modified int not null,
 
   primary key(id),
-  key(year),
+  key(year)
 );
