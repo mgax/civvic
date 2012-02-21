@@ -11,7 +11,7 @@ class Act extends BaseObject {
     if (mb_strlen($this->name) < 3) {
       FlashMessage::add('Numele trebuie să aibă minim trei caractere.');
     }
-    if (!StringUtil::isValidYear($this->year)) {
+    if ($this->year != '' && !StringUtil::isValidYear($this->year)) {
       FlashMessage::add('Anul trebuie să fie între 1800 și 2100.');
     }
     if (!$this->actTypeId) {
@@ -21,6 +21,13 @@ class Act extends BaseObject {
       FlashMessage::add('Data trebuie să fie între 1800 și 2100.');
     }
     return !FlashMessage::getMessage();
+  }
+
+  function save() {
+    if ($this->year == '') {
+      $this->year = null;
+    }
+    parent::save();
   }
 
   function countVersions() {
