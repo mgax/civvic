@@ -10,6 +10,7 @@ $year = Util::getRequestParameter('year');
 $number = Util::getRequestParameter('number');
 $issueDate = Util::getRequestParameter('issueDate');
 $actTypeId = Util::getRequestParameter('actTypeId');
+$monitorId = Util::getRequestParameter('monitorId');
 $submitButton = Util::getRequestParameter('submitButton');
 
 $versionPlacement = Util::getRequestParameter('versionPlacement');
@@ -57,6 +58,7 @@ if ($submitButton) {
   $act->number = $number;
   $act->issueDate = $issueDate;
   $act->actTypeId = $actTypeId;
+  $act->monitorId = $monitorId;
   if ($act->validate()) {
     $act->save();
     FlashMessage::add('Datele au fost salvate.', 'info');
@@ -71,6 +73,7 @@ if ($act->id) {
 SmartyWrap::assign('act', $act);
 SmartyWrap::assign('actTypes', Model::factory('ActType')->order_by_asc('name')->find_many());
 SmartyWrap::assign('actVersions', Model::factory('ActVersion')->where('actId', $act->id)->order_by_asc('versionNumber')->find_many());
+SmartyWrap::assign('monitors', Model::factory('Monitor')->order_by_asc('year')->order_by_asc('number')->find_many());
 SmartyWrap::assign('pageTitle', $act->id ? "Act: $act->name" : 'Act');
 SmartyWrap::display('editare-act.tpl');
 

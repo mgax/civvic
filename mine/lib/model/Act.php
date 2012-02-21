@@ -17,6 +17,9 @@ class Act extends BaseObject {
     if (!$this->actTypeId) {
       FlashMessage::add('Actul trebuie să aibă un tip.');
     }
+    if (!$this->monitorId) {
+      FlashMessage::add('Monitorul Oficial nu poate fi vid.');
+    }
     if (!StringUtil::isValidDate($this->issueDate)) {
       FlashMessage::add('Data trebuie să fie între 1800 și 2100.');
     }
