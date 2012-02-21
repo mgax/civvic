@@ -29,9 +29,23 @@ if ($submitButton || $previewButton) {
   $av->status = $status;
   $av->contents = $contents;
   $av->htmlContents = MediaWikiParser::parse($av->contents);
+
+  // Recompute the diff from the previous version
+  if ($av->versionNumber > 1) {
+    $previousAv = Model::factory('ActVersion')->where('actId', $av->actId)->where('versionNumber', $av->versionNumber - 1)->find_one();
+    $av->diff = json_encode(SimpleDiff::lineDiff($previousAv->contents, $av->contents));
+  }
+
   if ($av->validate()) {
     if ($submitButton) {
       $av->save();
+
+      $nextAv = Model::factory('ActVersion')->where('actId', $av->actId)->where('versionNumber', $av->versionNumber + 1)->find_one();
+      if ($nextAv) {
+        $nextAv->diff = json_encode(SimpleDiff::lineDiff($av->contents, $nextAv->contents));
+        $nextAv->save();
+      }
+
       FlashMessage::add('Datele au fost salvate.', 'info');
       Util::redirect("editare-act?id={$av->actId}");
     }

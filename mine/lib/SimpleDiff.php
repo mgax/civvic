@@ -22,7 +22,11 @@
 
 class SimpleDiff {
 
-  private static function diff($old, $new){
+  static function diff($old, $new, $oldOffset){
+    if (empty($old) && empty($new)) {
+      return array();
+    }
+    $maxlen = 0;
     foreach ($old as $oindex => $ovalue) {
       $nkeys = array_keys($new, $ovalue);
       foreach ($nkeys as $nindex) {
@@ -35,14 +39,21 @@ class SimpleDiff {
         }
       }	
     }
-    if ($maxlen == 0) return array(array('d'=>$old, 'i'=>$new));
-    return array_merge(diff(array_slice($old, 0, $omax), array_slice($new, 0, $nmax)),
-                       array_slice($new, $nmax, $maxlen),
-                       diff(array_slice($old, $omax + $maxlen), array_slice($new, $nmax + $maxlen)));
+    if ($maxlen == 0) return array($oldOffset => array('d' => $old, 'i' => $new));
+    return self::diff(array_slice($old, 0, $omax), array_slice($new, 0, $nmax), $oldOffset) +
+      self::diff(array_slice($old, $omax + $maxlen), array_slice($new, $nmax + $maxlen), $omax + $maxlen + $oldOffset);
   }
 
+  static function lineDiff($old, $new) {
+    return self::diff(explode("\r\n", $old), explode("\r\n", $new), 1);
+  }
+
+  /**
+   * This won't work for now. It assumes we preserve the unchanged lines, but we don't.
+   */
   static function htmlDiff($old, $new) {
-    $diff = diff(explode("\n", $old), explode("\n", $new));
+    $diff = self::diff(explode("\r\n", $old), explode("\r\n", $new), 1);
+    $ret = '';
     foreach ($diff as $k) {
       if (is_array($k)) {
         $ret .= (!empty($k['d'])?"<del>".implode(' ',$k['d'])."</del> ":'') .
