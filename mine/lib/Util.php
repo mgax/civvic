@@ -8,6 +8,7 @@ class Util {
   
   static function init() {
     ini_set('display_errors','On');
+    setlocale(LC_ALL, 'ro_RO.utf8');
     spl_autoload_register('self::autoloadClasses');
     self::definePaths();
     require_once self::$rootPath . '/lib/idiorm/idiorm.php';
