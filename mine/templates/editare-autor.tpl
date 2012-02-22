@@ -9,10 +9,10 @@
   {if $author->id}
     <input type="hidden" name="id" value="{$author->id}"/>
   {/if}
-  Instituție: <input type="text" name="institution" value="{$author->institution}"/> <span class="hint">Curtea Constituțională</span><br/>
-  Funcție: <input type="text" name="position" value="{$author->position}"/> <span class="hint">Președintele Curții Constituționale</span><br/>
-  Titlu: <input type="text" name="title" value="{$author->title}"/> <span class="hint">prof. univ. dr.</span><br/>
-  Persoană: <input type="text" name="name" value="{$author->name}"/> <span class="hint">Ioan Vida</span><br/>
+  Instituție: <input type="text" name="institution" value="{$author->institution}"/> <span class="hint">Ex.: Curtea Constituțională</span><br/>
+  Funcție: <input type="text" name="position" value="{$author->position}"/> <span class="hint">Ex.: Președintele Curții Constituționale</span><br/>
+  Titlu: <input type="text" name="title" value="{$author->title}"/> <span class="hint">Ex.: prof. univ. dr.</span><br/>
+  Persoană: <input type="text" name="name" value="{$author->name}"/> <span class="hint">Ex.: Ioan Vida</span><br/>
   <input type="submit" name="submitButton" value="Salvează"/>
 </form>
 

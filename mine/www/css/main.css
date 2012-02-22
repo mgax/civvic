@@ -48,6 +48,12 @@ textarea {
   width: 100%;
 }
 
+span.hint {
+  color: #aaa;
+  font-size: 80%;
+  margin-left: 10px;
+}
+
 /** auth/ pages **/
 
 #openidProviders a {

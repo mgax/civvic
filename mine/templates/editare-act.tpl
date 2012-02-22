@@ -15,6 +15,7 @@
   Număr: <input type="text" name="number" value="{$act->number}"/><br/>
   Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" actTypes=$actTypes selected=$act->actTypeId}<br/>
   Data: {include file="bits/datePicker.tpl" id="issueDate" name="issueDate" value=$act->issueDate}<br/>
+  Autor: {include file="bits/authorDropdown.tpl" name="authorId" authors=$authors selected=$act->authorId}<br/>
   Publicată în {include file=bits/monitorDropdown.tpl name="monitorId" monitors=$monitors selected=$act->monitorId}<br/>
 
   <input type="submit" name="submitButton" value="Salvează"/>
