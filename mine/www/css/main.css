@@ -54,6 +54,16 @@ span.hint {
   margin-left: 10px;
 }
 
+h3 {
+  margin-bottom: 5px;
+}
+
+div.actDetails {
+  color: #555;
+  font-size: 80%;
+  margin-bottom: 5px;
+}
+
 /** auth/ pages **/
 
 #openidProviders a {

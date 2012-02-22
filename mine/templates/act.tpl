@@ -1,4 +1,10 @@
-<h3>{$actType->name|capitalize} {$act->number} / {$act->year}: {$act->name}</h3>
+<h3>{$act->name}</h3>
+<div class="actDetails">
+  {if $act->number}număr: {$act->number} |{/if}
+  {if $act->year}anul: {$act->year} |{/if}
+  {if $act->issueDate}data: {$act->issueDate|date_format:"%e %B %Y"} |{/if}
+  publicată în <a href="monitor?id={$monitor->id}">Monitorul Oficial {$monitor->number} / {$monitor->year}</a>
+</div>
 
 <form action="act" method="get">
   <input type="hidden" name="id" value="{$act->id}"/>
@@ -19,3 +25,7 @@
 {/if}
 
 {$shownAv->htmlContents}
+
+{if $author}
+  Autor: {$author->getDisplayName()}
+{/if}
