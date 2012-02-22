@@ -17,6 +17,7 @@
   Data: {include file="bits/datePicker.tpl" id="issueDate" name="issueDate" value=$act->issueDate}<br/>
   Autor: {include file="bits/authorDropdown.tpl" name="authorId" authors=$authors selected=$act->authorId}<br/>
   Publicată în {include file=bits/monitorDropdown.tpl name="monitorId" monitors=$monitors selected=$act->monitorId}<br/>
+  Locul: {include file=bits/placeDropdown.tpl name="placeId" places=$places selected=$act->placeId}<br/>
 
   <input type="submit" name="submitButton" value="Salvează"/>
 </form>
