@@ -20,6 +20,7 @@
         {if $user && $user->admin}
           <li><a href="tipuri-acte">tipuri de acte</a></li>
           <li><a href="autori">autori</a></li>
+          <li><a href="locuri">locuri</a></li>
         {/if}
         <li><a href="acte">acte</a></li>
         <li><a href="monitoare">monitoare</a></li>
