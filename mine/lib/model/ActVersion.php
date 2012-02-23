@@ -60,6 +60,29 @@ class ActVersion extends BaseObject {
     return !FlashMessage::getMessage();
   }
 
+  function delete() {
+    $prev = Model::factory('ActVersion')->where('actId', $this->actId)->where('versionNumber', $this->versionNumber - 1)->find_one();
+    $next = Model::factory('ActVersion')->where('actId', $this->actId)->where('versionNumber', $this->versionNumber + 1)->find_one();
+
+    if ($next) {
+      $next->diff = $prev ? json_encode(SimpleDiff::lineDiff($prev->contents, $next->contents)) : '';
+      $next->save();
+    }
+
+    if ($av->current && $prev) {
+      $prev->current = true;
+      $prev->save();
+    }
+
+    $avs = Model::factory('ActVersion')->where('actId', $act->id)->where_gt('versionNumber', $this->versionNumber)->find_many();
+    foreach ($avs as $av) {
+      $av->versionNumber--;
+      $av->save();
+    }
+    
+    return parent::delete();
+  }
+
 }
 
 ?>
