@@ -9,7 +9,8 @@
   {if $actType->id}
     <input type="hidden" name="id" value="{$actType->id}"/>
   {/if}
-  Nume: <input type="text" name="name" value="{$actType->name}"/>
+  Nume: <input type="text" name="name" value="{$actType->name}"/><br/>
+  Articulat: <input type="text" name="artName" value="{$actType->artName}"/><br/>
   <input type="submit" name="submitButton" value="Salvează"/>
 </form>
 

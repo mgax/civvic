@@ -6,6 +6,7 @@ Util::requireAdmin();
 $id = Util::getRequestParameter('id');
 $deleteId = Util::getRequestParameter('deleteId');
 $name = Util::getRequestParameter('name');
+$artName = Util::getRequestParameter('artName');
 $submitButton = Util::getRequestParameter('submitButton');
 
 if ($deleteId) {
@@ -27,6 +28,7 @@ if ($id) {
 
 if ($submitButton) {
   $actType->name = $name;
+  $actType->artName = $artName;
   if ($actType->validate()) {
     $actType->save();
     FlashMessage::add('Datele au fost salvate.', 'info');
