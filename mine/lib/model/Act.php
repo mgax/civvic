@@ -11,7 +11,7 @@ class Act extends BaseObject {
     if (mb_strlen($this->name) < 3) {
       FlashMessage::add('Numele trebuie să aibă minim trei caractere.');
     }
-    if ($this->year != '' && !StringUtil::isValidYear($this->year)) {
+    if (!StringUtil::isValidYear($this->year)) {
       FlashMessage::add('Anul trebuie să fie între 1800 și 2100.');
     }
     if (!$this->actTypeId) {
@@ -21,9 +21,6 @@ class Act extends BaseObject {
   }
 
   function save() {
-    if ($this->year == '') {
-      $this->year = null;
-    }
     if ($this->issueDate == '') {
       $this->issueDate = null;
     }
@@ -41,6 +38,11 @@ class Act extends BaseObject {
     return $result;
   }
 
+  // Class to use when linking to this act
+  function getDisplayClass() {
+    $version = Model::factory('ActVersion')->where('actId', $this->id)->where('current', true)->find_one();
+    return ($version->status == ACT_STATUS_VALID) ? 'valid' : 'repealed';
+  }
 }
 
 ?>

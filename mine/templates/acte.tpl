@@ -1,10 +1,13 @@
 <h3>Acte</h3>
 
-<ul>
-  {foreach from=$acts item=a}
-     <li><a href="act?id={$a->id}">{$a->getDisplayId()}</a> {$a->name}</li>
-  {/foreach}
-</ul>
+{foreach from=$actMap item=acts key=year}
+  <h4>{$year}</h4>
+  <ul class="actList">
+    {foreach from=$acts item=a}
+     <li>{include file=bits/actLink.tpl act=$a} {$a->name}</li>
+    {/foreach}
+  </ul>
+{/foreach}
 
 {if $user && $user->admin}
   <a href="editare-act">adaugă un act nou</a>

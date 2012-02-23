@@ -1,0 +1,1 @@
+<a class="actLink {$act->getDisplayClass()}" href="{$wwwRoot}act?id={$act->id}">{$act->getDisplayId()}</a>

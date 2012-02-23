@@ -2,6 +2,6 @@
 
 <ul>
   {foreach from=$acts item=a}
-     <li><a href="act?id={$a->id}">{$a->getDisplayId()}</a> {$a->name}</li>
+     <li>{include file=bits/actLink.tpl act=$a} {$a->name}</li>
   {/foreach}
 </ul>

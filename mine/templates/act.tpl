@@ -26,8 +26,7 @@
 
 {if $av->status == $smarty.const.ACT_STATUS_REPEALED}
   <div class="repealedMention">
-    Acest act a fost abrogat de
-    <a href="{$wwwRoot}act.php?id={$modifyingAct->id}">{$modifyingAct->getDisplayId()}</a>.
+    Acest act a fost abrogat de {include file=bits/actLink.tpl act=$modifyingAct}.
   </div>
 {/if}
 {$shownAv->htmlContents}
