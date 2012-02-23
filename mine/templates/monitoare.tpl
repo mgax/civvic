@@ -2,7 +2,12 @@
 
 <ul>
   {foreach from=$monitors item=m}
-     <li><a href="editare-monitor?id={$m->id}">{$m->number} / {$m->year}</a></li>
+     <li>
+       <a href="monitor?id={$m->id}">{$m->number} / {$m->year}</a>
+        {if $user && $user->admin}
+          <a href="editare-monitor?id={$m->id}">editează</a>
+        {/if}
+     </li>
   {/foreach}
 </ul>
 

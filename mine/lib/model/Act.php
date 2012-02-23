@@ -17,18 +17,15 @@ class Act extends BaseObject {
     if (!$this->actTypeId) {
       FlashMessage::add('Actul trebuie să aibă un tip.');
     }
-    if (!$this->monitorId) {
-      FlashMessage::add('Monitorul Oficial nu poate fi vid.');
-    }
-    if (!StringUtil::isValidDate($this->issueDate)) {
-      FlashMessage::add('Data trebuie să fie între 1800 și 2100.');
-    }
     return !FlashMessage::getMessage();
   }
 
   function save() {
     if ($this->year == '') {
       $this->year = null;
+    }
+    if ($this->issueDate == '') {
+      $this->issueDate = null;
     }
     parent::save();
   }
@@ -38,9 +35,10 @@ class Act extends BaseObject {
   }
 
   function getDisplayId() {
-    return ($this->year && $this->number)
-      ? "{$this->number} / {$this->year}"
-      : $this->issueDate;
+    $at = ActType::get_by_id($this->actTypeId);
+    $result = $at->artName . ' ';
+    $result .= ($this->year && $this->number) ? "{$this->number} / {$this->year}" : "din {$this->issueDate}";
+    return $result;
   }
 
 }

@@ -15,6 +15,7 @@ if ($version) {
 
 SmartyWrap::assign('act', $act);
 SmartyWrap::assign('shownAv', $shownAv);
+SmartyWrap::assign('modifyingAct', Act::get_by_id($shownAv->modifyingActId));
 SmartyWrap::assign('versions', $shownAv = Model::factory('ActVersion')->where('actId', $id)->order_by_asc('versionNumber')->find_many());
 SmartyWrap::assign('actType', ActType::get_by_id($act->actTypeId));
 SmartyWrap::assign('monitor', Monitor::get_by_id($act->monitorId));

@@ -57,9 +57,6 @@ class ActVersion extends BaseObject {
     if (!$this->status) {
       FlashMessage::add('Actul trebuie să aibă o stare.');
     }
-    if (!$this->contents) {
-      FlashMessage::add('Conținutul nu poate fi gol.');
-    }
     return !FlashMessage::getMessage();
   }
 

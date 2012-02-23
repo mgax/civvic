@@ -10,10 +10,10 @@
   {if $act->id}
     <input type="hidden" name="id" value="{$act->id}"/>
   {/if}
-  Nume: <input type="text" name="name" value="{$act->name}"/><br/>
-  An: <input type="text" name="year" value="{$act->year}"/><br/>
-  Număr: <input type="text" name="number" value="{$act->number}"/><br/>
-  Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" actTypes=$actTypes selected=$act->actTypeId}<br/>
+  Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" actTypes=$actTypes selected=$act->actTypeId}&nbsp;
+  număr: <input type="text" name="number" value="{$act->number}" size="4"/>&nbsp;
+  an: <input type="text" name="year" value="{$act->year}" size="4"/><br/>
+  Nume: <input type="text" name="name" value="{$act->name}" size="80"/><br/>
   Data: {include file="bits/datePicker.tpl" id="issueDate" name="issueDate" value=$act->issueDate}<br/>
   Autor: {include file="bits/authorDropdown.tpl" name="authorId" authors=$authors selected=$act->authorId}<br/>
   Publicată în {include file=bits/monitorDropdown.tpl name="monitorId" monitors=$monitors selected=$act->monitorId}<br/>
@@ -57,4 +57,5 @@
 {/if}
 
 <br/>
+<a href="act?id={$act->id}">înapoi la act</a> |
 <a href="acte">înapoi la lista de acte</a>

@@ -64,6 +64,13 @@ div.actDetails {
   margin-bottom: 5px;
 }
 
+div.repealedMention {
+ border: 1px solid #b00;
+ color: #b00;
+ margin-top: 10px;
+ padding: 5px 10px;
+}
+
 /** auth/ pages **/
 
 #openidProviders a {
