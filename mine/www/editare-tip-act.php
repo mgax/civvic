@@ -12,12 +12,16 @@ $submitButton = Util::getRequestParameter('submitButton');
 if ($deleteId) {
   $actType = ActType::get_by_id($deleteId);
   if ($actType) {
-    $actType->delete();
-    FlashMessage::add('Tipul de act a fost șters.', 'info');
+    if ($actType->delete()) {
+      FlashMessage::add('Tipul de act a fost șters.', 'info');
+      Util::redirect('tipuri-acte');
+    } else {
+      Util::redirect("editare-tip-act?id={$actType->id}");
+    }
   } else {
     FlashMessage::add('Tipul de act cerut nu există.', 'warning');
+    Util::redirect('tipuri-acte');
   }
-  Util::redirect('tipuri-acte');
 }
 
 if ($id) {

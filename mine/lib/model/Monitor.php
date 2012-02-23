@@ -18,6 +18,15 @@ class Monitor extends BaseObject {
     return !FlashMessage::getMessage();
   }
 
+  function delete() {
+    $count = Model::factory('Act')->where('monitorId', $this->id)->count();
+    if ($count) {
+      FlashMessage::add("Monitorul {$this->number} / {$this->year} nu poate fi șters, deoarece există acte care îl folosesc.");
+      return false;
+    }
+    return parent::delete();
+  }
+
 }
 
 ?>

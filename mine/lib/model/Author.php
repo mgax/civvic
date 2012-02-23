@@ -42,6 +42,15 @@ class Author extends BaseObject {
     return true;
   }
 
+  function delete() {
+    $count = Model::factory('Act')->where('authorId', $this->id)->count();
+    if ($count) {
+      FlashMessage::add('Autorul ' . $this->getDisplayName() . ' nu poate fi șters, deoarece există acte care îl folosesc.');
+      return false;
+    }
+    return parent::delete();
+  }
+
 }
 
 ?>

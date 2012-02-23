@@ -13,12 +13,16 @@ $submitButton = Util::getRequestParameter('submitButton');
 if ($deleteId) {
   $m = Monitor::get_by_id($deleteId);
   if ($m) {
-    $m->delete();
-    FlashMessage::add('Monitorul a fost șters.', 'info');
+    if ($m->delete()) {
+      FlashMessage::add('Monitorul a fost șters.', 'info');
+      Util::redirect('monitoare');
+    } else {
+      Util::redirect("editare-monitor?id={$m->id}");
+    }
   } else {
     FlashMessage::add('Monitorul cerut nu există.', 'warning');
+    Util::redirect('monitoare');
   }
-  Util::redirect('monitoare');
 }
 
 if ($id) {

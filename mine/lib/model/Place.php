@@ -10,6 +10,15 @@ class Place extends BaseObject {
     return true;
   }
 
+  function delete() {
+    $count = Model::factory('Act')->where('placeId', $this->id)->count();
+    if ($count) {
+      FlashMessage::add("Locul '{$this->name}' nu poate fi șters, deoarece există acte care îl folosesc.");
+      return false;
+    }
+    return parent::delete();
+  }
+
 }
 
 ?>

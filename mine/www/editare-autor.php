@@ -14,12 +14,16 @@ $submitButton = Util::getRequestParameter('submitButton');
 if ($deleteId) {
   $author = Author::get_by_id($deleteId);
   if ($author) {
-    $author->delete();
-    FlashMessage::add('Autorul a fost șters.', 'info');
+    if ($author->delete()) {
+      FlashMessage::add('Autorul a fost șters.', 'info');
+      Util::redirect('autori');
+    } else {
+      Util::redirect("editare-autor?id={$author->id}");
+    }
   } else {
     FlashMessage::add('Autorul cerut nu există.', 'warning');
+    Util::redirect('autori');
   }
-  Util::redirect('autori');
 }
 
 if ($id) {

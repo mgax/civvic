@@ -11,12 +11,16 @@ $submitButton = Util::getRequestParameter('submitButton');
 if ($deleteId) {
   $place = Place::get_by_id($deleteId);
   if ($place) {
-    $place->delete();
-    FlashMessage::add('Locul a fost șters.', 'info');
+    if ($place->delete()) {
+      FlashMessage::add('Locul a fost șters.', 'info');
+      Util::redirect('locuri');
+    } else {
+      Util::redirect("editare-loc?id={$place->id}");
+    }
   } else {
     FlashMessage::add('Locul cerut nu există.', 'warning');
+    Util::redirect('locuri');
   }
-  Util::redirect('locuri');
 }
 
 if ($id) {

@@ -18,6 +18,15 @@ class ActType extends BaseObject {
     return true;
   }
 
+  function delete() {
+    $count = Model::factory('Act')->where('actTypeId', $this->id)->count();
+    if ($count) {
+      FlashMessage::add("Tipul de act '{$this->name}' nu poate fi șters, deoarece există acte care îl folosesc.");
+      return false;
+    }
+    return parent::delete();
+  }
+
 }
 
 ?>
