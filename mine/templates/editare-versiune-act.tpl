@@ -9,7 +9,7 @@
 
   Starea: {include file=bits/actStatusDropdown.tpl name="status" actStatuses=$actStatuses selected=$av->status}<br/>
 
-  Conținutul: <a id="togglePreviewLink" href="#">arată HTML</a><br/>
+  Conținutul: <a id="togglePreviewLink" href="#">{if $preview}ascunde HTML{else}arată HTML{/if}</a><br/>
 
   <div id="wikiHtmlPreview" class="wikiHtmlPreview" {if !$preview}style="display: none"{/if}>{$av->htmlContents}</div>
 
@@ -29,8 +29,8 @@
 <script type="text/javascript">
   {literal}
   $('#togglePreviewLink').click(function(ev) { 
-    $('#wikiHtmlPreview').toggle('slow'); 
-    $(this).text(($('#togglePreviewLink').text() == 'arată HTML') ? 'ascunde HTML' : 'arata HTML');
+    $('#wikiHtmlPreview').toggle('fast'); 
+    $(this).text(($('#togglePreviewLink').text() == 'arată HTML') ? 'ascunde HTML' : 'arată HTML');
    });
   {/literal}
 </script>

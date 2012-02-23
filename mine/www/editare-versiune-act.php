@@ -28,7 +28,7 @@ if ($submitButton || $previewButton) {
   $av->modifyingActId = $modifyingActId;
   $av->status = $status;
   $av->contents = $contents;
-  $av->htmlContents = MediaWikiParser::parse($av->contents);
+  $av->htmlContents = MediaWikiParser::wikiToHtml($av->contents);
 
   // Recompute the diff from the previous version
   if ($av->versionNumber > 1) {
