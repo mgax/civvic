@@ -14,12 +14,16 @@ $previewButton = Util::getRequestParameter('previewButton');
 if ($deleteId) {
   $av = ActVersion::get_by_id($deleteId);
   if ($av) {
-    $av->delete();
-    FlashMessage::add('Versiunea a fost ștearsă.', 'info');
+    if ($av->delete()) {
+      FlashMessage::add('Versiunea a fost ștearsă.', 'info');
+      Util::redirect("editare-act?id={$av->actId}");
+    } else {
+      Util::redirect("editare-versiune-act?id={$av->id}");
+    }
   } else {
     FlashMessage::add('Versiunea cerută nu există.', 'warning');
+    Util::redirect("editare-act?id={$av->actId}");
   }
-  Util::redirect("editare-act?id={$av->actId}");
 }
 
 $av = ActVersion::get_by_id($id);

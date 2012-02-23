@@ -69,12 +69,12 @@ class ActVersion extends BaseObject {
       $next->save();
     }
 
-    if ($av->current && $prev) {
+    if ($this->current && $prev) {
       $prev->current = true;
       $prev->save();
     }
 
-    $avs = Model::factory('ActVersion')->where('actId', $act->id)->where_gt('versionNumber', $this->versionNumber)->find_many();
+    $avs = Model::factory('ActVersion')->where('actId', $this->actId)->where_gt('versionNumber', $this->versionNumber)->find_many();
     foreach ($avs as $av) {
       $av->versionNumber--;
       $av->save();
