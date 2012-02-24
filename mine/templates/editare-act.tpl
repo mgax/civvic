@@ -10,7 +10,7 @@
   {if $act->id}
     <input type="hidden" name="id" value="{$act->id}"/>
   {/if}
-  Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" actTypes=$actTypes selected=$act->actTypeId}&nbsp;
+  Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" id="actTypeId" actTypes=$actTypes selected=$act->actTypeId}&nbsp;
   număr: <input type="text" name="number" value="{$act->number}" size="4"/>&nbsp;
   an: <input type="text" name="year" value="{$act->year}" size="4"/><br/>
   Nume: <input type="text" name="name" value="{$act->name}" size="80"/><br/>
@@ -59,3 +59,7 @@
 <br/>
 <a href="act?id={$act->id}">înapoi la act</a> |
 <a href="acte">înapoi la lista de acte</a>
+
+<script type="text/javascript">
+  $('#actTypeId').focus();
+</script>

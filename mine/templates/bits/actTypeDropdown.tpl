@@ -1,6 +1,7 @@
-{* Parameters: $name $actTypes $selected $emptyOption=true *}
+{* Parameters: $name $id=null $actTypes $selected $emptyOption=true *}
+{assign var="id" value=$id|default:null}
 {assign var="emptyOption" value=$emptyOption|default:true}
-<select name="{$name}">
+<select name="{$name}" {if $id}id="{$id}"{/if}>
   {if $emptyOption}
     <option value=""></option>
   {/if}

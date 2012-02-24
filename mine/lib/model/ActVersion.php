@@ -83,6 +83,11 @@ class ActVersion extends BaseObject {
     return parent::delete();
   }
 
+  // This should only be used when deleting the entire act, because it bypasses all consistency checks.
+  function deleteShallow() {
+    return parent::delete();
+  }
+
 }
 
 ?>

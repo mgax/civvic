@@ -22,12 +22,16 @@ $addVersionButton = Util::getRequestParameter('addVersionButton');
 if ($deleteId) {
   $act = Act::get_by_id($deleteId);
   if ($act) {
-    $act->delete();
-    FlashMessage::add('Actul a fost șters.', 'info');
+    if ($act->delete()) {
+      FlashMessage::add('Actul a fost șters.', 'info');
+      Util::redirect('acte');
+    } else {
+      Util::redirect("editare-act?id={$act->id}");
+    }
   } else {
     FlashMessage::add('Actul cerut nu există.', 'warning');
+    Util::redirect('acte');
   }
-  Util::redirect('acte');
 }
 
 if ($id) {

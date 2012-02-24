@@ -43,6 +43,20 @@ class Act extends BaseObject {
     $version = Model::factory('ActVersion')->where('actId', $this->id)->where('current', true)->find_one();
     return ($version->status == ACT_STATUS_VALID) ? 'valid' : 'repealed';
   }
+
+  function delete() {
+    $count = Model::factory('ActVersion')->where_not_equal('actId', $this->id)->where('modifyingActId', $this->id)->count();
+    if ($count) {
+      FlashMessage::add("Actul '{$this->getDisplayId()}' nu poate fi șters, deoarece el modifică alte acte.");
+      return false;
+    }
+
+    $avs = Model::factory('ActVersion')->where('actId', $this->id)->find_many();
+    foreach ($avs as $av) {
+      $av->deleteShallow();
+    }
+    return parent::delete();
+  }
 }
 
 ?>
