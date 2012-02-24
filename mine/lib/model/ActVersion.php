@@ -7,8 +7,6 @@ class ActVersion extends BaseObject {
     $newAv->actId = $act->id;
     $newAv->modifyingActId = null;
     $newAv->status = ACT_STATUS_VALID;
-    $newAv->contents = '';
-    $newAv->htmlContents = '';
     $newAv->diff = '';
     $newAv->versionNumber = $before ? $otherVersion : ($otherVersion + 1);
     $newAv->current = true;
@@ -60,6 +58,34 @@ class ActVersion extends BaseObject {
     return !FlashMessage::getMessage();
   }
 
+  function save() {
+    $contentsChanged = $this->is_dirty('contents');
+    if ($contentsChanged) {
+      $references = array();
+      $this->htmlContents = MediaWikiParser::wikiToHtml($this->contents, $references);
+
+      // Recompute the diff from the previous version
+      if ($this->versionNumber > 1) {
+        $previousAv = Model::factory('ActVersion')->where('actId', $this->actId)->where('versionNumber', $this->versionNumber - 1)->find_one();
+        $this->diff = json_encode(SimpleDiff::lineDiff($previousAv->contents, $this->contents));
+      }
+
+      // Recompute the next version's diff from us
+      $nextAv = Model::factory('ActVersion')->where('actId', $this->actId)->where('versionNumber', $this->versionNumber + 1)->find_one();
+      if ($nextAv) {
+        $nextAv->diff = json_encode(SimpleDiff::lineDiff($this->contents, $nextAv->contents));
+        $nextAv->save();
+      }
+    }
+
+    parent::save();
+
+    if ($contentsChanged) {
+      Reference::deleteByActVersionId($this->id);
+      Reference::saveByActVersionId($references, $this->id);
+    }
+  }
+
   function delete() {
     $prev = Model::factory('ActVersion')->where('actId', $this->actId)->where('versionNumber', $this->versionNumber - 1)->find_one();
     $next = Model::factory('ActVersion')->where('actId', $this->actId)->where('versionNumber', $this->versionNumber + 1)->find_one();
@@ -79,12 +105,9 @@ class ActVersion extends BaseObject {
       $av->versionNumber--;
       $av->save();
     }
-    
-    return parent::delete();
-  }
 
-  // This should only be used when deleting the entire act, because it bypasses all consistency checks.
-  function deleteShallow() {
+    Reference::deleteByActVersionId($this->id);
+    
     return parent::delete();
   }
 

@@ -9,7 +9,7 @@ class MediaWikiParser {
     self::$url = Config::get('general.mediaWikiParser');
   }
 
-  static function wikiToHtml($text) {
+  static function wikiToHtml($text, &$references = null) {
     // Automatic links to acts
     $actTypes = Model::factory('ActType')->find_many();
     foreach ($actTypes as $at) {
@@ -24,6 +24,13 @@ class MediaWikiParser {
         $text = substr($text, 0, $position) .
           sprintf("[http://civvic.ro/cauta?actTypeId=%s&amp;number=%s&amp;year=%s %s]", $at->id, $number, $year, $linkText) .
           substr($text, $position + strlen($linkText));
+        if ($references !== null) {
+          $ref = Model::factory('Reference')->create();
+          $ref->actTypeId = $at->id;
+          $ref->number = $number;
+          $ref->year = $year;
+          $references[] = $ref;
+        }
       }
     }
     return self::parse($text);

@@ -24,7 +24,11 @@ class Act extends BaseObject {
     if ($this->issueDate == '') {
       $this->issueDate = null;
     }
+    if ($this->id) {
+      Reference::unassociateByReferredActId($this->id);
+    }
     parent::save();
+    Reference::associateReferredAct($this);
   }
 
   function countVersions() {
@@ -51,10 +55,12 @@ class Act extends BaseObject {
       return false;
     }
 
-    $avs = Model::factory('ActVersion')->where('actId', $this->id)->find_many();
+    $avs = Model::factory('ActVersion')->where('actId', $this->id)->order_by_desc('versionNumber')->find_many();
     foreach ($avs as $av) {
-      $av->deleteShallow();
+      $av->delete();
     }
+
+    Reference::unassociateByReferredActId($this->id);
     return parent::delete();
   }
 }

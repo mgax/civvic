@@ -31,28 +31,22 @@ $av = ActVersion::get_by_id($id);
 if ($submitButton || $previewButton) {
   $av->modifyingActId = $modifyingActId;
   $av->status = $status;
-  $av->contents = $contents;
-  $av->htmlContents = MediaWikiParser::wikiToHtml($av->contents);
-
-  // Recompute the diff from the previous version
-  if ($av->versionNumber > 1) {
-    $previousAv = Model::factory('ActVersion')->where('actId', $av->actId)->where('versionNumber', $av->versionNumber - 1)->find_one();
-    $av->diff = json_encode(SimpleDiff::lineDiff($previousAv->contents, $av->contents));
+  // Avoid the cascading updates triggered by dirtying contents
+  if ($contents != $av->contents) {
+    $av->contents = $contents;
   }
+}
 
+if ($previewButton) {
+  $av->htmlContents = MediaWikiParser::wikiToHtml($av->contents);
+  $av->validate();
+}
+
+if ($submitButton) {
   if ($av->validate()) {
-    if ($submitButton) {
-      $av->save();
-
-      $nextAv = Model::factory('ActVersion')->where('actId', $av->actId)->where('versionNumber', $av->versionNumber + 1)->find_one();
-      if ($nextAv) {
-        $nextAv->diff = json_encode(SimpleDiff::lineDiff($av->contents, $nextAv->contents));
-        $nextAv->save();
-      }
-
-      FlashMessage::add('Datele au fost salvate.', 'info');
-      Util::redirect("editare-act?id={$av->actId}");
-    }
+    $av->save();
+    FlashMessage::add('Datele au fost salvate.', 'info');
+    Util::redirect("editare-act?id={$av->actId}");
   }
 }
 
