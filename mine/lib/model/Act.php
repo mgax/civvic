@@ -29,6 +29,7 @@ class Act extends BaseObject {
     }
     parent::save();
     Reference::associateReferredAct($this);
+    Reference::reconvertReferringActVersions($this->id);
   }
 
   function countVersions() {
@@ -44,8 +45,22 @@ class Act extends BaseObject {
 
   // Class to use when linking to this act
   function getDisplayClass() {
-    $version = Model::factory('ActVersion')->where('actId', $this->id)->where('current', true)->find_one();
-    return ($version->status == ACT_STATUS_VALID) ? 'valid' : 'repealed';
+    $version = Model::factory('ActVersion')->select('status')->where('actId', $this->id)->where('current', true)->find_one();
+    return ($version && $version->status == ACT_STATUS_VALID) ? 'valid' : 'repealed';
+  }
+
+  static function getLink($actTypeId, $number, $year, $text) {
+    // See if we have an act with these parameters
+    $act = Model::factory('Act')->where('actTypeId', $actTypeId)->where('number', $number)->where('year', $year)->find_one();
+
+    if (!$act) {
+      return sprintf('<a class="actLink undefined" href="#" title="Acest act nu este definit." onclick="return false;">%s</a>', $text);
+    }
+
+    $class = $act->getDisplayClass();
+
+    // FIXME: Replace with civvic.ro once we make the switch.
+    return sprintf('<a class="actLink %s" href="http://beta.civvic.ro/act?id=%s">%s</a>', $class, $act->id, $text);
   }
 
   function delete() {
@@ -60,8 +75,11 @@ class Act extends BaseObject {
       $av->delete();
     }
 
-    Reference::unassociateByReferredActId($this->id);
-    return parent::delete();
+    $oldId = $this->id;
+    parent::delete();
+    Reference::reconvertReferringActVersions($oldId);
+    Reference::unassociateByReferredActId($oldId);
+    return true;
   }
 }
 

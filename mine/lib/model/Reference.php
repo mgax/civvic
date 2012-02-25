@@ -45,6 +45,18 @@ class Reference extends BaseObject {
     }
   }
 
+  static function reconvertReferringActVersions($actId) {
+    $refs = Model::factory('Reference')->where('referredActId', $actId)->find_many();
+    $avMap = array();
+    foreach ($refs as $ref) {
+      $avMap[$ref->actVersionId] = true;
+    }
+    foreach ($avMap as $actVersionId => $ignored) {
+      $av = ActVersion::get_by_id($actVersionId);
+      $av->htmlContents = MediaWikiParser::wikiToHtml($av->contents);
+      $av->save(); // Note that we haven't touched $av->contents
+    }
+  }
 }
 
 ?>

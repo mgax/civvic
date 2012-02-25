@@ -10,6 +10,8 @@ class MediaWikiParser {
   }
 
   static function wikiToHtml($text, &$references = null) {
+    $text = self::parse($text);
+
     // Automatic links to acts
     $actTypes = Model::factory('ActType')->find_many();
     foreach ($actTypes as $at) {
@@ -21,9 +23,9 @@ class MediaWikiParser {
         $position = $match[0][1];
         $number = $match['number'][0];
         $year = $match['year'][0];
-        $text = substr($text, 0, $position) .
-          sprintf("[http://civvic.ro/cauta?actTypeId=%s&amp;number=%s&amp;year=%s %s]", $at->id, $number, $year, $linkText) .
-          substr($text, $position + strlen($linkText));
+
+        $link = Act::getLink($at->id, $number, $year, $linkText);
+        $text = substr($text, 0, $position) . $link . substr($text, $position + strlen($linkText));
         if ($references !== null) {
           $ref = Model::factory('Reference')->create();
           $ref->actTypeId = $at->id;
@@ -33,7 +35,7 @@ class MediaWikiParser {
         }
       }
     }
-    return self::parse($text);
+    return $text;
   }
 
   static function getMediaWikiVersion() {

@@ -76,6 +76,12 @@ a.valid {
   padding-left: 20px;
 }
 
+a.undefined {
+  background: url("../img/silk/page_white.png") no-repeat;
+  color: #666;
+  padding-left: 20px;
+}
+
 div.repealedMention {
  border: 1px solid #b00;
  color: #b00;

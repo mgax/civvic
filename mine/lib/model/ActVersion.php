@@ -60,6 +60,7 @@ class ActVersion extends BaseObject {
 
   function save() {
     $contentsChanged = $this->is_dirty('contents');
+    $validityChanged = $this->is_dirty('status') || $this->is_dirty('current');
     if ($contentsChanged) {
       $references = array();
       $this->htmlContents = MediaWikiParser::wikiToHtml($this->contents, $references);
@@ -84,6 +85,9 @@ class ActVersion extends BaseObject {
       Reference::deleteByActVersionId($this->id);
       Reference::saveByActVersionId($references, $this->id);
     }
+    if ($validityChanged) {
+      Reference::reconvertReferringActVersions($this->actId);
+    }
   }
 
   function delete() {
@@ -107,8 +111,16 @@ class ActVersion extends BaseObject {
     }
 
     Reference::deleteByActVersionId($this->id);
-    
-    return parent::delete();
+
+    $wasCurrent = $this->current;
+    $actId = $this->actId;
+    parent::delete();
+
+    if ($wasCurrent) {
+      // The current version for this act has changed, so reconvert the references
+      Reference::reconvertReferringActVersions($actId);
+    }
+    return true;
   }
 
 }
