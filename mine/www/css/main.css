@@ -89,6 +89,12 @@ div.repealedMention {
  padding: 5px 10px;
 }
 
+div.author {
+ border: 1px solid black;
+ margin-top: 10px;
+ padding: 5px 10px;
+}
+
 ul.actList {
   list-style-type: none;
   padding-left: 20px;
