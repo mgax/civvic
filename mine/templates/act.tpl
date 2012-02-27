@@ -25,7 +25,7 @@
   <a href="editare-versiune-act?id={$shownAv->id}">această versiune</a>
 {/if}
 
-{if $av->status == $smarty.const.ACT_STATUS_REPEALED}
+{if $shownAv->status == $smarty.const.ACT_STATUS_REPEALED}
   <div class="repealedMention">
     Acest act a fost abrogat de {include file=bits/actLink.tpl act=$modifyingAct}.
   </div>
