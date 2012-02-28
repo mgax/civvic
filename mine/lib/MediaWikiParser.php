@@ -15,7 +15,10 @@ class MediaWikiParser {
     // Automatic links to acts
     $actTypes = Model::factory('ActType')->find_many();
     foreach ($actTypes as $at) {
-      $regexp = sprintf("/((%s|%s|%s)\\s+(nr\\.?)?\\s*(?P<number>\\d+)\\s*\\/\\s*(?P<year>\\d{4}))/i", $at->name, $at->artName, $at->genArtName);
+      $type = sprintf("(%s|%s|%s)", $at->name, $at->artName, $at->genArtName);
+      // Parses "din <day> <month> <year>" or "/ <year>"
+      $date = sprintf("((\\s+din\\s+(\\d{1,2})\\s+(%s)\\s+)|(\\s*\\/\\s*))(?P<year>\\d{4})", implode('|', StringUtil::$months));
+      $regexp = "/{$type}\\s+(nr\\.?)?\\s*(?P<number>\\d+){$date}/i";
       $matches = array();
       preg_match_all($regexp, $text, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
       foreach (array_reverse($matches) as $match) {
@@ -74,11 +77,9 @@ class MediaWikiParser {
     $contents = (string)$page->revisions->rev[0];
 
     // Extract the publication date
-    $months = array('ianuarie', 'februarie', 'martie', 'aprilie', 'mai', 'iunie',
-                    'iulie', 'august', 'septembrie', 'octombrie', 'noiembrie', 'decembrie');
     $regexp = sprintf("/Anul\\s+[IVXLCDM]+,?\\s+Nr\\.\\s+\\[\\[issue::\s*(?P<number>\\d+)\\]\\]\\s+-\\s+(Partea\\s+I\\s+-\\s+)?" .
                       "(Luni|Marți|Miercuri|Joi|Vineri|Sâmbătă|Duminică),?\\s*(?P<day>\\d{1,2})\\s+(?P<month>%s)\\s+" .
-                      "\\[\\[year::\s*(?P<year>\\d{4})\\]\\]/i", implode('|', $months));
+                      "\\[\\[year::\s*(?P<year>\\d{4})\\]\\]/i", implode('|', StringUtil::$months));
     preg_match($regexp, $contents, $matches);
     if (!count($matches)) {
       FlashMessage::add('Nu pot extrage data din primele linii ale monitorului.');

@@ -1,8 +1,8 @@
 <?php
 
 class StringUtil {
-  private static $months = array('ianuarie', 'februarie', 'martie', 'aprilie', 'mai', 'iunie',
-                                 'iulie', 'august', 'septembrie', 'octombrie', 'noiembrie', 'decembrie');
+  static $months = array('ianuarie', 'februarie', 'martie', 'aprilie', 'mai', 'iunie',
+                         'iulie', 'august', 'septembrie', 'octombrie', 'noiembrie', 'decembrie');
 
   static function startsWith($string, $substring) {
     $startString = substr($string, 0, strlen($substring));
