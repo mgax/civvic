@@ -5,7 +5,8 @@ require_once '../lib/Util.php';
 $id = Util::getRequestParameter('id');
 
 $monitor = Monitor::get_by_id($id);
-$acts = Model::factory('Act')->where('monitorId', $monitor->id)->order_by_asc('actTypeId')->order_by_asc('number')->find_many();
+$acts = Model::factory('Act')->raw_query("select * from act where monitorId = {$id} order by actTypeId, cast(number as unsigned)", null)
+  ->find_many();
 
 SmartyWrap::assign('monitor', $monitor);
 SmartyWrap::assign('acts', $acts);
