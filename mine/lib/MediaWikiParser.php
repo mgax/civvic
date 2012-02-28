@@ -15,7 +15,7 @@ class MediaWikiParser {
     // Automatic links to acts
     $actTypes = Model::factory('ActType')->find_many();
     foreach ($actTypes as $at) {
-      $regexp = sprintf("/((%s|%s)\\s+(nr\\.?)?\\s*(?P<number>\\d+)\\s*\\/\\s*(?P<year>\\d{4}))/i", $at->name, $at->artName);
+      $regexp = sprintf("/((%s|%s|%s)\\s+(nr\\.?)?\\s*(?P<number>\\d+)\\s*\\/\\s*(?P<year>\\d{4}))/i", $at->name, $at->artName, $at->genArtName);
       $matches = array();
       preg_match_all($regexp, $text, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
       foreach (array_reverse($matches) as $match) {

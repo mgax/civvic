@@ -11,6 +11,7 @@
   {/if}
   Nume: <input type="text" name="name" value="{$actType->name}"/><br/>
   Articulat: <input type="text" name="artName" value="{$actType->artName}"/><br/>
+  Genitiv: <input type="text" name="genArtName" value="{$actType->genArtName}"/><br/>
   <input type="submit" name="submitButton" value="Salvează"/>
 </form>
 
