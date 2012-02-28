@@ -1,10 +1,10 @@
 <h3>{$act->name}</h3>
-<div class="actDetails">
-  {if $act->number}număr: {$act->number} |{/if}
-  {if $act->year}anul: {$act->year} |{/if}
-  {if $act->issueDate}data: {$act->issueDate|date_format:"%e %B %Y"} |{/if}
-  {if $monitor}publicat în <a href="monitor?id={$monitor->id}">Monitorul Oficial {$monitor->number} / {$monitor->year}</a>{/if}
-</div>
+<ul class="actDetails">
+  {if $act->number}<li>număr: {$act->number}</li>{/if}
+  {if $act->year}<li>anul: {$act->year}</li>{/if}
+  {if $act->issueDate}<li>data: {$act->issueDate|date_format:"%e %B %Y"}</li>{/if}
+  {if $monitor}<li>publicat în <a href="monitor?id={$monitor->id}">Monitorul Oficial {$monitor->number} / {$monitor->year}</a></li>{/if}
+</ul>
 
 {if count($versions) > 1}
   <form action="act" method="get">

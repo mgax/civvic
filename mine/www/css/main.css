@@ -58,10 +58,17 @@ h3 {
   margin-bottom: 5px;
 }
 
-div.actDetails {
+ul.actDetails {
   color: #555;
   font-size: 80%;
-  margin-bottom: 5px;
+  margin: 0 0 5px;
+  padding: 0px;
+}
+
+ul.actDetails li {
+  display: inline;
+  list-style-type: none;
+  margin-right: 10px;
 }
 
 a.repealed {

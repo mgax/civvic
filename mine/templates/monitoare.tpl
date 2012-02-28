@@ -12,5 +12,6 @@
 </ul>
 
 {if $user && $user->admin}
-  <a href="editare-monitor">adaugă un monitor nou</a>
+  <a href="editare-monitor">adaugă un monitor</a> |
+  <a href="importare-monitor">importă un monitor de pe wiki</a>
 {/if}

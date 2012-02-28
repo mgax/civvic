@@ -1,6 +1,8 @@
 <?php
 
 class StringUtil {
+  private static $months = array('ianuarie', 'februarie', 'martie', 'aprilie', 'mai', 'iunie',
+                                 'iulie', 'august', 'septembrie', 'octombrie', 'noiembrie', 'decembrie');
 
   static function startsWith($string, $substring) {
     $startString = substr($string, 0, strlen($substring));
@@ -43,6 +45,16 @@ class StringUtil {
     return $a && ($a['error_count'] == 0) && ($a['warning_count'] == 0) && ($s >= $ymd1) && ($s <= $ymd2);
   }
 
+  static function parseRomanianDate($s) {
+    $regexp = sprintf("/(?P<day>\\d{1,2})\\s+(?P<month>%s)\\s+(?P<year>\\d{4})/i", implode('|', self::$months));
+    preg_match($regexp, $s, $matches);
+    if (!count($matches)) {
+      return null;
+    }
+    $month = 1 + array_search($matches['month'], self::$months);
+
+    return sprintf("%4d-%02d-%02d", $matches['year'], $month, $matches['day']);
+  }
 }
 
 ?>
