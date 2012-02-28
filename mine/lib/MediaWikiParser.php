@@ -92,7 +92,7 @@ class MediaWikiParser {
       FlashMessage::add(sprintf("Anul din monitor (%s) nu coincide cu numărul din URL (%s).", $matches['year'], $year));
       return false;
     }
-    $month = 1 + array_search($matches['month'], $months);
+    $month = 1 + array_search($matches['month'], StringUtil::$months);
 
     // Build the monitor
     $monitor = Model::factory('Monitor')->create();
