@@ -52,7 +52,7 @@ if ($submitButton) {
 
 SmartyWrap::assign('av', $av);
 SmartyWrap::assign('act', Act::get_by_id($av->actId));
-SmartyWrap::assign('acts', Model::factory('Act')->order_by_asc('year')->order_by_asc('number')->find_many());
+SmartyWrap::assign('modifyingAct', Act::get_by_id($av->modifyingActId));
 SmartyWrap::assign('actStatuses', Act::$statuses);
 SmartyWrap::assign('actTypes', ActType::mapById());
 SmartyWrap::assign('preview', $previewButton);

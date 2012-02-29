@@ -4,9 +4,9 @@
     <title>{$pageTitle} | Civvic.ro</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link type="text/css" href="{$wwwRoot}css/main.css?v=1" rel="stylesheet"/>
-    <link type="text/css" href="{$wwwRoot}css/smoothness/jquery-ui-1.8.17.custom.css" rel="stylesheet" />	
+    <link type="text/css" href="{$wwwRoot}css/smoothness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />	
     <script type="text/javascript" src="{$wwwRoot}js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="{$wwwRoot}js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script type="text/javascript" src="{$wwwRoot}js/jquery-ui-1.8.18.custom.min.js"></script>
     <script type="text/javascript" src="{$wwwRoot}js/jquery.ui.datepicker-ro.js"></script>
     <script type="text/javascript" src="{$wwwRoot}js/main.js"></script>
   </head>
@@ -18,12 +18,12 @@
       </div>
       <ul id="sideMenu">
         {if $user && $user->admin}
-          <li><a href="tipuri-acte">tipuri de acte</a></li>
-          <li><a href="autori">autori</a></li>
-          <li><a href="locuri">locuri</a></li>
+          <li><a href="{$wwwRoot}tipuri-acte">tipuri de acte</a></li>
+          <li><a href="{$wwwRoot}autori">autori</a></li>
+          <li><a href="{$wwwRoot}locuri">locuri</a></li>
         {/if}
-        <li><a href="acte">acte</a></li>
-        <li><a href="monitoare">monitoare</a></li>
+        <li><a href="{$wwwRoot}acte">acte</a></li>
+        <li><a href="{$wwwRoot}monitoare">monitoare</a></li>
       </ul>
     </div>
     <div id="main">
