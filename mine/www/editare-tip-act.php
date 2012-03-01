@@ -6,6 +6,7 @@ Util::requireAdmin();
 $id = Util::getRequestParameter('id');
 $deleteId = Util::getRequestParameter('deleteId');
 $name = Util::getRequestParameter('name');
+$shortName = Util::getRequestParameter('shortName');
 $artName = Util::getRequestParameter('artName');
 $genArtName = Util::getRequestParameter('genArtName');
 $submitButton = Util::getRequestParameter('submitButton');
@@ -33,6 +34,7 @@ if ($id) {
 
 if ($submitButton) {
   $actType->name = $name;
+  $actType->shortName = $shortName;
   $actType->artName = $artName;
   $actType->genArtName = $genArtName;
   if ($actType->validate()) {

@@ -10,6 +10,7 @@
     <input type="hidden" name="id" value="{$actType->id}"/>
   {/if}
   Nume: <input type="text" name="name" value="{$actType->name}"/><br/>
+  Nume scurt: <input type="text" name="shortName" value="{$actType->shortName}"/><br/>
   Articulat: <input type="text" name="artName" value="{$actType->artName}"/><br/>
   Genitiv: <input type="text" name="genArtName" value="{$actType->genArtName}"/><br/>
   <input type="submit" name="submitButton" value="Salvează"/>
