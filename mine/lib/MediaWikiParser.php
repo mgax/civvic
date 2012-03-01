@@ -10,6 +10,7 @@ class MediaWikiParser {
   }
 
   static function wikiToHtml($text, &$references = null) {
+    $text = self::ensureReferences($text);
     $text = self::parse($text);
 
     // Automatic links to acts
@@ -45,6 +46,14 @@ class MediaWikiParser {
     $xmlString = Util::makePostRequest(self::$url, array('action' => 'expandtemplates', 'text' => "{{CURRENTVERSION}}", 'format' => 'xml'));
     $xml = simplexml_load_string($xmlString);
     return (string)$xml->expandtemplates;
+  }
+
+  private static function ensureReferences($text) {
+    if (preg_match("/<\\s*ref\\s*>/", $text) && !preg_match("/<\\s*references\\s*\\/>/", $text)) {
+      $text .= "\n<references/>";
+      FlashMessage::add('Dacă folosiți &lt;ref&gt; pentru a indica referințe, nu uitați să adăugați eticheta &lt;references/&gt; la sfârșit.', 'warning');
+    }
+    return $text;
   }
 
   static function parse($text) {
