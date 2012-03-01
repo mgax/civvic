@@ -132,7 +132,7 @@ class MediaWikiParser {
 
         // Extract the act type from the title
         foreach ($actTypes as $actType) {
-          if (StringUtil::startsWith($act->name, $actType->name . ' ')) {
+          if ($actType->shortName && StringUtil::startsWith($act->name, $actType->shortName . ' ')) {
             $act->actTypeId = $actType->id;
           }
         }
@@ -152,42 +152,15 @@ class MediaWikiParser {
           FlashMessage::add("Nu pot găsi linia cu semnătura în actul '{$act->name}'.");
           return false;
         }
-        $parts = explode('|', substr($signLine, 2, -2));
 
-        // Parse the signature line
-        switch($parts[0]) {
-        case 'SemnPcfsn':
-          $author = Model::factory('Author')->where('position', 'Președintele Consiliului Frontului Salvării Naționale')
-            ->where('name', $parts[1])->find_one();
-          if (!$author) {
-            FlashMessage::add("Trebuie definit autorul 'Președintele Consiliului Frontului Salvării Naționale, {$parts[1]}'.");
-            return false;
-          }
-          $act->authorId = $author->id;
-
-          $place = Place::get_by_name($parts[2]);
-          if (!$place) {
-            FlashMessage::add("Trebuie definit locul '{$parts[2]}'.");
-            return false;
-          }
-          $act->placeId = $place->id;
-
-          $act->issueDate = StringUtil::parseRomanianDate($parts[3]);
-          if (!$act->issueDate) {
-            FlashMessage::add(sprintf("Data '%s' este incorectă.", $parts[3]));
-            return false;
-          }
-
-          $act->number = $parts[4];
-          if (!ctype_digit($act->number)) {
-            FlashMessage::add("Numărul actului '{$act->number}' pentru actul '{$act->name}' este incorect.");
-            return false;
-          }
-          break;
-        default:
-          FlashMessage::add(sprintf("Nu știu să interpretez semnături de tipul {{%s}}.", $parts[0]));
+        $signData = self::parseSignatureLine($signLine);
+        if (!$signData) {
           return false;
         }
+        $act->authorId = $signData['authorId'];
+        $act->placeId = $signData['placeId'];
+        $act->issueDate = $signData['issueDate'];
+        $act->number = $signData['number'];
 
         // Create the act version
         $av = ActVersion::createVersionOne($act);
@@ -197,6 +170,78 @@ class MediaWikiParser {
       }
     }
 
+    return $data;
+  }
+
+  static function parseSignatureLine($line) {
+    $parts = explode('|', substr($line, 2, -2));
+    $data = array();
+
+    // Parse the signature line
+    switch($parts[0]) {
+    case 'SemnPcfsn':
+      $author = Model::factory('Author')->where('position', 'Președintele Consiliului Frontului Salvării Naționale')
+        ->where('name', $parts[1])->find_one();
+      if (!$author) {
+        FlashMessage::add("Trebuie definit autorul 'Președintele Consiliului Frontului Salvării Naționale, {$parts[1]}'.");
+        return false;
+      }
+      $data['authorId'] = $author->id;
+
+      $place = Place::get_by_name($parts[2]);
+      if (!$place) {
+        FlashMessage::add("Trebuie definit locul '{$parts[2]}'.");
+        return false;
+      }
+      $data['placeId'] = $place->id;
+
+      $issueDate = StringUtil::parseRomanianDate($parts[3]);
+      if (!$issueDate) {
+        FlashMessage::add(sprintf("Data '%s' este incorectă.", $parts[3]));
+        return false;
+      }
+      $data['issueDate'] = $issueDate;
+
+      if (!ctype_digit($parts[4])) {
+        FlashMessage::add("Numărul actului '{$parts[4]}' din semnătura $line este incorect.");
+        return false;
+      }
+      $data['number'] = $parts[4];
+      break;
+
+    case 'SemnPm':
+      $author = Model::factory('Author')->where('position', 'Prim-ministru')->where('name', $parts[1])->find_one();
+      if (!$author) {
+        FlashMessage::add("Trebuie definit autorul 'Prim-ministru, {$parts[1]}'.");
+        return false;
+      }
+      $data['authorId'] = $author->id;
+
+      $place = Place::get_by_name($parts[2]);
+      if (!$place) {
+        FlashMessage::add("Trebuie definit locul '{$parts[2]}'.");
+        return false;
+      }
+      $data['placeId'] = $place->id;
+
+      $issueDate = StringUtil::parseRomanianDate($parts[3]);
+      if (!$issueDate) {
+        FlashMessage::add(sprintf("Data '%s' este incorectă.", $parts[3]));
+        return false;
+      }
+      $data['issueDate'] = $issueDate;
+
+      if (!ctype_digit($parts[4])) {
+        FlashMessage::add("Numărul actului '{$parts[4]}' din semnătura $line este incorect.");
+        return false;
+      }
+      $data['number'] = $parts[4];
+      break;
+
+    default:
+      FlashMessage::add(sprintf("Nu știu să interpretez semnături de tipul {{%s}}.", $parts[0]));
+      return false;
+    }
     return $data;
   }
 
