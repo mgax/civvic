@@ -22,9 +22,11 @@
     </ul>
 
     {$actVersions.$i->htmlContents}
-    <div class="author">
-      Autor: {$authors.$i->getDisplayName()}
-    </div>
+    {if $authors.$i}
+      <div class="author">
+        Autor: {$authors.$i->getDisplayName()}
+      </div>
+    {/if}
     <br/>
   {/foreach}
 {/if}

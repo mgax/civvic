@@ -132,7 +132,9 @@ class MediaWikiParser {
 
         // Extract the act type from the title
         foreach ($actTypes as $actType) {
-          if ($actType->shortName && StringUtil::startsWith($act->name, $actType->shortName . ' ')) {
+          if ($actType->shortName &&
+              (StringUtil::startsWith($act->name, $actType->shortName . ' ') ||
+               StringUtil::startsWith($act->name, $actType->artName . ' '))) {
             $act->actTypeId = $actType->id;
           }
         }
@@ -148,19 +150,18 @@ class MediaWikiParser {
           $signLine = trim($chunk[$signIndex]);
           $found = StringUtil::startsWith($signLine, '{{') && StringUtil::endsWith($signLine, '}}');
         } while ($signIndex > 0 && !$found);
-        if (!$found) {
-          FlashMessage::add("Nu pot găsi linia cu semnătura în actul '{$act->name}'.");
-          return false;
+        if ($found) {
+          $signData = self::parseSignatureLine($signLine);
+          if (!$signData) {
+            return false;
+          }
+          $act->authorId = $signData['authorId'];
+          $act->placeId = $signData['placeId'];
+          $act->issueDate = $signData['issueDate'];
+          $act->number = $signData['number'];
+        } else {
+          FlashMessage::add("Nu pot găsi linia cu semnătura în actul '{$act->name}'.", 'warning');
         }
-
-        $signData = self::parseSignatureLine($signLine);
-        if (!$signData) {
-          return false;
-        }
-        $act->authorId = $signData['authorId'];
-        $act->placeId = $signData['placeId'];
-        $act->issueDate = $signData['issueDate'];
-        $act->number = $signData['number'];
 
         // Create the act version
         $av = ActVersion::createVersionOne($act);
