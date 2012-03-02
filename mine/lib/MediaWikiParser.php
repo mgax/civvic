@@ -142,7 +142,8 @@ class MediaWikiParser {
         // Extract the act type from the title
         foreach ($actTypes as $actType) {
           if ($actType->shortName &&
-              (StringUtil::startsWith($act->name, $actType->shortName . ' ') ||
+              (StringUtil::startsWith($act->name, $actType->name . ' ') ||
+               StringUtil::startsWith($act->name, $actType->shortName . ' ') ||
                StringUtil::startsWith($act->name, $actType->artName . ' '))) {
             $act->actTypeId = $actType->id;
           }
@@ -175,7 +176,7 @@ class MediaWikiParser {
 
         // Create the act version
         $av = ActVersion::createVersionOne($act);
-        $av->contents = trim(implode("\n", array_slice($chunk, 1, $signIndex - 1)));
+        $av->contents = trim(implode("\n", array_slice($chunk, 1, $found ? $signIndex - 1 : count($chunk))));
         $data['acts'][] = $act;
         $data['actVersions'][] = $av;
       }
