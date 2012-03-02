@@ -63,7 +63,7 @@ class Act extends BaseObject {
     $class = $act->getDisplayClass();
 
     // FIXME: Replace with civvic.ro once we make the switch.
-    return sprintf('<a class="actLink %s" href="http://beta.civvic.ro/act?id=%s">%s</a>', $class, $act->id, $text);
+    return sprintf('<a class="actLink %s" href="http://civvic.ro/act?id=%s">%s</a>', $class, $act->id, $text);
   }
 
   function delete() {

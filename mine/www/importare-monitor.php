@@ -1,6 +1,7 @@
 <?php
 
 require_once '../lib/Util.php';
+Util::requireAdmin();
 
 $number = Util::getRequestParameter('number');
 $year = Util::getRequestParameter('year');
