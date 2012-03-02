@@ -148,8 +148,9 @@ class MediaWikiParser {
           }
         }
         if (!$act->actTypeId) {
-          FlashMessage::add("Nu pot extrage tipul de act din titlul '{$act->name}'.");
-          return false;
+          FlashMessage::add("Nu pot extrage tipul de act din titlul '{$act->name}'. Voi folosi implicit tipul 'Diverse'.", 'warning');
+          $diverse = ActType::get_by_name('Diverse');
+          $act->actTypeId = $diverse->id;
         }
 
         // Locate the signature line
