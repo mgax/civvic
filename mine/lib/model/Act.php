@@ -38,6 +38,9 @@ class Act extends BaseObject {
 
   function getDisplayId() {
     $at = ActType::get_by_id($this->actTypeId);
+    if ($at->name == 'Diverse') {
+      return 'Diverse';
+    }
     $result = $at->artName . ' ';
     $result .= ($this->year && $this->number) ? "{$this->number} / {$this->year}" : "din {$this->issueDate}";
     return $result;

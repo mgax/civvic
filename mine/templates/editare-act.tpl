@@ -10,10 +10,10 @@
   {if $act->id}
     <input type="hidden" name="id" value="{$act->id}"/>
   {/if}
-  Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" id="actTypeId" actTypes=$actTypes selected=$act->actTypeId}&nbsp;
+  Tip: {include file="bits/actTypeDropdown.tpl" name="actTypeId" actTypes=$actTypes selected=$act->actTypeId autofocus=true}&nbsp;
   număr: <input type="text" name="number" value="{$act->number}" size="4"/>&nbsp;
   an: <input type="text" name="year" value="{$act->year}" size="4"/><br/>
-  Nume: <input type="text" name="name" value="{$act->name}" size="80"/><br/>
+  Nume: <input type="text" name="name" value="{$act->name}" size="80" autocomplete="off"/><br/>
   Data: {include file="bits/datePicker.tpl" id="issueDate" name="issueDate" value=$act->issueDate}<br/>
   Autor: {include file="bits/authorDropdown.tpl" name="authorId" authors=$authors selected=$act->authorId}<br/>
   Publicată în {include file=bits/monitorDropdown.tpl name="monitorId" monitors=$monitors selected=$act->monitorId}<br/>
@@ -59,7 +59,3 @@
 <br/>
 <a href="act?id={$act->id}">înapoi la act</a> |
 <a href="acte">înapoi la lista de acte</a>
-
-<script type="text/javascript">
-  $('#actTypeId').focus();
-</script>
