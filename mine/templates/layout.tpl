@@ -16,7 +16,10 @@
       <div id="logo">
         <a href="{$wwwRoot}"><img src="{$wwwRoot}img/logo.png" title="Civvic logo"/></a>
       </div>
-      <ul id="sideMenu">
+
+      <h3>Categorii</h3>
+
+      <ul class="sideMenu">
         {if $user && $user->admin}
           <li><a href="{$wwwRoot}tipuri-acte">tipuri de acte</a></li>
           <li><a href="{$wwwRoot}autori">autori</a></li>
@@ -24,6 +27,12 @@
         {/if}
         <li><a href="{$wwwRoot}acte">acte</a></li>
         <li><a href="{$wwwRoot}monitoare">monitoare</a></li>
+      </ul>
+
+      <h3>Legături externe</h3>
+
+      <ul class="sideMenu">
+        <li><a href="http://wiki.civvic.ro/">wiki.civvic.ro</a></li>
       </ul>
     </div>
     <div id="main">

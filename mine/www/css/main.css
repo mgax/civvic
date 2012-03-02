@@ -9,11 +9,19 @@ body {
   width: 140px;
 }
 
-#sideMenu {
-  padding-left: 0px;
+#sidebar h3 {
+  font-size: 14px;
+  padding: 0px;
+  margin-top: 15px;
 }
 
-#sideMenu li {
+ul.sideMenu {
+  padding-left: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+
+ul.sideMenu li {
   list-style-type: none;
 }
 
