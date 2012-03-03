@@ -34,6 +34,14 @@
       <ul class="sideMenu">
         <li><a href="http://wiki.civvic.ro/">wiki.civvic.ro</a></li>
       </ul>
+
+      {if $user && $user->admin}
+        <h3>Administrare</h3>
+
+        <ul class="sideMenu">
+          <li><a href="{$wwwRoot}acte-inexistente">acte inexistente</a></li>
+        </ul>
+      {/if}
     </div>
     <div id="main">
       <div id="userActions">

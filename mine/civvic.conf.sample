@@ -8,7 +8,7 @@ database = "mysql://root@localhost/civvic_mine"
 loginCookieName = "CivvicLogin"
 
 ; URL of a MediaWiki parser we use for converting MediaWiki syntax to HTML
-mediaWikiParser = "http://civvic.ro/api.php"
+mediaWikiParser = "http://wiki.civvic.ro/api.php"
 
 ; Location of the smarty class file.
 ; This can be an absolute file name or relative to one of the paths in include_path
