@@ -4,9 +4,13 @@ MediaWikiParser::init();
 
 class MediaWikiParser {
   private static $url;
+  private static $botName;
+  private static $botPassword;
 
   static function init() {
     self::$url = Config::get('general.mediaWikiParser');
+    self::$botName = Config::get('general.mediaWikiBotName');
+    self::$botPassword = Config::get('general.mediaWikiBotPassword');
   }
 
   static function wikiToHtml($text, &$references = null) {
@@ -46,6 +50,28 @@ class MediaWikiParser {
     $xmlString = Util::makePostRequest(self::$url, array('action' => 'expandtemplates', 'text' => "{{CURRENTVERSION}}", 'format' => 'xml'));
     $xml = simplexml_load_string($xmlString);
     return (string)$xml->expandtemplates;
+  }
+
+  static function botLogin() {
+    $xmlString = Util::makePostRequest(self::$url . "?action=login&format=xml",
+				       array('lgname' => self::$botName, 'lgpassword' => self::$botPassword),
+				       true);
+    $xml = simplexml_load_string($xmlString);
+    var_dump($xmlString);
+    $result = (string)$xml->login['result'];
+    $token = (string)$xml->login['token'];
+    var_dump($result);
+    var_dump($token);
+
+    $xmlString = Util::makePostRequest(self::$url . "?action=login&format=xml",
+				       array('lgname' => self::$botName, 'lgpassword' => self::$botPassword, 'lgtoken' => $token),
+				       true);
+    $xml = simplexml_load_string($xmlString);
+    var_dump($xmlString);
+    $result = (string)$xml->login['result'];
+    var_dump($result);
+
+    exit;
   }
 
   private static function ensureReferences($text) {

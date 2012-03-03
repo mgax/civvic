@@ -5,6 +5,7 @@ Util::init();
 class Util {
   static $rootPath;
   static $wwwRoot;
+  static $curlCookieFile = '/tmp/civvic_cookies.txt';
   
   static function init() {
     ini_set('display_errors','On');
@@ -78,8 +79,12 @@ class Util {
     return array_key_exists($name, $_REQUEST) ? $_REQUEST[$name] : $default;
   }
 
-  static function makePostRequest($url, $data) {
+  static function makePostRequest($url, $data, $useCookies = false) {
     $ch = curl_init($url);
+    if ($useCookies) {
+      curl_setopt($ch, CURLOPT_COOKIEFILE, self::$curlCookieFile);
+      curl_setopt($ch, CURLOPT_COOKIEJAR, self::$curlCookieFile);
+    }
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

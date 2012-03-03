@@ -8,6 +8,8 @@ $year = Util::getRequestParameter('year');
 $previewed = Util::getRequestParameter('previewed');
 $submitButton = Util::getRequestParameter('submitButton');
 
+// MediaWikiParser::botLogin();
+
 if ($submitButton) {
   $data = MediaWikiParser::importMonitor($number, $year);
   if ($data) {

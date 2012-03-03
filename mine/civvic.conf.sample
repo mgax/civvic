@@ -7,6 +7,10 @@ database = "mysql://root@localhost/civvic_mine"
 ; Name of the cookie we set on the client browser for persistent logins
 loginCookieName = "CivvicLogin"
 
+; account name and password for a MediaWiki bot with editing privileges
+mediaWikiBotName = ""
+mediaWikiBotPassword = ""
+
 ; URL of a MediaWiki parser we use for converting MediaWiki syntax to HTML
 mediaWikiParser = "http://wiki.civvic.ro/api.php"
 
