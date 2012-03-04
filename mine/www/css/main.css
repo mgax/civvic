@@ -43,6 +43,30 @@ ul.sideMenu li {
   clear: both;
 }
 
+footer {
+  border-top: 1px solid #ddd;
+  margin-top: 20px;
+  padding-top: 10px;
+}
+
+div.fb-like {
+  float: left;
+}
+
+#license {
+  color: #888;
+  float: right;
+  font-size: 12px;
+}
+
+#license a {
+  color: #888;
+}
+
+#license a:hover {
+  color: #222;
+}
+
 a.delete {
   background: url("../img/silk/cross.png") no-repeat;
   padding-left: 20px;

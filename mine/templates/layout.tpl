@@ -12,6 +12,9 @@
   </head>
 
   <body>
+    <div id="fb-root"></div>
+    <script>facebookInit(document, 'script', 'facebook-jssdk');</script>
+
     <div id="sidebar">
       <div id="logo">
         <a href="{$wwwRoot}"><img src="{$wwwRoot}img/logo.png" title="Civvic logo"/></a>
@@ -57,6 +60,16 @@
         {include file=$templateName}
       </div>
     </div>
+    <div style="clear: both"></div>
+
+    <footer>
+      <div class="fb-like" data-href="http://facebook.com/civvic.ro" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+
+      <div id="license">
+        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Datele Civvic.ro</span> sunt disponibile sub
+        <a rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/ro/">Creative Commons Attribution-NoDerivs 3.0 Romania License</a>.
+      </div>
+    </footer>
   </body>
 
 </html>
