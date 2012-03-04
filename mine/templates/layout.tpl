@@ -3,7 +3,7 @@
   <head>
     <title>{$pageTitle} | Civvic.ro</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link type="text/css" href="{$wwwRoot}css/main.css?v=1" rel="stylesheet"/>
+    <link type="text/css" href="{$wwwRoot}css/main.css?v=2" rel="stylesheet"/>
     <link type="text/css" href="{$wwwRoot}css/smoothness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />	
     <script type="text/javascript" src="{$wwwRoot}js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="{$wwwRoot}js/jquery-ui-1.8.18.custom.min.js"></script>
