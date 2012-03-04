@@ -52,26 +52,89 @@ class MediaWikiParser {
     return (string)$xml->expandtemplates;
   }
 
+  static function fetchPage($pageTitle) {
+    $params = array('action' => 'query', 'titles' => $pageTitle, 'prop' => 'revisions', 'rvprop' => 'content', 'format' => 'xml');
+    $xmlString = Util::makePostRequest(self::$url, $params);
+    $xml = simplexml_load_string($xmlString);
+    $page = $xml->query->pages->page[0];
+    $pageId = (string)$page['pageid'];
+    if (!$page['pageid']) {
+      return false;
+    }
+    return (string)$page->revisions->rev[0];
+  }
+
+  static function maybeProtectMonitor($number, $year) {
+    if (self::$botName && self::$botPassword) {
+      $pageTitle = "Monitorul_Oficial_{$number}/{$year}";
+      MediaWikiParser::botLogin();
+      MediaWikiParser::botProtectMonitor($pageTitle);
+      MediaWikiParser::botInsertMigrationWarning($pageTitle);
+    }
+  }
+
   static function botLogin() {
     $xmlString = Util::makePostRequest(self::$url . "?action=login&format=xml",
-				       array('lgname' => self::$botName, 'lgpassword' => self::$botPassword),
+				       array('lgname' => self::$botName,
+                                             'lgpassword' => self::$botPassword),
 				       true);
     $xml = simplexml_load_string($xmlString);
-    var_dump($xmlString);
-    $result = (string)$xml->login['result'];
+    // $result = (string)$xml->login['result'];
     $token = (string)$xml->login['token'];
-    var_dump($result);
-    var_dump($token);
 
-    $xmlString = Util::makePostRequest(self::$url . "?action=login&format=xml",
-				       array('lgname' => self::$botName, 'lgpassword' => self::$botPassword, 'lgtoken' => $token),
+    Util::makePostRequest(self::$url . "?action=login&format=xml",
+                          array('lgname' => self::$botName,
+                                'lgpassword' => self::$botPassword,
+                                'lgtoken' => $token),
+                          true);
+  }
+
+  static function botProtectMonitor($pageTitle) {
+    $xmlString = Util::makePostRequest(self::$url,
+				       array('action' => 'query',
+                                             'format' => 'xml',
+                                             'prop' => 'info',
+                                             'intoken' => 'protect',
+                                             'titles' => $pageTitle),
 				       true);
     $xml = simplexml_load_string($xmlString);
-    var_dump($xmlString);
-    $result = (string)$xml->login['result'];
-    var_dump($result);
+    $protectToken = (string)$xml->query->pages->page[0]['protecttoken'];
 
-    exit;
+    Util::makePostRequest(self::$url,
+                          array('action' => 'protect',
+                                'format' => 'xml',
+                                'title' => $pageTitle,
+                                'protections' => 'edit=sysop',
+                                'expiry' => 'never',
+                                'reason' => 'Migrat la civvic.ro',
+                                'token' => $protectToken),
+                          true);
+  }
+
+  static function botInsertMigrationWarning($pageTitle) {
+    $contents = self::fetchPage($pageTitle);
+    if (strpos($contents, '{{MigrationWarning}}') !== false) {
+      return; // Page already contains warning
+    }
+    $xmlString = Util::makePostRequest(self::$url,
+				       array('action' => 'query',
+                                             'format' => 'xml',
+                                             'prop' => 'info',
+                                             'intoken' => 'edit',
+                                             'titles' => $pageTitle),
+				       true);
+    $xml = simplexml_load_string($xmlString);
+    $editToken = (string)$xml->query->pages->page[0]['edittoken'];
+
+    Util::makePostRequest(self::$url,
+                          array('action' => 'edit',
+                                'format' => 'xml',
+                                'title' => $pageTitle,
+                                'section' => '0',
+                                'prependtext' => "{{MigrationWarning}}\n",
+                                'summary' => 'Migrat la civvic.ro',
+                                'token' => $editToken),
+                          true);
   }
 
   private static function ensureReferences($text) {
@@ -99,17 +162,11 @@ class MediaWikiParser {
     }
 
     // Fetch the contents
-    $params = array('action' => 'query', 'titles' => "Monitorul_Oficial_{$number}/{$year}", 'prop' => 'revisions',
-                    'rvprop' => 'content', 'format' => 'xml');
-    $xmlString = Util::makePostRequest(self::$url, $params);
-    $xml = simplexml_load_string($xmlString);
-    $page = $xml->query->pages->page[0];
-    $pageId = (string)$page['pageid'];
-    if (!$page['pageid']) {
+    $contents = self::fetchPage("Monitorul_Oficial_{$number}/{$year}");
+    if ($contents === false) {
       FlashMessage::add("Monitorul {$number}/{$year} nu există.");
       return false;
     }
-    $contents = (string)$page->revisions->rev[0];
 
     // Extract the publication date
     $regexp = sprintf("/Anul\\s+[IVXLCDM]+,?\\s+Nr\\.\\s+\\[\\[issue::\s*(?P<number>\\d+)\\]\\]\\s+-\\s+(Partea\\s+I\\s+-\\s+)?" .

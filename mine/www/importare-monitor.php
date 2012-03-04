@@ -8,8 +8,6 @@ $year = Util::getRequestParameter('year');
 $previewed = Util::getRequestParameter('previewed');
 $submitButton = Util::getRequestParameter('submitButton');
 
-// MediaWikiParser::botLogin();
-
 if ($submitButton) {
   $data = MediaWikiParser::importMonitor($number, $year);
   if ($data) {
@@ -26,6 +24,7 @@ if ($submitButton) {
         $av->actId = $av->modifyingActId = $act->id;
         $av->save();
       }
+      MediaWikiParser::maybeProtectMonitor($number, $year);
       FlashMessage::add('Monitorul a fost importat.', 'info');
       Util::redirect("monitor?id={$monitor->id}");
     }
