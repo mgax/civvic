@@ -18,12 +18,12 @@ class MediaWikiParser {
     $text = self::parse($text);
 
     // Automatic links to acts
-    $actTypes = Model::factory('ActType')->find_many();
+    $actTypes = Model::factory('ActType')->raw_query('select * from act_type order by length(name) desc', null)->find_many();
     foreach ($actTypes as $at) {
       $type = sprintf("(%s|%s|%s)", $at->name, $at->artName, $at->genArtName);
       // Parses "din <day> <month> <year>" or "/ <year>"
       $date = sprintf("((\\s+din\\s+(\\d{1,2})\\s+(%s)\\s+)|(\\s*\\/\\s*))(?P<year>\\d{4})", implode('|', StringUtil::$months));
-      $regexp = "/{$type}\\s+(nr\\.?)?\\s*(?P<number>\\d+){$date}/i";
+      $regexp = "/(?<!>){$type}\\s+(nr\\.?)?\\s*(?P<number>\\d+){$date}(?!<)/i";
       $matches = array();
       preg_match_all($regexp, $text, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
       foreach (array_reverse($matches) as $match) {
@@ -224,14 +224,16 @@ class MediaWikiParser {
         $act->name = trim($matches['title']);
 
         // Extract the act type from the title
-        foreach ($actTypes as $actType) {
-          if ($actType->shortName &&
-              (StringUtil::startsWith($act->name, $actType->name) ||
-               StringUtil::startsWith($act->name, $actType->shortName) ||
-               StringUtil::startsWith($act->name, $actType->artName))) {
-            $act->actTypeId = $actType->id;
+        $i = 0;
+        do {
+          if ($actTypes[$i]->shortName &&
+              (StringUtil::startsWith($act->name, $actTypes[$i]->name) ||
+               StringUtil::startsWith($act->name, $actTypes[$i]->shortName) ||
+               StringUtil::startsWith($act->name, $actTypes[$i]->artName))) {
+            $act->actTypeId = $actTypes[$i]->id;
           }
-        }
+          $i++;
+        } while ($i < count($actTypes) && !$act->actTypeId);
         if (!$act->actTypeId) {
           FlashMessage::add("Nu pot extrage tipul de act din titlul '{$act->name}'. Voi folosi implicit tipul 'Diverse'.", 'warning');
           $diverse = ActType::get_by_name('Diverse');
