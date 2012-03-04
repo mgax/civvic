@@ -2,7 +2,7 @@
 {assign var="emptyOption" value=$emptyOption|default:true}
 {assign var="autofocus" value=$autofocus|default:false}
 <input type="hidden" id="{$name}_hidden" name="{$name}" value="{$selected->id}"/>
-<input type="text" id="{$name}_visible" name="{$name}_visible" value="{if $selected}{$selected->getAutocompleteId()}{/if}"
+<input type="text" id="{$name}_visible" name="{$name}_visible" value="{if $selected}{$selected->getDisplayId()}{/if}"
   {if $autofocus}autofocus="autofocus"{/if} size="80"/>
 
 <script type="text/javascript">
@@ -20,7 +20,9 @@
       $('#{/literal}{$name}{literal}_hidden').val(ui.item.id);
     },
     change: function (event, ui) {
-      $('#{/literal}{$name}{literal}_hidden').val(ui.item ? ui.item.id : '');
+      if (ui.item) {
+        $('#{/literal}{$name}{literal}_hidden').val(ui.item ? ui.item.id : '');
+      }
     },
     minLength: 2,
   });
