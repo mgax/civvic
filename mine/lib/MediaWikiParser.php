@@ -146,6 +146,7 @@ class MediaWikiParser {
   }
 
   static function parse($text) {
+    $text = "__NOTOC__\n" . $text;
     $xmlString = Util::makePostRequest(self::$url, array('action' => 'parse', 'text' => $text, 'format' => 'xml'));
     $xml = simplexml_load_string($xmlString);
     return (string)$xml->parse->text;
@@ -205,7 +206,7 @@ class MediaWikiParser {
     }
     $headers23[] = count($lines);
 
-    $actTypes = Model::factory('ActType')->find_many();
+    $actTypes = Model::factory('ActType')->raw_query('select * from act_type order by length(name) desc', null)->find_many();
 
     foreach ($headers23 as $i => $lineNo) {
       if ($i < count($headers23) - 1 && StringUtil::startsWith($lines[$lineNo], '===')) {
@@ -225,9 +226,9 @@ class MediaWikiParser {
         // Extract the act type from the title
         foreach ($actTypes as $actType) {
           if ($actType->shortName &&
-              (StringUtil::startsWith($act->name, $actType->name . ' ') ||
-               StringUtil::startsWith($act->name, $actType->shortName . ' ') ||
-               StringUtil::startsWith($act->name, $actType->artName . ' '))) {
+              (StringUtil::startsWith($act->name, $actType->name) ||
+               StringUtil::startsWith($act->name, $actType->shortName) ||
+               StringUtil::startsWith($act->name, $actType->artName))) {
             $act->actTypeId = $actType->id;
           }
         }
@@ -269,7 +270,14 @@ class MediaWikiParser {
   }
 
   static function parseSignatureLine($line) {
+    // Some signatures use named parameters, others use unnamed parameters
     $parts = explode('|', substr($line, 2, -2));
+    foreach ($parts as $part) {
+      $nv = preg_split('/=/', $part, 2);
+      if (count($nv) == 2) {
+        $parts[trim($nv[0])] = trim($nv[1]);
+      }
+    }
     $data = array();
 
     // Parse the signature line
@@ -331,6 +339,49 @@ class MediaWikiParser {
         return false;
       }
       $data['number'] = $parts[4];
+      break;
+
+    case 'Sem-p-Pm':
+      foreach (array('pt', 'nume', 'func', 'dataAct', 'nrAct') as $arg) {
+        if (!array_key_exists($arg, $parts)) {
+          FlashMessage::add("Semnătura '{$line}' nu include parametrul '{$arg}'.");
+          return false;
+        }
+      }
+      if (!array_key_exists('oras', $parts)) {
+        $parts['oras'] = 'București';
+      }
+      if ($parts['func']) {
+        FlashMessage::add("Nu știu să gestionez argumentul 'func' în semnătura '{$line}'.");
+        return false;
+      }
+
+      $author = Model::factory('Author')->where('position', $parts['pt'] . ' Prim-ministru')->where('name', $parts['nume'])->find_one();
+      if (!$author) {
+        FlashMessage::add(sprintf("Trebuie definit autorul '%s Prim-ministru, %s', ", $parts['pt'], $parts['nume']));
+        return false;
+      }
+      $data['authorId'] = $author->id;
+
+      $place = Place::get_by_name($parts['oras']);
+      if (!$place) {
+        FlashMessage::add(sprintf("Trebuie definit locul '%s'.", $parts['oras']));
+        return false;
+      }
+      $data['placeId'] = $place->id;
+
+      $issueDate = StringUtil::parseRomanianDate($parts['dataAct']);
+      if (!$issueDate) {
+        FlashMessage::add(sprintf("Data '%s' este incorectă.", $parts['dataAct']));
+        return false;
+      }
+      $data['issueDate'] = $issueDate;
+
+      if (!ctype_digit($parts['nrAct'])) {
+        FlashMessage::add(sprintf("Numărul actului '%s' din semnătura $line este incorect.", $parts['nrAct']));
+        return false;
+      }
+      $data['number'] = $parts['nrAct'];
       break;
 
     default:
