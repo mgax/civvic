@@ -5,7 +5,8 @@ Util::requireAdmin();
 
 $number = Util::getRequestParameter('number');
 $year = Util::getRequestParameter('year');
-$previewed = Util::getRequestParameter('previewed');
+$previewedNumber = Util::getRequestParameter('previewedNumber');
+$previewedYear = Util::getRequestParameter('previewedYear');
 $submitButton = Util::getRequestParameter('submitButton');
 
 if ($submitButton) {
@@ -15,7 +16,7 @@ if ($submitButton) {
     $acts = $data['acts'];
     $actVersions = $data['actVersions'];
 
-    if ($previewed) {
+    if ($previewedNumber == $number && $previewedYear == $year) {
       $monitor->save();
       foreach ($acts as $i => $act) {
         $act->monitorId = $monitor->id();

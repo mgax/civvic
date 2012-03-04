@@ -1,8 +1,11 @@
 <h3>Importă un monitor oficial de pe wiki</h3>
 
 <form action="importare-monitor" method="post">
-  {if $monitor}<input type="hidden" name="previewed" value="1"/>{/if}
-  Numărul <input type="text" name="number" value="{$number}" size="4"/>&nbsp;
+  {if $monitor}
+    <input type="hidden" name="previewedNumber" value="{$number}"/>
+    <input type="hidden" name="previewedYear" value="{$year}"/>
+  {/if}
+  Numărul <input type="text" name="number" value="{$number}" size="4" autofocus="autofocus"/>&nbsp;
   Anul <input type="text" name="year" value="{$year}" size="4"/>
   <input type="submit" name="submitButton" value="Importă"/>
 </form>
