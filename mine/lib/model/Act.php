@@ -46,6 +46,10 @@ class Act extends BaseObject {
     return $result;
   }
 
+  function getAutocompleteId() {
+    return "{$this->number} / {$this->year} {$this->name}";
+  }
+
   // Class to use when linking to this act
   function getDisplayClass() {
     $version = Model::factory('ActVersion')->select('status')->where('actId', $this->id)->where('current', true)->find_one();

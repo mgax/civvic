@@ -1,8 +1,9 @@
-{* This is temporary. Once we get enough acts, we'll implement a smarter selection mechanism *}
-{* Parameters: $name $actTypes $selected $emptyOption=true *}
+{* Parameters: $name $actTypes $selected $emptyOption=true $autofocus = false *}
 {assign var="emptyOption" value=$emptyOption|default:true}
+{assign var="autofocus" value=$autofocus|default:false}
 <input type="hidden" id="{$name}_hidden" name="{$name}" value="{$selected->id}"/>
-<input type="text" id="{$name}_visible" name="{$name}_visible" value="{if $selected}{$selected->getDisplayId()}{/if}" size="80"/>
+<input type="text" id="{$name}_visible" name="{$name}_visible" value="{if $selected}{$selected->getAutocompleteId()}{/if}"
+  {if $autofocus}autofocus="autofocus"{/if} size="80"/>
 
 <script type="text/javascript">
   {literal}
