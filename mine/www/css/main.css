@@ -76,6 +76,10 @@ table {
   border-collapse: collapse;
 }
 
+table.ui-jqgrid-btable {
+  border-collapse: separate;
+}
+
 textarea {
   width: 100%;
 }
