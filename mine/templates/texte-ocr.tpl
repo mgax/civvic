@@ -12,8 +12,8 @@
     colNames: ['id', 'număr', 'an', 'pagini', 'dificultate', 'stadiu', 'deținător'],
     colModel: [
       {name: 'id', index: 'id', hidden: true},
-      {name: 'number', index: 'number', sorttype: 'int', width: 30},
-      {name: 'year', index: 'year', sorttype: 'int', width: 40},
+      {name: 'number', index: 'number', sorttype: 'int', formatter: 'showlink', formatoptions: { baseLinkUrl: 'text-ocr' },  width: 30},
+      {name: 'year', index: 'year', sorttype: 'int', formatter: 'showlink', formatoptions: { baseLinkUrl: 'text-ocr' }, width: 40},
       {name: 'pageCount', index: 'pageCount', sorttype: 'int', width: 40},
       {name: 'difficulty', index: 'difficulty', sorttype: 'int', width: 40},
       {name: 'progress', index: 'progress', sorttype: 'int', width: 40},

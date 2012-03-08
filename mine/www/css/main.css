@@ -201,3 +201,14 @@ div.wikiHtmlPreview {
   padding: 5px;
   overflow: auto;
 }
+
+/** raw texts **/
+
+div.rawText {
+  background: #f8f8f8;
+  border: 1px solid #ccc;
+  height: 500px;
+  margin-top: 10px;
+  overflow: auto;
+  padding: 2px;
+}
