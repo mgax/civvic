@@ -29,6 +29,8 @@
     caption: 'Texte OCR',
     width: 884,
     hidegrid: false,
+  }).jqGrid('filterToolbar', {
+    stringResult: true,
   });
   {/literal}
 </script>
