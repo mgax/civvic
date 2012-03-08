@@ -256,13 +256,15 @@ class MediaWikiParser {
           $act->placeId = $signData['placeId'];
           $act->issueDate = $signData['issueDate'];
           $act->number = $signData['number'];
+
+          array_splice($chunk, $signIndex, 1);
         } else {
           FlashMessage::add("Nu pot găsi linia cu semnătura în actul '{$act->name}'.", 'warning');
         }
 
         // Create the act version
         $av = ActVersion::createVersionOne($act);
-        $av->contents = trim(implode("\n", array_slice($chunk, 1, $found ? $signIndex - 1 : count($chunk))));
+        $av->contents = trim(implode("\n", array_slice($chunk, 1)));
         $data['acts'][] = $act;
         $data['actVersions'][] = $av;
       }
@@ -307,10 +309,6 @@ class MediaWikiParser {
       }
       $data['issueDate'] = $issueDate;
 
-      if (!ctype_digit($parts[4])) {
-        FlashMessage::add("Numărul actului '{$parts[4]}' din semnătura $line este incorect.");
-        return false;
-      }
       $data['number'] = $parts[4];
       break;
 
@@ -336,10 +334,6 @@ class MediaWikiParser {
       }
       $data['issueDate'] = $issueDate;
 
-      if (!ctype_digit($parts[4])) {
-        FlashMessage::add("Numărul actului '{$parts[4]}' din semnătura $line este incorect.");
-        return false;
-      }
       $data['number'] = $parts[4];
       break;
 
@@ -379,10 +373,6 @@ class MediaWikiParser {
       }
       $data['issueDate'] = $issueDate;
 
-      if (!ctype_digit($parts['nrAct'])) {
-        FlashMessage::add(sprintf("Numărul actului '%s' din semnătura $line este incorect.", $parts['nrAct']));
-        return false;
-      }
       $data['number'] = $parts['nrAct'];
       break;
 
