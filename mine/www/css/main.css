@@ -143,6 +143,13 @@ ul.actList {
   padding-left: 20px;
 }
 
+/** templates converted with MediaWiki **/
+
+#template table th, #template table td {
+  border: 1px solid #777;
+  padding: 4px;
+}
+
 /** auth/ pages **/
 
 #openidProviders a {
