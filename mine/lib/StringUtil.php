@@ -55,6 +55,14 @@ class StringUtil {
 
     return sprintf("%4d-%02d-%02d", $matches['year'], $month, $matches['day']);
   }
+
+  static function shortenString($s, $maxLength) {
+    $l = mb_strlen($s);
+    if ($l >= $maxLength + 3) {
+      return mb_substr($s, 0, $maxLength - 3) . '...';
+    }
+    return $s;
+  }
 }
 
 ?>

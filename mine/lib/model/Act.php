@@ -36,6 +36,16 @@ class Act extends BaseObject {
     return Model::factory('ActVersion')->where('actId', $this->id)->count();
   }
 
+  static function listYears($actTypeName) {
+    $actType = ActType::get_by_shortName($actTypeName);
+    $acts = Model::factory('Act')->select('year')->distinct()->where('actTypeId', $actType->id)->order_by_desc('year')->find_many();
+    $results = array();
+    foreach ($acts as $a) {
+      $results[] = $a->year;
+    }
+    return $results;
+  }
+
   function getDisplayId() {
     $at = ActType::get_by_id($this->actTypeId);
     if ($at->name == 'Diverse') {

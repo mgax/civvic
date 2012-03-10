@@ -5,7 +5,7 @@
 <form action="editare-versiune-act" method="post">
   <input type="hidden" name="id" value="{$av->id}"/>
 
-  Cauzată de {include file=bits/actDropdown.tpl name="modifyingActId" actTypes=$actTypes selected=$modifyingAct autofocus=true}<br/>
+  Cauzată de {include file=bits/actAutocomplete.tpl name="modifyingActId" actTypes=$actTypes selected=$modifyingAct autofocus=true}<br/>
 
   Starea: {include file=bits/actStatusDropdown.tpl name="status" actStatuses=$actStatuses selected=$av->status}<br/>
 

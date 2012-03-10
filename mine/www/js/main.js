@@ -1,3 +1,14 @@
+var wwwRoot = getWwwRoot();
+
+function getWwwRoot() {
+  var pos = window.location.href.indexOf('/www/');
+  if (pos == -1) {
+    return '/';
+  } else {
+    return window.location.href.substr(0, pos + 5);
+  }
+}
+
 $.datepicker.setDefaults({
   changeMonth: true,
   changeYear: true,
@@ -13,4 +24,30 @@ function facebookInit(d, s, id) {
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
+}
+
+function actSelectYearChange(actType, yearSelect, numberSelect, button) {
+  var options = '<option value="">numărul...</option>';
+  numberSelect.attr('disabled', 'disabled');
+  numberSelect.html(options);
+  button.attr('disabled', 'disabled');
+  if (yearSelect.val()) {
+    $.getJSON(wwwRoot + 'ajax/actList.php', { type: actType, year: yearSelect.val() }, function(data) {
+      for (var i = 0; i < data.length; i++) {
+        options += '<option value="' + data[i][0] + '">' + data[i][1] + '</option>';
+      }
+      numberSelect.html(options);
+      if (data.length) {
+        numberSelect.removeAttr('disabled');
+      }
+    })
+  }
+}
+
+function actSelectNumberChange(numberSelect, button) {
+  if (numberSelect.val()) {
+    button.removeAttr('disabled');
+  } else {
+    button.attr('disabled', 'disabled');
+  }
 }
