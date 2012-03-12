@@ -23,7 +23,7 @@ class MediaWikiParser {
       $type = sprintf("(%s|%s|%s)", $at->name, $at->artName, $at->genArtName);
       // Parses "din <day> <month> <year>" or "/ <year>"
       $date = sprintf("((\\s+din\\s+(\\d{1,2})\\s+(%s)\\s+)|(\\s*\\/\\s*))(?P<year>\\d{4})", implode('|', StringUtil::$months));
-      $regexp = "/(?<!>){$type}\\s+(nr\\.?)?\\s*(?P<number>\\d+){$date}(?!<)/i";
+      $regexp = "/(?<![->]){$type}\\s+(nr\\.?)?\\s*(?P<number>\\d+){$date}(?!<)/i";
       $matches = array();
       preg_match_all($regexp, $text, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
       foreach (array_reverse($matches) as $match) {
@@ -32,14 +32,18 @@ class MediaWikiParser {
         $number = $match['number'][0];
         $year = $match['year'][0];
 
-        $link = Act::getLink($at->id, $number, $year, $linkText);
-        $text = substr($text, 0, $position) . $link . substr($text, $position + strlen($linkText));
-        if ($references !== null) {
-          $ref = Model::factory('Reference')->create();
-          $ref->actTypeId = $at->id;
-          $ref->number = $number;
-          $ref->year = $year;
-          $references[] = $ref;
+        if ($position && $text[$position - 1] == '@') {
+          $text = substr($text, 0, $position - 1) . substr($text, $position);
+        } else {
+          $link = Act::getLink($at->id, $number, $year, $linkText);
+          $text = substr($text, 0, $position) . $link . substr($text, $position + strlen($linkText));
+          if ($references !== null) {
+            $ref = Model::factory('Reference')->create();
+            $ref->actTypeId = $at->id;
+            $ref->number = $number;
+            $ref->year = $year;
+            $references[] = $ref;
+          }
         }
       }
     }
