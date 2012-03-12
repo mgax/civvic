@@ -143,6 +143,13 @@ ul.actList {
   padding-left: 20px;
 }
 
+div.repealedSection {
+  border: 1px solid #f77;
+  color: #f00;
+  padding: 2px;
+  text-decoration: line-through;
+}
+
 /** templates converted with MediaWiki **/
 
 #template table th, #template table td {

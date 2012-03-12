@@ -15,6 +15,7 @@ class MediaWikiParser {
 
   static function wikiToHtml($text, &$references = null) {
     $text = self::ensureReferences($text);
+    $text = self::parseRepealedSections($text);
     $text = self::parse($text);
 
     // Automatic links to acts
@@ -147,6 +148,33 @@ class MediaWikiParser {
       FlashMessage::add('Dacă folosiți &lt;ref&gt; pentru a indica referințe, nu uitați să adăugați eticheta &lt;references/&gt; la sfârșit.', 'warning');
     }
     return $text;
+  }
+
+  private static function parseRepealedSections($text) {
+    $lines = explode("\n", $text);
+    $output = array();
+    $inComment = false;
+
+    foreach ($lines as $line) {
+      if (StringUtil::startsWith($line, '//')) {
+        if (!$inComment) {
+          $output[] = '<div class="repealedSection">';
+          $inComment = true;
+        }
+        $output[] = substr($line, 2);
+      } else {
+        if ($inComment) {
+          $output[] = '</div>';
+          $inComment = false;
+        }
+        $output[] = $line;
+      }
+    }
+
+    if ($inComment) {
+      $output[] = '</div>';
+    }
+    return implode("\n", $output);
   }
 
   static function parse($text) {
