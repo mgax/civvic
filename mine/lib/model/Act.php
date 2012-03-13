@@ -17,6 +17,12 @@ class Act extends BaseObject {
     if (!$this->actTypeId) {
       FlashMessage::add('Actul trebuie să aibă un tip.');
     }
+    if ($this->year && $this->number) {
+      $otherAct = Model::factory('Act')->where('actTypeId', $this->actTypeId)->where('year', $this->year)->where('number', $this->number)->find_one();
+      if ($otherAct && $otherAct->id != $this->id) {
+        FlashMessage::add('Există deja un act cu acest tip, număr și an.');
+      }
+    }
     return !FlashMessage::getMessage();
   }
 

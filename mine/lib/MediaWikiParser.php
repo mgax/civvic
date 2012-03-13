@@ -143,7 +143,10 @@ class MediaWikiParser {
   }
 
   private static function ensureReferences($text) {
-    if (preg_match("/<\\s*ref\\s*>/", $text) && !preg_match("/<\\s*references\\s*\\/>/", $text)) {
+    if (preg_match("/<\\s*ref\\s+name*\\s*=/", $text)) {
+      FlashMessage::add('Sistemul nu admite referințe cu &ltref name="..."&gt. Vă rugăm să copiați explicit textul referinței.', 'warning');
+    }
+    if (preg_match("/<\\s*ref[^>]*>/", $text) && !preg_match("/<\\s*references\\s*\\/>/", $text)) {
       $text .= "\n<references/>";
       FlashMessage::add('Dacă folosiți &lt;ref&gt; pentru a indica referințe, nu uitați să adăugați eticheta &lt;references/&gt; la sfârșit.', 'warning');
     }
@@ -214,7 +217,7 @@ class MediaWikiParser {
       return false;
     }
     if ($matches['year'] != $year) {
-      FlashMessage::add(sprintf("Anul din monitor (%s) nu coincide cu numărul din URL (%s).", $matches['year'], $year));
+      FlashMessage::add(sprintf("Anul din monitor (%s) nu coincide cu anul din URL (%s).", $matches['year'], $year));
       return false;
     }
     $month = 1 + array_search($matches['month'], StringUtil::$months);
@@ -288,6 +291,24 @@ class MediaWikiParser {
           $act->placeId = $signData['placeId'];
           $act->issueDate = $signData['issueDate'];
           $act->number = $signData['number'];
+
+          if ($act->issueDate) {
+            $issueDateYear = substr($act->issueDate, 0, 4);
+            if ($issueDateYear != $act->year) {
+              $act->year = $issueDateYear;
+              FlashMessage::add(sprintf("%s a fost emis în %s, dar publicat în %s. Asigurați-vă că am ales bine anul actului.",
+                                        $act->getDisplayId(), $issueDateYear, $monitor->year), 'warning');
+            }
+          }
+
+          if ($act->year && $act->number) {
+            $other = Model::factory('Act')->where('actTypeId', $act->actTypeId)->where('year', $act->year)
+              ->where('number', $act->number)->find_one();
+            if ($other) {
+              FlashMessage::add(sprintf("Actul '%s' există deja.", $act->getDisplayId()), 'warning');
+            }
+          }
+          
 
           array_splice($chunk, $signIndex, 1);
         } else {

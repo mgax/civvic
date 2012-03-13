@@ -6,7 +6,8 @@ $type = Util::getRequestParameter('type');
 $year = Util::getRequestParameter('year');
 
 $actType = ActType::get_by_shortName($type);
-$acts = Model::factory('Act')->where('actTypeId', $actType->id)->where('year', $year)->find_many();
+$acts = Model::factory('Act')
+  ->raw_query("select * from act where actTypeId = {$actType->id} and year = {$year} order by cast(number as unsigned)", null)->find_many();
 
 $results = array();
 foreach ($acts as $a) {

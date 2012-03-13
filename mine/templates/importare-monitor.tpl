@@ -19,7 +19,7 @@
   {foreach from=$acts item=act key=i}
     <h3>{$act->name}</h3>
     <ul class="actDetails">
-      {if $act->number}<li>număr: {$act->number}</li>{/if}
+      {if $act->number}<li>numărul: {$act->number}</li>{/if}
       {if $act->year}<li>anul: {$act->year}</li>{/if}
       {if $act->issueDate}<li>data: {$act->issueDate|date_format:"%e %B %Y"}</li>{/if}
     </ul>
