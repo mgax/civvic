@@ -63,6 +63,11 @@ class StringUtil {
     }
     return $s;
   }
+
+  static function cleanupUserInput($s) {
+    $s = str_replace("\r", '', $s);
+    return $s;
+  }
 }
 
 ?>

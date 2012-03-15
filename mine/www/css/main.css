@@ -143,11 +143,32 @@ ul.actList {
   padding-left: 20px;
 }
 
-div.repealedSection {
-  border: 1px solid #f77;
-  color: #f00;
+div.actChange {
+  border-style: solid;
+  border-width: 1px;
   padding: 2px;
+}
+
+div.addedSection {
+  border-color: #0c0;
+  color: #0c0;
+}
+
+div.modifiedSection {
+  border-color: #00c;
+  color: #00c;
+}
+
+div.deletedSection {
+  border-color: #c00;
+  color: #c00;
   text-decoration: line-through;
+}
+
+div.actChangeDetails {
+  color: #777;
+  font-size: 80%;
+  text-align: right;
 }
 
 /** templates converted with MediaWiki **/

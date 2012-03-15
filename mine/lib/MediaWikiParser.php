@@ -13,9 +13,9 @@ class MediaWikiParser {
     self::$botPassword = Config::get('general.mediaWikiBotPassword');
   }
 
-  static function wikiToHtml($text, &$references = null) {
+  static function wikiToHtml($actVersion, &$references = null) {
+    $text = self::insertChangeDetails($actVersion);
     $text = self::ensureReferences($text);
-    $text = self::parseRepealedSections($text);
     $text = self::parse($text);
 
     // Automatic links to acts
@@ -153,29 +153,52 @@ class MediaWikiParser {
     return $text;
   }
 
-  private static function parseRepealedSections($text) {
-    $lines = explode("\n", $text);
+  private static function insertChangeDetails($actVersion) {
+    $ann = json_decode($actVersion->annotated, true);
     $output = array();
-    $inComment = false;
+    $version = 'a1';
+    $n = count($ann['lines']);
 
-    foreach ($lines as $line) {
-      if (StringUtil::startsWith($line, '//')) {
-        if (!$inComment) {
-          $output[] = '<div class="repealedSection">';
-          $inComment = true;
-        }
-        $output[] = substr($line, 2);
-      } else {
-        if ($inComment) {
+    $modifyingActs = Act::getModifyingActs($actVersion->actId);
+    $modifyingActs[$actVersion->versionNumber] = Act::get_by_id($actVersion->modifyingActId); // In case it hasn't yet been saved.
+
+    for ($i = 0; $i < $n; $i++) {
+      if ($ann['history'][$i] != $version) {
+        // Close the previous section, if needed
+        if ($version != 'a1') {
           $output[] = '</div>';
-          $inComment = false;
+          switch (substr($version, 0, 1)) {
+          case 'a': $keyword = 'Adăugat'; break;
+          case 'm': $keyword = 'Modificat'; break;
+          default: $keyword = 'Abrogat';
+          }
+          $act = $modifyingActs[substr($version, 1)];
+          $actText = $act ? $act->getDisplayId() : 'un act necunoscut';
+          $output[] = sprintf("<div class=\"actChangeDetails\">%s de %s </div>", $keyword, $actText);
         }
-        $output[] = $line;
+        $version = $ann['history'][$i];
+        if ($version != 'a1') {
+          switch (substr($version, 0, 1)) {
+          case 'a': $divClass = 'addedSection'; break;
+          case 'm': $divClass = 'modifiedSection'; break;
+          default: $divClass = 'deletedSection';
+          }
+          $output[] = "<div class=\"actChange {$divClass}\">";
+        }
       }
+      $output[] = $ann['lines'][$i];
     }
 
-    if ($inComment) {
+    if ($version != 'a1') {
       $output[] = '</div>';
+      switch (substr($version, 0, 1)) {
+      case 'a': $keyword = 'Adăugat'; break;
+      case 'm': $keyword = 'Modificat'; break;
+      default: $keyword = 'Abrogat';
+      }
+      $act = $modifyingActs[substr($version, 1)];
+      $actText = $act ? $act->getDisplayId() : 'un act necunoscut';
+      $output[] = sprintf("<div class=\"actChangeDetails\">%s de %s </div>", $keyword, $actText);
     }
     return implode("\n", $output);
   }

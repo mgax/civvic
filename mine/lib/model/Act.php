@@ -77,9 +77,17 @@ class Act extends BaseObject {
     }
 
     $class = $act->getDisplayClass();
-
-    // FIXME: Replace with civvic.ro once we make the switch.
     return sprintf('<a class="actLink %s" href="http://civvic.ro/act?id=%s">%s</a>', $class, $act->id, $text);
+  }
+
+  /* Returns a map of versionNumber -> modifying act for that version */
+  static function getModifyingActs($actId) {
+    $map = array();
+    $avs = Model::factory('ActVersion')->select('versionNumber')->select('modifyingActId')->where('actId', $actId)->find_many();
+    foreach ($avs as $av) {
+      $map[$av->versionNumber] = Act::get_by_id($av->modifyingActId);
+    }
+    return $map;
   }
 
   function delete() {

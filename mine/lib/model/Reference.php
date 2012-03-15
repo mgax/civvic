@@ -53,7 +53,7 @@ class Reference extends BaseObject {
     }
     foreach ($avMap as $actVersionId => $ignored) {
       $av = ActVersion::get_by_id($actVersionId);
-      $av->htmlContents = MediaWikiParser::wikiToHtml($av->contents);
+      $av->htmlContents = MediaWikiParser::wikiToHtml($av);
       $av->save(); // Note that we haven't touched $av->contents
     }
   }

@@ -1,7 +1,7 @@
 <?php
 
 /*
-  Adapted from:
+  Adapted and extended from:
 
   Paul's Simple Diff Algorithm v 0.1
   (C) Paul Butler 2007 <http://www.paulbutler.org/>
@@ -22,11 +22,11 @@
 
 class SimpleDiff {
 
-  static function diff($old, $new, $oldOffset){
-    if (empty($old) && empty($new)) {
-      return array();
-    }
+  /** Returns an array with keys length, oldOffset, newOffset **/
+  private static function longestSubarray(&$old, &$new) {
     $maxlen = 0;
+    $omax = 0;
+    $nmax = 0;
     foreach ($old as $oindex => $ovalue) {
       $nkeys = array_keys($new, $ovalue);
       foreach ($nkeys as $nindex) {
@@ -39,9 +39,21 @@ class SimpleDiff {
         }
       }	
     }
-    if ($maxlen == 0) return array($oldOffset => array('d' => $old, 'i' => $new));
-    return self::diff(array_slice($old, 0, $omax), array_slice($new, 0, $nmax), $oldOffset) +
-      self::diff(array_slice($old, $omax + $maxlen), array_slice($new, $nmax + $maxlen), $omax + $maxlen + $oldOffset);
+    return array('length' => $maxlen, 'oldOffset' => $omax, 'newOffset' => $nmax);
+  }
+
+  static function diff($old, $new, $oldOffset){
+    if (empty($old) && empty($new)) {
+      return array();
+    }
+    $c = self::longestSubarray($old, $new);
+    if ($c['length'] == 0) return array($oldOffset => array('d' => $old, 'i' => $new));
+    return self::diff(array_slice($old, 0, $c['oldOffset']),
+                      array_slice($new, 0, $c['newOffset']),
+                      $oldOffset) +
+      self::diff(array_slice($old, $c['oldOffset'] + $c['length']),
+                 array_slice($new, $c['newOffset'] + $c['length']),
+                 $c['oldOffset'] + $c['length'] + $oldOffset);
   }
 
   static function lineDiff($old, $new) {
@@ -63,6 +75,25 @@ class SimpleDiff {
       }
     }
     return $ret;
+  }
+
+  /** Diff that returns the correspondence between identical lines **/
+  static function commonLinesDiff($old, $new, $oldOffset = 0, $newOffset = 0) {
+    $c = self::longestSubarray($old, $new);
+    if (!$c['length']) {
+      return array();
+    }
+    $result = array();
+    for ($i = 0; $i < $c['length']; $i++) {
+      $result[$oldOffset + $c['oldOffset'] + $i] = $newOffset + $c['newOffset'] + $i;
+    }
+    return self::commonLinesDiff(array_slice($old, 0, $c['oldOffset']),
+                                 array_slice($new, 0, $c['newOffset']),
+                                 $oldOffset, $newOffset) +
+      $result + 
+      self::commonLinesDiff(array_slice($old, $c['oldOffset'] + $c['length']),
+                            array_slice($new, $c['newOffset'] + $c['length']),
+                            $oldOffset + $c['oldOffset'] + $c['length'], $newOffset + $c['newOffset'] + $c['length']);
   }
 
 }

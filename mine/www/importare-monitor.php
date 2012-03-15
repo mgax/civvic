@@ -36,7 +36,8 @@ if ($submitButton) {
     }
 
     foreach ($actVersions as $av) {
-      $av->htmlContents = MediaWikiParser::wikiToHtml($av->contents);
+      $av->annotate(null);
+      $av->htmlContents = MediaWikiParser::wikiToHtml($av);
     }
 
     SmartyWrap::assign('monitor', $monitor);

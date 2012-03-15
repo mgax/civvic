@@ -31,6 +31,7 @@ $av = ActVersion::get_by_id($id);
 if ($submitButton || $previewButton) {
   $av->modifyingActId = $modifyingActId;
   $av->status = $status;
+  $contents = StringUtil::cleanupUserInput($contents);
   // Avoid the cascading updates triggered by dirtying contents
   if ($contents != $av->contents) {
     $av->contents = $contents;
@@ -38,7 +39,9 @@ if ($submitButton || $previewButton) {
 }
 
 if ($previewButton) {
-  $av->htmlContents = MediaWikiParser::wikiToHtml($av->contents);
+  $previousAv = Model::factory('ActVersion')->where('actId', $av->actId)->where('versionNumber', $av->versionNumber - 1)->find_one();
+  $av->annotate($previousAv);
+  $av->htmlContents = MediaWikiParser::wikiToHtml($av);
   $av->validate();
 }
 
