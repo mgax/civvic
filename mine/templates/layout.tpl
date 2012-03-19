@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>{$pageTitle} | Civvic.ro</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
     <link type="text/css" href="{$wwwRoot}css/main.css?v=4" rel="stylesheet"/>
     <link type="text/css" href="{$wwwRoot}css/smoothness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />	
     <link type="text/css" href="{$wwwRoot}css/ui.jqgrid.css" rel="stylesheet" />	
@@ -70,7 +70,7 @@
       <div class="fb-like" data-href="http://facebook.com/civvic.ro" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
 
       <div id="license">
-        <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Datele Civvic.ro</span> sunt disponibile sub
+        Datele Civvic.ro sunt disponibile sub
         <a rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/ro/">Creative Commons Attribution-NoDerivs 3.0 Romania License</a>.
       </div>
     </footer>

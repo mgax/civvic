@@ -14,7 +14,7 @@
       {foreach from=$versions item=av}
         <option value="{$av->versionNumber}" {if $av->versionNumber == $shownAv->versionNumber}selected="selected"{/if}>
           {$av->versionNumber}{if $av->current} (curentă){/if}
-        </av>
+        </option>
       {/foreach}
     </select>
     <input type="submit" name="submitButton" value="Arată"/>
