@@ -162,9 +162,14 @@ class MediaWikiParser {
     $modifyingActs = Act::getModifyingActs($actVersion->actId);
     $modifyingActs[$actVersion->versionNumber] = Act::get_by_id($actVersion->modifyingActId); // In case it hasn't yet been saved.
 
+    $tableLevel = 0; // We cannot insert a div in the middle of a table
+
     for ($i = 0; $i < $n; $i++) {
       if ($ann['history'][$i] != $version) {
         // Close the previous section, if needed
+        if ($tableLevel) {
+          $output[] = '|}';
+        }
         if ($version != 'a1') {
           $output[] = '</div>';
           switch (substr($version, 0, 1)) {
@@ -185,11 +190,23 @@ class MediaWikiParser {
           }
           $output[] = "<div class=\"actChange {$divClass}\">";
         }
+        if ($tableLevel) {
+          $output[] = '{|';
+        }
       }
-      $output[] = $ann['lines'][$i];
+      $line = $ann['lines'][$i];
+      $output[] = $line;
+      if (StringUtil::startsWith($line, '{|')) {
+        $tableLevel++;
+      } else if (StringUtil::startsWith($line, '|}')) {
+        $tableLevel--;
+      }
     }
 
     if ($version != 'a1') {
+      if ($tableLevel) {
+        $output[] = '|}';
+      }
       $output[] = '</div>';
       switch (substr($version, 0, 1)) {
       case 'a': $keyword = 'Adăugat'; break;
