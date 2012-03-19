@@ -477,6 +477,32 @@ class MediaWikiParser {
       $data['number'] = $parts[3];
       break;
 
+    case 'SemnPcpun':
+      $author = Model::factory('Author')->where('position', 'Președintele Consiliului Provizoriu de Uniune Națională')
+        ->where('name', $parts[1])->find_one();
+      if (!$author) {
+        FlashMessage::add("Trebuie definit autorul 'Președintele Consiliului Frontului Salvării Naționale, {$parts[1]}'.");
+        return false;
+      }
+      $data['authorId'] = $author->id;
+
+      $place = Place::get_by_name($parts[2]);
+      if (!$place) {
+        FlashMessage::add("Trebuie definit locul '{$parts[2]}'.");
+        return false;
+      }
+      $data['placeId'] = $place->id;
+
+      $issueDate = StringUtil::parseRomanianDate($parts[3]);
+      if (!$issueDate) {
+        FlashMessage::add(sprintf("Data '%s' este incorectă.", $parts[3]));
+        return false;
+      }
+      $data['issueDate'] = $issueDate;
+
+      $data['number'] = $parts[4];
+      break;
+
     default:
       FlashMessage::add(sprintf("Nu știu să interpretez semnături de tipul {{%s}}.", $parts[0]));
       return false;
