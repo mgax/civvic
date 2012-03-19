@@ -17,6 +17,7 @@ class MediaWikiParser {
     $text = self::insertChangeDetails($actVersion);
     $text = self::ensureReferences($text);
     $text = self::parse($text);
+    $text = self::deleteEmptyTables($text);
 
     // Automatic links to acts
     $actTypes = Model::factory('ActType')->raw_query('select * from act_type order by length(name) desc', null)->find_many();
@@ -225,6 +226,10 @@ class MediaWikiParser {
     $xmlString = Util::makePostRequest(self::$url, array('action' => 'parse', 'text' => $text, 'format' => 'xml'));
     $xml = simplexml_load_string($xmlString);
     return (string)$xml->parse->text;
+  }
+
+  static function deleteEmptyTables($text) {
+    return preg_replace("/<table>\\s*<tr>\\s*<td>\\s*<\\/td>\\s*<\\/tr>\\s*<\\/table>/i", '', $text);
   }
 
   // Returns an array consisting of a monitor and a collection of acts and their versions.
