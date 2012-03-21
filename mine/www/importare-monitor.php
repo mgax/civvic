@@ -49,6 +49,11 @@ if ($submitButton) {
       $authorMatrix[] = $authors;
     }
 
+    $actTypes = array();
+    foreach ($acts as $act) {
+      $actTypes[] = ActType::get_by_id($act->actTypeId);
+    }
+
     foreach ($actVersions as $av) {
       $av->annotate(null);
       $av->htmlContents = MediaWikiParser::wikiToHtml($av);
@@ -56,6 +61,7 @@ if ($submitButton) {
 
     SmartyWrap::assign('monitor', $monitor);
     SmartyWrap::assign('acts', $acts);
+    SmartyWrap::assign('actTypes', $actTypes);
     SmartyWrap::assign('actVersions', $actVersions);
     SmartyWrap::assign('authorMatrix', $authorMatrix);
     FlashMessage::add("Această pagină este o previzualizare. Dacă totul arată bine, apăsați din nou butonul 'Importă'.", 'warning');
