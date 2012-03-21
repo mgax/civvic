@@ -34,6 +34,15 @@ class Act extends BaseObject {
       Reference::unassociateByReferredActId($this->id);
     }
     parent::save();
+    // The HTML has changed for all the actVersions this act modifies, and all future versions from those acts
+    $modifiedAvs = Model::factory('ActVersion')->where('modifyingActId', $this->id)->find_many();
+    foreach ($modifiedAvs as $modifiedAv) {
+      $avs = Model::factory('ActVersion')->where('actId', $modifiedAv->actId)->where_gte('versionNumber', $modifiedAv->versionNumber)->find_many();
+      foreach ($avs as $av) {
+        $av->htmlContents = MediaWikiParser::wikiToHtml($av);
+        $av->save();
+      }
+    }
     Reference::associateReferredAct($this);
     Reference::reconvertReferringActVersions($this->id);
   }

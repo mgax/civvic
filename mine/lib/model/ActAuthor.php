@@ -13,7 +13,7 @@ class ActAuthor extends BaseObject {
 
     $rank = 1;
     foreach ($lines as $line) {
-      $authorId = $authorMap[$line];
+      $authorId = array_key_exists($line, $authorMap) ? $authorMap[$line] : false;
       if ($authorId) {
         $aa = empty($oldAas) ? Model::factory('ActAuthor')->create() : array_shift($oldAas);
         $aa->actId = $actId;

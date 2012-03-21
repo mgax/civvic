@@ -24,7 +24,8 @@
    onclick="return confirm('Confirmați ștergerea versiunii {$av->versionNumber}?');">șterge</a>
 
 <br/>
-<a href="editare-act?id={$av->actId}">înapoi la act</a>
+<a href="editare-act?id={$av->actId}">înapoi la editare act</a> |
+<a href="act?id={$av->actId}">înapoi la vizualizare act</a>
 
 <script type="text/javascript">
   {literal}

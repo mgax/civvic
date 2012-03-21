@@ -31,11 +31,7 @@ $av = ActVersion::get_by_id($id);
 if ($submitButton || $previewButton) {
   $av->modifyingActId = $modifyingActId;
   $av->status = $status;
-  $contents = StringUtil::cleanupUserInput($contents);
-  // Avoid the cascading updates triggered by dirtying contents
-  if ($contents != $av->contents) {
-    $av->contents = $contents;
-  }
+  $av->contents = StringUtil::cleanupUserInput($contents);
 }
 
 if ($previewButton) {
