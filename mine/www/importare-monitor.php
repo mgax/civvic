@@ -15,6 +15,7 @@ if ($submitButton) {
     $monitor = $data['monitor'];
     $acts = $data['acts'];
     $actVersions = $data['actVersions'];
+    $authorIdMatrix = $data['authorIds'];
 
     if ($previewedNumber == $number && $previewedYear == $year) {
       $monitor->save();
@@ -24,15 +25,28 @@ if ($submitButton) {
         $av = $actVersions[$i];
         $av->actId = $av->modifyingActId = $act->id;
         $av->save();
+
+        $rank = 1;
+        foreach ($authorIdMatrix[$i] as $authorId) {
+          $aa = Model::factory('ActAuthor')->create();
+          $aa->actid = $act->id;
+          $aa->authorId = $authorId;
+          $aa->rank = $rank++;
+          $aa->save();
+        }
       }
       MediaWikiParser::maybeProtectMonitor($number, $year);
       FlashMessage::add('Monitorul a fost importat.', 'info');
       Util::redirect("monitor?id={$monitor->id}");
     }
 
-    $authors = array();
-    foreach ($acts as $act) {
-      $authors[] = Author::get_by_id($act->authorId);
+    $authorMatrix = array();
+    foreach ($authorIdMatrix as $authorIds) {
+      $authors = array();
+      foreach ($authorIds as $authorId) {
+        $authors[] = Author::get_by_id($authorId);
+      }
+      $authorMatrix[] = $authors;
     }
 
     foreach ($actVersions as $av) {
@@ -43,7 +57,7 @@ if ($submitButton) {
     SmartyWrap::assign('monitor', $monitor);
     SmartyWrap::assign('acts', $acts);
     SmartyWrap::assign('actVersions', $actVersions);
-    SmartyWrap::assign('authors', $authors);
+    SmartyWrap::assign('authorMatrix', $authorMatrix);
     FlashMessage::add("Această pagină este o previzualizare. Dacă totul arată bine, apăsați din nou butonul 'Importă'.", 'warning');
   }
 }

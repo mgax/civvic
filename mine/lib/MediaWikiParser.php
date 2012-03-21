@@ -275,6 +275,7 @@ class MediaWikiParser {
     $data['monitor'] = $monitor;
     $data['acts'] = array();
     $data['actVersions'] = array();
+    $data['authorIds'] = array();
 
     // Split the contents into lines and locate the == and === headers
     $lines = explode("\n", $contents);
@@ -293,6 +294,7 @@ class MediaWikiParser {
         $chunk = array_slice($lines, $lineNo, $headers23[$i + 1] - $lineNo);
         $act = Model::factory('Act')->create();
         $act->year = $monitor->year;
+        $authorIds = array();
 
         // Extract the title from the first line
         $matches = array();
@@ -332,7 +334,7 @@ class MediaWikiParser {
           if (!$signData) {
             return false;
           }
-          $act->authorId = $signData['authorId'];
+          $authorIds[] = $signData['authorId'];
           $act->placeId = $signData['placeId'];
           $act->issueDate = $signData['issueDate'];
           $act->number = $signData['number'];
@@ -365,6 +367,7 @@ class MediaWikiParser {
         $av->contents = trim(implode("\n", array_slice($chunk, 1)));
         $data['acts'][] = $act;
         $data['actVersions'][] = $av;
+        $data['authorIds'][] = $authorIds;
       }
     }
 

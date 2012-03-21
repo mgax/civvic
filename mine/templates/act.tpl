@@ -32,8 +32,11 @@
 {/if}
 {$shownAv->htmlContents}
 
-{if $author}
+{if $authors}
   <div class="author">
-    Autor: {$author->getDisplayName()}
+    {if count($authors) > 1}Autori:{else}Autor:{/if}<br/>
+    {foreach from=$authors item=author}
+      {$author->getDisplayName()}<br/>
+    {/foreach}
   </div>
 {/if}

@@ -15,7 +15,7 @@
   an: <input type="text" name="year" value="{$act->year}" size="4"/><br/>
   Nume: <input type="text" name="name" value="{$act->name}" size="80" autocomplete="off"/><br/>
   Data: {include file="bits/datePicker.tpl" id="issueDate" name="issueDate" value=$act->issueDate}<br/>
-  Autor: {include file="bits/authorDropdown.tpl" name="authorId" authors=$authors selected=$act->authorId}<br/>
+  Autor(i): {include file="bits/authorAutocompleteMultiple.tpl" name="authors" authors=$authors}<br/>
   Publicată în {include file=bits/monitorDropdown.tpl name="monitorId" monitors=$monitors selected=$act->monitorId}<br/>
   Locul: {include file=bits/placeDropdown.tpl name="placeId" places=$places selected=$act->placeId}<br/>
 

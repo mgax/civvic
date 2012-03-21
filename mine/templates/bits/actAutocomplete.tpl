@@ -1,4 +1,4 @@
-{* Parameters: $name $actTypes $selected $emptyOption=true $autofocus = false *}
+{* Parameters: $name $selected $emptyOption=true $autofocus = false *}
 {assign var="emptyOption" value=$emptyOption|default:true}
 {assign var="autofocus" value=$autofocus|default:false}
 <input type="hidden" id="{$name}_hidden" name="{$name}" value="{$selected->id}"/>

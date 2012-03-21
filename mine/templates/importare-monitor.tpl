@@ -25,9 +25,12 @@
     </ul>
 
     {$actVersions.$i->htmlContents}
-    {if $authors.$i}
+    {if count($authorMatrix.$i)}
       <div class="author">
-        Autor: {$authors.$i->getDisplayName()}
+        {if count($authorMatrix.$i) > 1}Autori:{else}Autor:{/if}<br/>
+        {foreach from=$authorMatrix.$i item=author}
+          {$author->getDisplayName()}<br/>
+        {/foreach}
       </div>
     {/if}
     <br/>

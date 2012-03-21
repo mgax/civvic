@@ -17,6 +17,24 @@ class Author extends BaseObject {
     return $authors;
   }
 
+  static function loadAllMapByDisplayName() {
+    $authors = Model::factory('Author')->find_many();
+    $map = array();
+    foreach ($authors as $a) {
+      $map[$a->getDisplayName()] = $a->id;
+    }
+    return $map;
+  }
+
+  static function getForActId($actId) {
+    $actAuthors = Model::factory('ActAuthor')->where('actId', $actId)->order_by_asc('rank')->find_many();
+    $authors = array();
+    foreach ($actAuthors as $aa) {
+      $authors[] = self::get_by_id($aa->authorId);
+    }
+    return $authors;
+  }
+
   function getDisplayName() {
     $bits = array();
     if ($this->institution) {
@@ -43,7 +61,7 @@ class Author extends BaseObject {
   }
 
   function delete() {
-    $count = Model::factory('Act')->where('authorId', $this->id)->count();
+    $count = Model::factory('ActAuthor')->where('authorId', $this->id)->count();
     if ($count) {
       FlashMessage::add('Autorul ' . $this->getDisplayName() . ' nu poate fi șters, deoarece există acte care îl folosesc.');
       return false;
