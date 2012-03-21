@@ -5,20 +5,30 @@ Util::requireAdmin();
 
 $term = Util::getRequestParameter('term');
 
-$matches = array();
-if (preg_match("/^(?P<before>[^0-9]*)\\s*(?P<number>\\d+)\\s*\\/\\s*(?P<year>\\d*)\\s*(?P<after>.*)$/", $term, $matches)) {
-  $query = Model::factory('Act')->where('number', $matches['number'])->where_like('year', $matches['year'] . '%');
-  if ($matches['before']) {
-    $query = $query->where_like('name', '%' . trim($matches['before']) . '%');
+// Split the term into words and separate up to two numbers
+$words = preg_split("/(\\s|\\/)+/", $term);
+$numbers = array();
+$other = array();
+foreach ($words as $w) {
+  if (count($numbers) < 2 && ctype_digit($w)) {
+    $numbers[] = $w;
+  } else {
+    $other[] = $w;
   }
-  if ($matches['after']) {
-    $query = $query->where_like('name', '%' . trim($matches['after']) . '%');
-  }
-} else {
-  $query = Model::factory('Act')->where_like('name', "%{$term}%");
 }
 
+$query = Model::factory('Act')->select('act.*')->join('act_type', 'actTypeId = act_type.id');
+if (count($numbers)) {
+  $query->where('number', $numbers[0]);
+}
+if (count($numbers) > 1) {
+  $query->where_like('year', $numbers[1] . '%');
+}
+foreach ($other as $word) {
+  $query->where_raw("(act.name like '%{$word}%' or act_type.name like '%{$word}%' or artName like '%{$word}%' or genArtName like '%{$word}%')");
+}
 $acts = $query->limit(10)->find_many();
+
 $results = array();
 foreach ($acts as $a) {
   if ($a->number && $a->year) {
@@ -30,6 +40,5 @@ foreach ($acts as $a) {
 }
 
 print json_encode($results);
-
 
 ?>

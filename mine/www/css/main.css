@@ -67,6 +67,11 @@ div.fb-like {
   color: #222;
 }
 
+#searchForm {
+  margin: 30px auto;
+  text-align: center;
+}
+
 a.delete {
   background: url("../img/silk/cross.png") no-repeat;
   padding-left: 20px;

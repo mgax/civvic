@@ -1,9 +1,9 @@
-{* Parameters: $name $selected $emptyOption=true $autofocus = false *}
-{assign var="emptyOption" value=$emptyOption|default:true}
+{* Parameters: $name $selected=null $autofocus=false *}
+{assign var="selected" value=$selected|default:null}
 {assign var="autofocus" value=$autofocus|default:false}
 <input type="hidden" id="{$name}_hidden" name="{$name}" value="{$selected->id}"/>
 <input type="text" id="{$name}_visible" name="{$name}_visible" value="{if $selected}{$selected->getDisplayId()}{/if}"
-  {if $autofocus}autofocus="autofocus"{/if} size="80"/>
+  {if $autofocus}autofocus="autofocus"{/if} size="80" placeHolder="Caută un act..."/>
 
 <script type="text/javascript">
   {literal}
