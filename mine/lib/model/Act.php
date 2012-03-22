@@ -79,7 +79,8 @@ class Act extends BaseObject {
     $act = Model::factory('Act')->where('actTypeId', $actTypeId)->where('number', $number)->where('year', $year)->find_one();
 
     if (!$act) {
-      return sprintf('<a class="actLink undefined" href="#" title="Acest act nu este definit." onclick="return false;">%s</a>', $text);
+      return sprintf('<a class="actLink undefined" href="http://civvic.ro/act-inexistent?data=%s:%s:%s">%s</a>',
+                     $actTypeId, $number, $year, $text);
     }
 
     $class = $act->getDisplayClass();

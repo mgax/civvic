@@ -3,7 +3,10 @@
 require_once '../../lib/Util.php';
 Util::requireAdmin();
 
+define('AUTOCOMPLETE_LIMIT', 10);
+
 $term = Util::getRequestParameter('term');
+$ref = Util::getRequestParameter('ref');
 
 // Split the term into words and separate up to two numbers
 $words = preg_split("/(\\s|\\/)+/", $term);
@@ -27,7 +30,7 @@ if (count($numbers) > 1) {
 foreach ($other as $word) {
   $query->where_raw("(act.name like '%{$word}%' or act_type.name like '%{$word}%' or artName like '%{$word}%' or genArtName like '%{$word}%')");
 }
-$acts = $query->limit(10)->find_many();
+$acts = $query->limit(AUTOCOMPLETE_LIMIT)->find_many();
 
 $results = array();
 foreach ($acts as $a) {
@@ -37,6 +40,31 @@ foreach ($acts as $a) {
     $str = sprintf("%s %s", $a->issueDate, $a->name);
   }
   $results[] = array('id' => $a->id, 'label' => $str);
+}
+
+if ($ref && (count($results) < AUTOCOMPLETE_LIMIT)) {
+  // Get acts which we don't have, but to which other acts refer
+  $clauses = array();
+  if (count($numbers)) {
+    $clauses[] = sprintf("(reference.number = '%s')", $numbers[0]);
+  }
+  if (count($numbers) > 1) {
+    $clauses[] = sprintf("(reference.year like '%s%%')", $numbers[1]);
+  }
+  foreach ($other as $word) {
+    $clauses[] = "(act_type.name like '%{$word}%' or act_type.artName like '%{$word}%' or act_type.genArtName like '%{$word}%')";
+  }
+  $query = sprintf("select distinct act_type.id, act_type.artName, reference.number, reference.year " .
+                   "from act_type, reference, act_version, act " .
+                   "where act_type.id = reference.actTypeId and reference.actVersionId = act_version.id and act_version.actId = act.id " .
+                   "and referredActId is null and %s order by act.issueDate limit %d",
+                   implode(" and ", $clauses), AUTOCOMPLETE_LIMIT - count($results));
+  $dbResult = Db::execute($query, PDO::FETCH_ASSOC);
+  foreach ($dbResult as $row) {
+    $results[] = array('id' => 0,
+                       'label' => sprintf("%s %s/%s (inexistent)", $row['artName'], $row['number'], $row['year']),
+                       'ref' => sprintf("%s:%s:%s", $row['id'], $row['number'], $row['year']));
+  }
 }
 
 print json_encode($results);

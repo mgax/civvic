@@ -1,7 +1,7 @@
 <h3>Bun venit la Civvic.ro</h3>
 
 <form id="searchForm" action="actDispatcher">
-  {include file=bits/actAutocomplete.tpl name="actId" autofocus=true}
+  {include file=bits/actAutocomplete.tpl name="actId" autofocus=true refFieldName="actData"}
   <input type="submit" name="submitButton" value="Caută"/>
 </form>
 

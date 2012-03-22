@@ -8,7 +8,7 @@
   <h4>{$year}</h4>
   <ul class="actList">
     {foreach from=$acts item=a}
-     <li>{include file=bits/actLink.tpl act=$a} {$a->name}</li>
+      <li>{include file=bits/actLink.tpl act=$a} {$a->name}</li>
     {/foreach}
   </ul>
 {/foreach}
