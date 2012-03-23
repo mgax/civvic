@@ -17,7 +17,7 @@ $references = Model::factory('Reference')->select('reference.*')
   ->join('act_version', 'reference.actVersionId = act_version.id')
   ->join('act', 'act_version.actId = act.id')
   ->where('reference.actTypeId', $actTypeId)->where('reference.number', $number)->where('reference.year', $year)->where_null('referredActId')
-  ->order_by_asc('act.issueDate')->order_by_asc('act.year')->order_by_asc('act.number')->find_many();
+  ->group_by('actVersionId')->order_by_asc('act.issueDate')->order_by_asc('act.year')->order_by_asc('act.number')->find_many();
 $actVersions = array();
 $acts = array();
 $modifyingActs = array();
