@@ -73,6 +73,14 @@ div.fb-like {
   text-align: center;
 }
 
+a {
+  color: #422;
+}
+
+a:hover {
+  color: #844;
+}
+
 a.delete {
   background: url("../img/silk/cross.png") no-repeat;
   padding-left: 20px;
@@ -164,10 +172,17 @@ a.undefined {
 }
 
 div.repealedMention {
- border: 1px solid #b00;
- color: #b00;
- margin-top: 10px;
- padding: 5px 10px;
+  background: #c90012;
+  border: 1px solid #d0a080;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  margin-top: 10px;
+  padding: 5px 10px;
+}
+
+div.repealedMention a {
+  color: white;
 }
 
 ul.actList {
