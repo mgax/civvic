@@ -528,6 +528,31 @@ class MediaWikiParser {
       $data['number'] = $parts[4];
       break;
 
+    case 'Autor':
+      $author = Model::factory('Author')->where('position', $parts[1])->where('name', $parts[2])->find_one();
+      if (!$author) {
+        FlashMessage::add("Trebuie definit autorul '$parts[1]', {$parts[2]}'.");
+        return false;
+      }
+      $data['authorId'] = $author->id;
+
+      $place = Place::get_by_name($parts[3]);
+      if (!$place) {
+        FlashMessage::add("Trebuie definit locul '{$parts[3]}'.");
+        return false;
+      }
+      $data['placeId'] = $place->id;
+
+      $issueDate = StringUtil::parseRomanianDate($parts[4]);
+      if (!$issueDate) {
+        FlashMessage::add(sprintf("Data '%s' este incorectă.", $parts[4]));
+        return false;
+      }
+      $data['issueDate'] = $issueDate;
+
+      $data['number'] = $parts[5];
+      break;
+
     default:
       FlashMessage::add(sprintf("Nu știu să interpretez semnături de tipul {{%s}}.", $parts[0]));
       return false;
