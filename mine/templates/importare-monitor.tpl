@@ -11,29 +11,13 @@
 </form>
 
 {if $monitor}
-  <h3>Monitorul Oficial nr. {$monitor->number} / {$monitor->year}</h3>
-  <ul class="actDetails">
-    <li>publicat la {$monitor->issueDate|date_format:"%e %B %Y"}</li>
-  </ul>
+  <div class="actTitle">Monitorul Oficial nr. {$monitor->number} / {$monitor->year}</div>
+  <div class="actDetails">
+    publicat la {$monitor->issueDate|date_format:"%e %B %Y"}
+  </div>
 
   {foreach from=$acts item=act key=i}
-    <h3>{$act->name}</h3>
-    <ul class="actDetails">
-      {if $actTypes.$i}<li>tipul: {$actTypes.$i->name}{/if}
-      {if $act->number}<li>numărul: {$act->number}</li>{/if}
-      {if $act->year}<li>anul: {$act->year}</li>{/if}
-      {if $act->issueDate}<li>data: {$act->issueDate|date_format:"%e %B %Y"}</li>{/if}
-    </ul>
-
+    {include file=bits/actHeader.tpl act=$act actType=$actTypes.$i monitor=null authors=$authorMatrix.$i}
     {$actVersions.$i->htmlContents}
-    {if count($authorMatrix.$i)}
-      <div class="author">
-        {if count($authorMatrix.$i) > 1}Autori:{else}Autor:{/if}<br/>
-        {foreach from=$authorMatrix.$i item=author}
-          {$author->getDisplayName()}<br/>
-        {/foreach}
-      </div>
-    {/if}
-    <br/>
   {/foreach}
 {/if}
