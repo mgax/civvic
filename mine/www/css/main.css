@@ -126,7 +126,8 @@ div.actDetails {
   border-bottom-right-radius: 6px;
   color: #333;
   font-size: 80%;
-  padding: 6px;
+  line-height: 2.0;
+  padding: 2px 6px;
   margin-bottom: 10px;
 }
 
@@ -141,16 +142,14 @@ div.actDetails ul li {
   padding-right: 10px;
 }
 
-div.author {
-  margin-top: 10px;
+.actEditLinks {
+  background: url("../img/silk/pencil.png") left center no-repeat;
+  padding-left: 20px;
 }
 
-form.actVersions {
-  margin-top: 8px;
-}
-
-div.actEditLinks {
-  margin-top: 8px;
+.actPdfLink {
+  background: url("../img/silk/page_white_acrobat.png") left center no-repeat;
+  padding-left: 20px;
 }
 
 a.repealed {

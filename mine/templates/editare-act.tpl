@@ -38,7 +38,7 @@
     {foreach from=$actVersions item=av}
       <tr>
         <td>{$av->versionNumber}</td>
-        <td><a href="editare-versiune-act?id={$av->id}">editează</a></td>
+        <td><span class="actEditLinks"><a href="editare-versiune-act?id={$av->id}">editează</a></span></td>
       </tr>
     {/foreach}
   </table>
@@ -57,5 +57,4 @@
 {/if}
 
 <br/>
-<a href="act?id={$act->id}">înapoi la act</a> |
-<a href="acte">înapoi la lista de acte</a>
+<a href="act?id={$act->id}">înapoi la act</a>

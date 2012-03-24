@@ -14,6 +14,9 @@ mediaWikiBotPassword = ""
 ; URL of a MediaWiki parser we use for converting MediaWiki syntax to HTML
 mediaWikiParser = "http://wiki.civvic.ro/api.php"
 
+; Location of the PDF archive
+moArchiveUrl = ""
+
 ; Location of the smarty class file.
 ; This can be an absolute file name or relative to one of the paths in include_path
 smartyClass = "/usr/share/php/smarty/Smarty.class.php"

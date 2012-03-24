@@ -2,6 +2,16 @@
 
 class Monitor extends BaseObject {
 
+  function getPdfNumber() {
+    // Count digits (ignore suffixes like "bis")
+    $len = mb_strlen($this->number);
+    $i = 0;
+    while ($i < $len && ctype_digit($this->number[$i])) {
+      $i++;
+    }
+    return str_repeat('0', 4 - $i) . $this->number;
+  }
+
   function validate() {
     if (!$this->number) {
       FlashMessage::add('Numărul nu poate fi vid.');

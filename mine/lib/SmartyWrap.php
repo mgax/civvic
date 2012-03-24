@@ -10,6 +10,7 @@ class SmartyWrap {
     self::$theSmarty->compile_dir = Util::$rootPath . '/templates_c';
     self::assign('wwwRoot', Util::$wwwRoot);
     self::assign('user', Session::getUser());
+    self::assign('moArchiveUrl', Config::get('general.moArchiveUrl'));
   }
 
   static function assign($name, $value) {

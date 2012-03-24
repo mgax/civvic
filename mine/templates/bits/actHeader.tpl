@@ -11,7 +11,7 @@
 
   {if $authors}
     <div class="author">
-      {if count($authors) > 1}Autori:<br/>{else}Autor: {/if}
+      {if count($authors) > 1}autori:<br/>{else}autor: {/if}
       {foreach from=$authors item=author}
         <b>{$author->getDisplayName()}</b><br/>
       {/foreach}
@@ -19,7 +19,7 @@
   {/if}
 
   {if count($versions) > 1}
-    <form class="actVersions" action="act">
+    <form action="act">
       <input type="hidden" name="id" value="{$act->id}"/>
       Versiunea:
       <select name="version">
@@ -34,9 +34,11 @@
   {/if}
 
   {if $editLinks && $user && $user->admin}
-    <div class="actEditLinks">
-      Editează <a href="editare-act?id={$act->id}">actul</a> |
+    <span class="actEditLinks">
+      editează <a href="editare-act?id={$act->id}">actul</a> |
       <a href="editare-versiune-act?id={$shownAv->id}">această versiune</a>
-    </div>
+    </span>
+
+    {include file=bits/monitorPdfLink.tpl monitor=$monitor}
   {/if}
 </div>
