@@ -16,9 +16,10 @@
   Nume: <input type="text" name="name" value="{$act->name}" size="80" autocomplete="off"/><br/>
   Data: {include file="bits/datePicker.tpl" id="issueDate" name="issueDate" value=$act->issueDate}<br/>
   Autor(i): {include file="bits/authorAutocompleteMultiple.tpl" name="authors" authors=$authors}<br/>
-  Publicată în {include file=bits/monitorDropdown.tpl name="monitorId" monitors=$monitors selected=$act->monitorId}<br/>
+  Publicat în {include file=bits/monitorDropdown.tpl name="monitorId" monitors=$monitors selected=$act->monitorId}<br/>
   Locul: {include file=bits/placeDropdown.tpl name="placeId" places=$places selected=$act->placeId}<br/>
-
+  Comentariu: <br/>
+  <textarea name="comment" rows="3">{$act->comment}</textarea><br/>
   <input type="submit" name="submitButton" value="Salvează"/>
 </form>
 

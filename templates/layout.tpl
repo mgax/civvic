@@ -48,6 +48,7 @@
         <h3>Administrare</h3>
 
         <ul class="sideMenu">
+          <li><a href="{$wwwRoot}acte-cu-comentarii">acte cu comentarii</a></li>
           <li><a href="{$wwwRoot}acte-inexistente">acte inexistente</a></li>
           <li><a href="{$wwwRoot}acte-fara-numar">acte fără număr</a></li>
           <li><a href="{$wwwRoot}texte-ocr">texte OCR</a></li>

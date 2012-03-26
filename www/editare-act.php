@@ -13,6 +13,7 @@ $actTypeId = Util::getRequestParameter('actTypeId');
 $authors = Util::getRequestParameter('authors');
 $monitorId = Util::getRequestParameter('monitorId');
 $placeId = Util::getRequestParameter('placeId');
+$comment = Util::getRequestParameter('comment');
 $submitButton = Util::getRequestParameter('submitButton');
 
 $versionPlacement = Util::getRequestParameter('versionPlacement');
@@ -66,6 +67,7 @@ if ($submitButton) {
   $act->actTypeId = $actTypeId;
   $act->monitorId = $monitorId;
   $act->placeId = $placeId;
+  $act->comment = $comment;
   if ($act->validate()) {
     $act->save();
     ActAuthor::saveAuthors($act->id, $authors);
