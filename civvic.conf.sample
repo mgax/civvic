@@ -26,5 +26,8 @@ smartyClass = "/usr/share/php/smarty/Smarty.class.php"
 
 [pdfImage]
 
+; Subdirectory of wwwbase/img/ where we store images cropped from monitors
+croppedImageDir = "cropped/"
+
 ; Path for temporary images
 tmpImageDir = /tmp/civvic-images
