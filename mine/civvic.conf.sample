@@ -15,7 +15,12 @@ mediaWikiBotPassword = ""
 mediaWikiParser = "http://wiki.civvic.ro/api.php"
 
 ; Location of the PDF archive
+moArchivePath = ""
 moArchiveUrl = ""
+
+; Location of remote PDF archives
+moSourceUrl[] = ""
+moSourceUrl[] = ""
 
 ; Location of the smarty class file.
 ; This can be an absolute file name or relative to one of the paths in include_path
