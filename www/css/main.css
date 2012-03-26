@@ -315,3 +315,13 @@ div.rawText {
   text-align: center;
   width: 850px;
 }
+
+img.croppedImageList {
+  border: 1px solid #444;
+  margin-top: 10px;
+}
+
+span.croppedImageDetails {
+  color: #777;
+  font-size: 80%;
+}
