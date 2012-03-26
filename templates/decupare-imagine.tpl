@@ -8,8 +8,6 @@
 </form>
 
 {if $imageName}
-  <script src="{$wwwRoot}js/jquery.Jcrop.min.js"></script>
-  <link type="text/css" href="{$wwwRoot}css/jcrop/jquery.Jcrop.min.css" rel="stylesheet"/>
   <h3>Selectează o regiune din imagine</h3>
 
   <div id="pdfPageWrapper">

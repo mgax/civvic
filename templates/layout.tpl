@@ -3,15 +3,12 @@
   <head>
     <title>{$pageTitle} | Civvic.ro</title>
     <meta charset="utf-8">
-    <link type="text/css" href="{$wwwRoot}css/main.css?v=9" rel="stylesheet"/>
-    <link type="text/css" href="{$wwwRoot}css/smoothness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />	
-    <link type="text/css" href="{$wwwRoot}css/ui.jqgrid.css" rel="stylesheet" />	
-    <script src="{$wwwRoot}js/jquery-1.7.1.min.js"></script>
-    <script src="{$wwwRoot}js/jquery-ui-1.8.18.custom.min.js"></script>
-    <script src="{$wwwRoot}js/jquery.ui.datepicker-ro.js"></script>
-    <script src="{$wwwRoot}js/grid.locale-ro.js"></script>
-    <script src="{$wwwRoot}js/jquery.jqGrid.min.js"></script>
-    <script src="{$wwwRoot}js/main.js"></script>
+    {foreach from=$cssFiles item=cssFile}
+      <link type="text/css" href="{$wwwRoot}css/{$cssFile}" rel="stylesheet"/>
+    {/foreach}
+    {foreach from=$jsFiles item=jsFile}
+      <script src="{$wwwRoot}js/{$jsFile}"></script>
+    {/foreach}
   </head>
 
   <body>

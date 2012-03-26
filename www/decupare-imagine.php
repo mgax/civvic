@@ -27,6 +27,8 @@ if ($pageGrabButton) {
   }
 }
 
+SmartyWrap::addCss('jcrop');
+SmartyWrap::addJs('jcrop');
 SmartyWrap::assign('number', $number);
 SmartyWrap::assign('year', $year);
 SmartyWrap::assign('page', $page);
