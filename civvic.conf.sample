@@ -20,10 +20,6 @@ moArchivePath = ""
 ; Location on the web of the PDF archive
 moArchiveUrl = ""
 
-; Location of remote PDF archives
-moSourceUrl[] = ""
-moSourceUrl[] = ""
-
 ; Location of the smarty class file.
 ; This can be an absolute file name or relative to one of the paths in include_path
 smartyClass = "/usr/share/php/smarty/Smarty.class.php"
