@@ -14,8 +14,10 @@ mediaWikiBotPassword = ""
 ; URL of a MediaWiki parser we use for converting MediaWiki syntax to HTML
 mediaWikiParser = "http://wiki.civvic.ro/api.php"
 
-; Location of the PDF archive
+; Location on the file system of the PDF archive
 moArchivePath = ""
+
+; Location on the web of the PDF archive
 moArchiveUrl = ""
 
 ; Location of remote PDF archives

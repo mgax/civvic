@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../lib/Util.php';
 
-$archivePath = Config::get('moArchiveSync.moArchivePath');
+$archivePath = Config::get('general.moArchivePath');
 if (!$archivePath) {
   die ("Path to the local MO archive is undefined\n");
 }
