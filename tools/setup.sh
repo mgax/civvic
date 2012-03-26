@@ -19,6 +19,7 @@ done
 
 # Grant write permissions to some directories
 chmod 777 $CIVVIC_DIR/templates_c
+chmod 777 $CIVVIC_DIR/www/img/cropped
 
 if [ ${#todos[@]} -gt 0 ]
     then

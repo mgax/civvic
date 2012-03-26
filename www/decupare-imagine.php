@@ -3,35 +3,37 @@
 require_once '../lib/Util.php';
 Util::requireAdmin();
 
-$number = Util::getRequestParameter('number');
-$year = Util::getRequestParameter('year');
-$page = Util::getRequestParameter('page');
+$ci = Model::factory('CroppedImage')->create();
+$ci->name = Util::getRequestParameter('cropName');
+$ci->monitorNumber = Util::getRequestParameter('number');
+$ci->monitorYear = Util::getRequestParameter('year');
+$ci->monitorPage = Util::getRequestParameter('page');
+$ci->zoom = Util::getRequestParameter('zoom');
+$ci->x0 = Util::getRequestParameter('x0');
+$ci->y0 = Util::getRequestParameter('y0');
+$ci->width = Util::getRequestParameter('width');
+$ci->height = Util::getRequestParameter('height');
+
+$imageName = Util::getRequestParameter('imageName');
 $pageGrabButton = Util::getRequestParameter('pageGrabButton');
+$cropButton = Util::getRequestParameter('cropButton');
 
 if ($pageGrabButton) {
-  $moPath = Monitor::getArchiveFileName($number, $year);
-  if (!$moPath) {
-    FlashMessage::add('Monitorul cerut nu există.');
-  } else {
-    $pageCount = PdfUtil::getPageCount($moPath);
-    if (!ctype_digit($page) || $page < 1 || $page > $pageCount) {
-      FlashMessage::add("Pagina trebuie să fie între 1 și {$pageCount}.");
-    } else {
-      $imageName = PdfUtil::convertPageToPng($moPath, $page);
-      if (!$imageName) {
-        FlashMessage::add("Nu pot genera imaginea PNG.");
-      } else {
-        SmartyWrap::assign('imageName', $imageName);
-      }
-    }
+  $imageName = PdfUtil::convertPageToPng($ci);
+}
+
+if ($cropButton) {
+  if ($ci->validate()) {
+    $ci->cropFrom($imageName);
+    $ci->save();
+    Util::redirect('imagini');
   }
 }
 
 SmartyWrap::addCss('jcrop');
 SmartyWrap::addJs('jcrop');
-SmartyWrap::assign('number', $number);
-SmartyWrap::assign('year', $year);
-SmartyWrap::assign('page', $page);
+SmartyWrap::assign('ci', $ci);
+SmartyWrap::assign('imageName', $imageName);
 SmartyWrap::assign('pageTitle', 'Decupează o imagine');
 SmartyWrap::display('decupare-imagine.tpl');
 

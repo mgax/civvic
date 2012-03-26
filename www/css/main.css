@@ -98,6 +98,11 @@ textarea {
   width: 100%;
 }
 
+/* Disabled inputs don't get submitted, which we don't want. However, readonly elements are white by default, which is misleading */
+input[readonly] {
+  background: #eee;
+}
+
 span.hint {
   color: #aaa;
   font-size: 80%;
@@ -304,5 +309,9 @@ div.rawText {
 #pdfPageWrapper {
   border: 1px solid #444;
   display: inline-block;
+  height: 400px;
+  margin: 10px 0;
+  overflow: auto;
   text-align: center;
+  width: 850px;
 }
