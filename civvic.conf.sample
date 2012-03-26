@@ -23,3 +23,8 @@ moArchiveUrl = ""
 ; Location of the smarty class file.
 ; This can be an absolute file name or relative to one of the paths in include_path
 smartyClass = "/usr/share/php/smarty/Smarty.class.php"
+
+[pdfImage]
+
+; Path for temporary images
+tmpImageDir = /tmp/civvic-images
