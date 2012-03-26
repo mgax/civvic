@@ -9,7 +9,7 @@
 <input type="text" id="{$name}_visible" name="{$name}_visible" value="{if $selected}{$selected->getDisplayId()}{/if}"
   {if $autofocus}autofocus="autofocus"{/if} size="80" placeHolder="Caută un act..."/>
 
-<script type="text/javascript">
+<script>
   {literal}
   $("#{/literal}{$name}{literal}_visible").autocomplete({
     source: function(request, response) {

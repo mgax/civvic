@@ -298,3 +298,11 @@ div.rawText {
   overflow: auto;
   padding: 2px;
 }
+
+/** PDF image cropping **/
+
+#pdfPageWrapper {
+  border: 1px solid #444;
+  display: inline-block;
+  text-align: center;
+}

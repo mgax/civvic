@@ -27,7 +27,7 @@
 <a href="editare-act?id={$av->actId}">înapoi la editare act</a> |
 <a href="act?id={$av->actId}">înapoi la vizualizare act</a>
 
-<script type="text/javascript">
+<script>
   {literal}
   $('#togglePreviewLink').click(function(ev) { 
     $('#wikiHtmlPreview').toggle('fast'); 

@@ -2,7 +2,7 @@
 
 <form name="loginForm" method="post" action="{$wwwRoot}auth/login">
   OpenID:
-  <input type="text" name="openid" value="{$openid}" size="50"/>
+  <input type="text" name="openid" value="{$openid}" size="50" autofocus="autofocus"/>
   <input type=submit id="login" name="submitButton" value="Autentificare"/>  
 </form>
 <br/>
@@ -38,7 +38,3 @@ Vizitați <a href="http://openid.net/get-an-openid/">lista furnizorilor de OpenI
 <h3>Precizare</h3>
 
 Majoritatea funcțiilor din Civvic nu necesită autentificarea. Autentificarea este concepută pentru moderatorii site-ului.
-
-<script type="text/javascript">
-  document.loginForm.openid.focus();
-</script>

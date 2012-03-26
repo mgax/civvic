@@ -6,12 +6,12 @@
     <link type="text/css" href="{$wwwRoot}css/main.css?v=9" rel="stylesheet"/>
     <link type="text/css" href="{$wwwRoot}css/smoothness/jquery-ui-1.8.18.custom.css" rel="stylesheet" />	
     <link type="text/css" href="{$wwwRoot}css/ui.jqgrid.css" rel="stylesheet" />	
-    <script type="text/javascript" src="{$wwwRoot}js/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="{$wwwRoot}js/jquery-ui-1.8.18.custom.min.js"></script>
-    <script type="text/javascript" src="{$wwwRoot}js/jquery.ui.datepicker-ro.js"></script>
-    <script type="text/javascript" src="{$wwwRoot}js/grid.locale-ro.js"></script>
-    <script type="text/javascript" src="{$wwwRoot}js/jquery.jqGrid.min.js"></script>
-    <script type="text/javascript" src="{$wwwRoot}js/main.js"></script>
+    <script src="{$wwwRoot}js/jquery-1.7.1.min.js"></script>
+    <script src="{$wwwRoot}js/jquery-ui-1.8.18.custom.min.js"></script>
+    <script src="{$wwwRoot}js/jquery.ui.datepicker-ro.js"></script>
+    <script src="{$wwwRoot}js/grid.locale-ro.js"></script>
+    <script src="{$wwwRoot}js/jquery.jqGrid.min.js"></script>
+    <script src="{$wwwRoot}js/main.js"></script>
   </head>
 
   <body>

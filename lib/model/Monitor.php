@@ -12,6 +12,18 @@ class Monitor extends BaseObject {
     return str_repeat('0', 4 - $i) . $this->number;
   }
 
+  /** Returns false on all errors (including when the file does not exist). **/
+  static function getArchiveFileName($number, $year) {
+    if (!$number || !$year) {
+      return false;
+    }
+    $m = Model::factory('Monitor')->create();
+    $m->number = $number;
+    $moArchivePath = Config::get('general.moArchivePath');
+    $moPath = "{$moArchivePath}/{$year}/{$m->getPdfNumber()}.pdf";
+    return file_exists($moPath) ? $moPath : false;
+  }
+
   function validate() {
     if (!$this->number) {
       FlashMessage::add('Numărul nu poate fi vid.');
