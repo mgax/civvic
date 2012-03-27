@@ -26,6 +26,7 @@ if ($cropButton) {
   if ($ci->validate()) {
     $ci->cropFrom($imageName);
     $ci->save();
+    FlashMessage::add('Imaginea a fost salvată.', 'info');
     Util::redirect('imagini');
   }
 }

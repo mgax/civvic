@@ -316,9 +316,20 @@ div.rawText {
   width: 850px;
 }
 
-img.croppedImageList {
-  border: 1px solid #444;
-  margin-top: 10px;
+div.croppedImage {
+  text-align: center;
+}
+
+div.croppedImage img {
+  border: 1px solid #ddd;
+  box-shadow: 5px 5px 5px #777; /* FF 4 ; CSS3 */
+  -moz-box-shadow: 2px 2px 5px #444; /* FF 3.5-3.6 */
+  padding: 3px;
+}
+
+div.croppedImageCaption {
+  margin: 5px 0 20px;
+  text-align: center;
 }
 
 span.croppedImageDetails {

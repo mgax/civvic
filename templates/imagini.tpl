@@ -6,10 +6,13 @@ Această pagină este în construcție. Când vom avea destule imagini ca să ne
 arătos cu aceste funcții.<br/>
 
 {foreach from=$images item=i}
-  <img class="croppedImageList" src="{$wwwRoot}img/{$croppedDir}/{$i->name}" alt="imagine decupată: {$i->name}"/><br/>
-  {$i->name}
-  <span class="croppedImageDetails">
-    Decupată din M.O. {$i->monitorNumber} / {$i->monitorYear}, pagina {$i->monitorPage}
-  </span>
-  <br/>
+  <div class="croppedImage">
+    <img src="{$wwwRoot}img/{$croppedDir}/{$i->name}.png" alt="imagine decupată: {$i->name}"/><br/>
+  </div>
+  <div class="croppedImageCaption">
+    {$i->name}
+    <span class="croppedImageDetails">
+      Decupată din M.O. {$i->monitorNumber} / {$i->monitorYear}, pagina {$i->monitorPage}
+    </span>
+  </div>
 {/foreach}
