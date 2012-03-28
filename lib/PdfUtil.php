@@ -13,22 +13,22 @@ class PdfUtil {
     return $width / $height;
   }
 
-  /* Takes a CroppedImage object and generates a PNG file. */
+  /* Takes a cropped image record and generates a PNG file. */
   /* Returns the image file name (without the .png extension), or false on all errors. */
   static function convertPageToPng($ci) {
-    if (!ctype_digit($ci->zoom) || $ci->zoom < 10 || $ci->zoom > 500) {
+    if (!ctype_digit($ci['zoom']) || $ci['zoom'] < 10 || $ci['zoom'] > 500) {
       FlashMessage::add('Valorile pentru zoom sunt între 10% și 500%.');
       return false;
     }
 
-    $pdfFileName = Monitor::getArchiveFileName($ci->monitorNumber, $ci->monitorYear);
+    $pdfFileName = Monitor::getArchiveFileName($ci['monitorNumber'], $ci['monitorYear']);
     if (!$pdfFileName) {
       FlashMessage::add('Monitorul cerut nu există.');
       return false;
     }
 
     $pageCount = PdfUtil::getPageCount($pdfFileName);
-    if (!ctype_digit($ci->monitorPage) || $ci->monitorPage < 1 || $ci->monitorPage > $pageCount) {
+    if (!ctype_digit($ci['monitorPage']) || $ci['monitorPage'] < 1 || $ci['monitorPage'] > $pageCount) {
       FlashMessage::add("Pagina trebuie să fie între 1 și {$pageCount}.");
       return false;
     }
@@ -37,12 +37,12 @@ class PdfUtil {
     @mkdir($dir, 0755, true);
     $imgName = StringUtil::randomCapitalLetters(10);
     $aspectRatio = self::getAspectRatio($pdfFileName);
-    $width = (int)(self::$defaultWidth * $ci->zoom / 100);
+    $width = (int)(self::$defaultWidth * $ci['zoom'] / 100);
     $height = (int)($width / $aspectRatio);
 
     $output = array();
     $returnCode = false;
-    $cmd = "pdftoppm -f {$ci->monitorPage} -l {$ci->monitorPage} -png -scale-to-x {$width} -scale-to-y {$height} '{$pdfFileName}' {$dir}/$imgName";
+    $cmd = "pdftoppm -f {$ci['monitorPage']} -l {$ci['monitorPage']} -png -scale-to-x {$width} -scale-to-y {$height} '{$pdfFileName}' {$dir}/$imgName";
     exec($cmd, $output, $returnCode);
     if ($returnCode) {
       FlashMessage::add("Comanda de conversie a dat eroare: {$cmd}");

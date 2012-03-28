@@ -2,10 +2,6 @@
 
 error_reporting(0); // Set E_ALL for debuging
 
-if (function_exists('date_default_timezone_set')) {
-  date_default_timezone_set('Europe/Moscow');
-}
-
 include_once __DIR__ . '/../../../lib/Util.php';
 include_once __DIR__ . '/elFinder.class.php';
 
@@ -28,9 +24,11 @@ class elFinderLogger implements elFinderILogger {
 	
 }
 
+$cropped = Config::get('pdfImage.croppedImageDir');
+
 $opts = array(
-              'root'            => '../../img/cropped',                       // path to root directory
-              'URL'             => Util::getFullServerUrl() . 'img/cropped/', // root directory URL
+              'root'            => Util::$rootPath . "/www/img/{$cropped}",                       // path to root directory
+              'URL'             => Util::getFullServerUrl() . "img/{$cropped}/", // root directory URL
               'rootAlias'       => 'Imagini',       // display this instead of root directory name
               'uploadAllow'   => array('images/*'),
               //'uploadDeny'    => array('all'),
