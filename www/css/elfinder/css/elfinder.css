@@ -291,8 +291,8 @@ ul.el-finder-tree, ul.el-finder-places {
 
 .el-finder-cwd p, 
 .el-finder-ql p {
-	width:64px;
-	height:64px;
+	width:48px;
+	height:48px;
 	margin:1px auto;
 	padding:0;
 	border-radius:5px; 
