@@ -1,7 +1,6 @@
 <?php
 
 require_once '../../lib/Util.php';
-Util::requireAdmin();
 
 define('AUTOCOMPLETE_LIMIT', 10);
 
