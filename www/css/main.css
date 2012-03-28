@@ -234,6 +234,10 @@ span.deemphActName {
   padding: 4px;
 }
 
+span.editsection {
+  display: none;
+}
+
 /** auth/ pages **/
 
 #openidProviders a {

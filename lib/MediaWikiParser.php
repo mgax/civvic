@@ -222,7 +222,7 @@ class MediaWikiParser {
   }
 
   static function parse($text) {
-    $text = "__NOTOC__\n" . $text;
+    $text = "__NOTOC__" . $text;
     $xmlString = Util::makePostRequest(self::$url, array('action' => 'parse', 'text' => $text, 'format' => 'xml'));
     $xml = simplexml_load_string($xmlString);
     return (string)$xml->parse->text;
