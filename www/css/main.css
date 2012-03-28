@@ -25,6 +25,11 @@ ul.sideMenu li {
   list-style-type: none;
 }
 
+ul.sideMenu li.guide {
+  background: url("../img/silk/report.png") no-repeat;
+  padding-left: 20px;
+}
+
 #main {
   float: right;
   width: 884px;

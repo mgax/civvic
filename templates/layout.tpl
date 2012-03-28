@@ -50,6 +50,7 @@
           <li><a href="{$wwwRoot}acte-fara-numar">acte fără număr</a></li>
           <li><a href="{$wwwRoot}imagini">imagini</a></li>
           <li><a href="{$wwwRoot}texte-ocr">texte OCR</a></li>
+          <li class="guide"><a href="http://wiki.civvic.ro/wiki/Ghidul_moderatorului">ghid</a></li>
         </ul>
       {/if}
     </div>
