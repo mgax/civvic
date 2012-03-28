@@ -9,7 +9,7 @@ class CroppedImage extends BaseObject {
     $invalid = false;
     for ($i = 0; $i < mb_strlen($this->name); $i++) {
       $char = mb_substr($this->name, $i, 1);
-      if (!ctype_alnum($char) && $char != '-' && $char != '.' && $char != '_') {
+      if (!ctype_alnum($char) && strpos('-._/', $char) === false) {
         $invalid = true;
       }
     }
@@ -46,9 +46,13 @@ class CroppedImage extends BaseObject {
     $dst = imagecreatetruecolor($this->width, $this->height);
     imagecopy($dst, $src, 0, 0, $this->x0, $this->y0, $this->width, $this->height);
     $filename = $this->getFileName();
-    imagepng($dst, $filename, 9); // Maximum compression
+    if (!@imagepng($dst, $filename, 9)) {
+      FlashMessage::add('Nu pot salva imaginea în fișier.');
+      return false;
+    }
     exec("optipng {$filename}");
     $this->contents = file_get_contents($filename);
+    return true;
   }
 
 }

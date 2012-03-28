@@ -34,6 +34,9 @@ class SmartyWrap {
 
   static function addCss($id) {
     switch ($id) {
+    case 'elfinder':
+      self::$cssFiles[] = 'elfinder/css/elfinder.css';
+      break;
     case 'jcrop':
       self::$cssFiles[] = 'jcrop/jquery.Jcrop.min.css';
       break;
@@ -56,6 +59,9 @@ class SmartyWrap {
     switch ($id) {
     case 'datepicker':
       self::$jsFiles[] = 'jquery.ui.datepicker-ro.js';
+      break;
+    case 'elfinder':
+      self::$jsFiles[] = 'elfinder.min.js';
       break;
     case 'jcrop':
       self::$jsFiles[] = 'jquery.Jcrop.min.js';
