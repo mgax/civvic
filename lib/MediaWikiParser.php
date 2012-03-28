@@ -228,6 +228,12 @@ class MediaWikiParser {
     return (string)$xml->parse->text;
   }
 
+  static function getAllImages() {
+    $xmlString = Util::makePostRequest(self::$url, array('action' => 'query', 'list' => 'allimages', 'ailimit' => 1000, 'format' => 'xml'));
+    $xml = simplexml_load_string($xmlString);
+    return $xml->query->allimages;
+  }
+
   static function deleteEmptyTables($text) {
     return preg_replace("/<table>\\s*<tr>\\s*<td>\\s*<\\/td>\\s*<\\/tr>\\s*<\\/table>/i", '', $text);
   }
