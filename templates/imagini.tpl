@@ -3,7 +3,7 @@
 <a href="decupare-imagine">decupează o imagine din monitorul oficial</a><br/><br/>
 
 Această pagină este în construcție. Când vom avea destule imagini ca să ne dăm seama cum vrem să le ordonăm și filtrăm, atunci vom căuta un modul mai
-arătos cu aceste funcții.<br/>
+arătos cu aceste funcții.<br/><br/>
 
 {foreach from=$images item=i}
   <div class="croppedImage">

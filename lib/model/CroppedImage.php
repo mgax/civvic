@@ -47,6 +47,7 @@ class CroppedImage extends BaseObject {
     imagecopy($dst, $src, 0, 0, $this->x0, $this->y0, $this->width, $this->height);
     $filename = $this->getFileName();
     imagepng($dst, $filename, 9); // Maximum compression
+    exec("optipng {$filename}");
     $this->contents = file_get_contents($filename);
   }
 
