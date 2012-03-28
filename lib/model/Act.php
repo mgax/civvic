@@ -31,7 +31,7 @@ class Act extends BaseObject {
       $this->issueDate = null;
     }
     if ($this->id) {
-      Reference::unassociateByReferredActId($this->id);
+      ActReference::unassociateByReferredActId($this->id);
     }
     parent::save();
     // The HTML has changed for all the actVersions this act modifies, and all future versions from those acts
@@ -43,8 +43,8 @@ class Act extends BaseObject {
         $av->save();
       }
     }
-    Reference::associateReferredAct($this);
-    Reference::reconvertReferringActVersions($this->id);
+    ActReference::associateReferredAct($this);
+    ActReference::reconvertReferringActVersions($this->id);
   }
 
   function countVersions() {
@@ -111,8 +111,8 @@ class Act extends BaseObject {
 
     $oldId = $this->id;
     parent::delete();
-    Reference::reconvertReferringActVersions($oldId);
-    Reference::unassociateByReferredActId($oldId);
+    ActReference::reconvertReferringActVersions($oldId);
+    ActReference::unassociateByReferredActId($oldId);
     return true;
   }
 }

@@ -13,7 +13,7 @@ class MediaWikiParser {
     self::$botPassword = Config::get('general.mediaWikiBotPassword');
   }
 
-  static function wikiToHtml($actVersion, &$references = null) {
+  static function wikiToHtml($actVersion, &$actReferences = null, &$monitorReferences = null) {
     $text = self::insertChangeDetails($actVersion);
     $text = self::ensureReferences($text);
     $text = self::parse($text);
@@ -39,14 +39,36 @@ class MediaWikiParser {
         } else {
           $link = Act::getLink($at->id, $number, $year, $linkText);
           $text = substr($text, 0, $position) . $link . substr($text, $position + strlen($linkText));
-          if ($references !== null) {
-            $ref = Model::factory('Reference')->create();
+          if ($actReferences !== null) {
+            $ref = Model::factory('ActReference')->create();
             $ref->actTypeId = $at->id;
             $ref->number = $number;
             $ref->year = $year;
-            $references[] = $ref;
+            $actReferences[] = $ref;
           }
         }
+      }
+    }
+
+    // Automatic links to monitors
+    // Parses "din <day> <month> <year>" or "/ <year>"
+    $date = sprintf("((\\s+din\\s+(\\d{1,2})\\s+(%s)\\s+)|(\\s*\\/\\s*))(?P<year>\\d{4})", implode('|', StringUtil::$months));
+    $regexp = "/monitorul(ui)?\\s+oficial\\s+(nr\\.?)?\\s*(?P<number>[-0-9A-Za-z.]+){$date}(?!<\\/a)/i";
+    $matches = array();
+    preg_match_all($regexp, $text, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
+    foreach (array_reverse($matches) as $match) {
+      $linkText = $match[0][0];
+      $position = $match[0][1];
+      $number = $match['number'][0];
+      $year = $match['year'][0];
+
+      $link = Monitor::getLink($number, $year, $linkText);
+      $text = substr($text, 0, $position) . $link . substr($text, $position + strlen($linkText));
+      if ($monitorReferences !== null) {
+        $ref = Model::factory('MonitorReference')->create();
+        $ref->number = $number;
+        $ref->year = $year;
+        $monitorReferences[] = $ref;
       }
     }
     return $text;

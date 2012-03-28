@@ -45,17 +45,17 @@ if ($ref && (count($results) < AUTOCOMPLETE_LIMIT)) {
   // Get acts which we don't have, but to which other acts refer
   $clauses = array();
   if (count($numbers)) {
-    $clauses[] = sprintf("(reference.number = '%s')", $numbers[0]);
+    $clauses[] = sprintf("(act_reference.number = '%s')", $numbers[0]);
   }
   if (count($numbers) > 1) {
-    $clauses[] = sprintf("(reference.year like '%s%%')", $numbers[1]);
+    $clauses[] = sprintf("(act_reference.year like '%s%%')", $numbers[1]);
   }
   foreach ($other as $word) {
     $clauses[] = "(act_type.name like '%{$word}%' or act_type.artName like '%{$word}%' or act_type.genArtName like '%{$word}%')";
   }
-  $query = sprintf("select distinct act_type.id, act_type.artName, reference.number, reference.year " .
-                   "from act_type, reference, act_version, act " .
-                   "where act_type.id = reference.actTypeId and reference.actVersionId = act_version.id and act_version.actId = act.id " .
+  $query = sprintf("select distinct act_type.id, act_type.artName, act_reference.number, act_reference.year " .
+                   "from act_type, act_reference, act_version, act " .
+                   "where act_type.id = act_reference.actTypeId and act_reference.actVersionId = act_version.id and act_version.actId = act.id " .
                    "and referredActId is null and %s order by act.issueDate limit %d",
                    implode(" and ", $clauses), AUTOCOMPLETE_LIMIT - count($results));
   $dbResult = Db::execute($query, PDO::FETCH_ASSOC);

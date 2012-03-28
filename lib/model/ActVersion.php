@@ -134,8 +134,9 @@ class ActVersion extends BaseObject {
     }
 
     if ($contentsChanged || $annotatedChanged) {
-      $references = array();
-      $this->htmlContents = MediaWikiParser::wikiToHtml($this, $references);
+      $actReferences = array();
+      $monitorReferences = array();
+      $this->htmlContents = MediaWikiParser::wikiToHtml($this, $actReferences, $monitorReferences);
     }
 
     if ($contentsChanged) {
@@ -155,11 +156,13 @@ class ActVersion extends BaseObject {
     parent::save();
 
     if ($contentsChanged) {
-      Reference::deleteByActVersionId($this->id);
-      Reference::saveByActVersionId($references, $this->id);
+      ActReference::deleteByActVersionId($this->id);
+      ActReference::saveByActVersionId($actReferences, $this->id);
+      MonitorReference::deleteByActVersionId($this->id);
+      MonitorReference::saveByActVersionId($monitorReferences, $this->id);
     }
     if ($validityChanged) {
-      Reference::reconvertReferringActVersions($this->actId);
+      ActReference::reconvertReferringActVersions($this->actId);
     }
   }
 
@@ -185,7 +188,7 @@ class ActVersion extends BaseObject {
       $prev = $av;
     }
 
-    Reference::deleteByActVersionId($this->id);
+    ActReference::deleteByActVersionId($this->id);
 
     $wasCurrent = $this->current;
     $actId = $this->actId;
@@ -193,7 +196,7 @@ class ActVersion extends BaseObject {
 
     if ($wasCurrent) {
       // The current version for this act has changed, so reconvert the references
-      Reference::reconvertReferringActVersions($actId);
+      ActReference::reconvertReferringActVersions($actId);
     }
     return true;
   }

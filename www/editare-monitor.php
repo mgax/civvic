@@ -32,8 +32,13 @@ if ($id) {
 }
 
 if ($submitButton) {
-  $m->year = $year;
-  $m->number = $number;
+  // Avoid dirtying the fields unless necessary
+  if ($year != $m->year) {
+    $m->year = $year;
+  }
+  if ($number != $m->number) {
+    $m->number = $number;
+  }
   $m->issueDate = $issueDate;
   if ($m->validate()) {
     $m->save();

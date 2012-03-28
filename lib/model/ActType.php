@@ -24,7 +24,7 @@ class ActType extends BaseObject {
       FlashMessage::add("Tipul de act '{$this->name}' nu poate fi șters, deoarece există acte care îl folosesc.");
       return false;
     }
-    Reference::deleteByActTypeId($this->id);
+    ActReference::deleteByActTypeId($this->id);
     return parent::delete();
   }
 

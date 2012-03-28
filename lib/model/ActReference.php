@@ -1,16 +1,16 @@
 <?php
 
-class Reference extends BaseObject {
+class ActReference extends BaseObject {
 
   static function deleteByActVersionId($avId) {
-    $refs = Model::factory('Reference')->where('actVersionId', $avId)->find_many();
+    $refs = Model::factory('ActReference')->where('actVersionId', $avId)->find_many();
     foreach ($refs as $ref) {
       $ref->delete();
     }
   }
 
   static function deleteByActTypeId($actTypeId) {
-    $refs = Model::factory('Reference')->where('actTypeId', $actTypeId)->find_many();
+    $refs = Model::factory('ActReference')->where('actTypeId', $actTypeId)->find_many();
     foreach ($refs as $ref) {
       $ref->delete();
     }
@@ -29,7 +29,7 @@ class Reference extends BaseObject {
   }
 
   static function unassociateByReferredActId($actId) {
-    $refs = Model::factory('Reference')->where('referredActId', $actId)->find_many();
+    $refs = Model::factory('ActReference')->where('referredActId', $actId)->find_many();
     foreach ($refs as $ref) {
       $ref->referredActId = null;
       $ref->save();
@@ -37,7 +37,7 @@ class Reference extends BaseObject {
   }
 
   static function associateReferredAct($act) {
-    $refs = Model::factory('Reference')->where('actTypeId', $act->actTypeId)->where('number', $act->number)->where('year', $act->year)
+    $refs = Model::factory('ActReference')->where('actTypeId', $act->actTypeId)->where('number', $act->number)->where('year', $act->year)
         ->find_many();
     foreach ($refs as $ref) {
       $ref->referredActId = $act->id;
@@ -46,7 +46,7 @@ class Reference extends BaseObject {
   }
 
   static function reconvertReferringActVersions($actId) {
-    $refs = Model::factory('Reference')->where('referredActId', $actId)->find_many();
+    $refs = Model::factory('ActReference')->where('referredActId', $actId)->find_many();
     $avMap = array();
     foreach ($refs as $ref) {
       $avMap[$ref->actVersionId] = true;
