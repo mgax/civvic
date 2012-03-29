@@ -167,7 +167,9 @@ class MediaWikiParser {
 
   private static function ensureReferences($text) {
     if (preg_match("/<\\s*ref\\s+name*\\s*=/", $text)) {
-      FlashMessage::add('Sistemul nu admite referințe cu &ltref name="..."&gt. Vă rugăm să copiați explicit textul referinței.', 'warning');
+      FlashMessage::add('Sistemul nu admite referințe cu &lt;ref name="..."&gt; decât în cadrul aceluiași act. ' .
+                        'Dacă aveți referințe cu &lt;ref name="..."&gt; care trimit la alt act, ' .
+                        'vă rugăm să copiați explicit textul referinței.', 'warning');
     }
     if (preg_match("/<\\s*ref[^>]*>/", $text) && !preg_match("/<\\s*references\\s*\\/>/", $text)) {
       $text .= "\n<references/>";
