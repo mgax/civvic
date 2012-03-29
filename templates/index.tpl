@@ -12,7 +12,7 @@ modificări asupra ei.</p>
 <p>Civvic.ro este un proiect în lucru. Până acum, am digitizat majoritatea Monitoarelor Oficiale din anii 1990-1996, pe care le puteți găsi la <a
 href="http://wiki.civvic.ro/">wiki.civvic.ro</a>. Acum suntem în faza de împărțire a acestor monitoare în acte individuale, cu legături între ele.</p>
 
-<h3>Nagivhează la un act</h3>
+<h3>Navighează la un act</h3>
 
 {include file=bits/actSelect.tpl text="Legea" actType="Lege" prefix="law" years=$lawYears}
 {include file=bits/actSelect.tpl text="Decretul" actType="Decret" prefix="decree" years=$decreeYears}
