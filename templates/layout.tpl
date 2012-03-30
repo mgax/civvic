@@ -35,7 +35,7 @@
       <h3>Informații</h3>
 
       <ul class="sideMenu">
-        <li><a href="http://wiki.civvic.ro/wiki/Acces_la_codul_surs%C4%83">pentru programatori</a></li>
+        <li><a href="http://wiki.civvic.ro/wiki/Acces_la_codul_surs%C4%83">programatori</a></li>
       </ul>
 
       <h3>Legături externe</h3>
