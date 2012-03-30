@@ -57,13 +57,15 @@
           <li><a href="{$wwwRoot}imagini">imagini</a></li>
           <li><a href="{$wwwRoot}texte-ocr">texte OCR</a></li>
           <li class="guide"><a href="http://wiki.civvic.ro/wiki/Ghidul_moderatorului">ghid</a></li>
+          <li class="bug"><a href="http://wiki.civvic.ro/wiki/Bugs">buguri</a></li>
         </ul>
       {/if}
     </div>
     <div id="main">
       <div id="userActions">
         {if $user}
-          {$user->getDisplayName()}
+          <span class="userName">{$user->getDisplayName()}</span>
+          <a href="{$wwwRoot}auth/contul-meu">contul meu</a>
           <a href="{$wwwRoot}auth/logout">deconectare</a>
         {else}
           <a id="openidLink" href="{$wwwRoot}auth/login">autentificare cu OpenID</a>
