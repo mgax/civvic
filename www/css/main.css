@@ -1,7 +1,7 @@
 body {
   font-family: sans-serif;
   margin: 5px auto;
-  width: 1024px;
+  width: 1000px;
 }
 
 #sidebar {
@@ -32,7 +32,7 @@ ul.sideMenu li.guide {
 
 #main {
   float: right;
-  width: 884px;
+  width: 860px;
 }
 
 #userActions {

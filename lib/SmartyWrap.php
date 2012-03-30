@@ -47,7 +47,7 @@ class SmartyWrap {
       self::$cssFiles[] = 'smoothness/jquery-ui-1.8.18.custom.css';
       break;
     case 'main':
-      self::$cssFiles[] = 'main.css?v=11';
+      self::$cssFiles[] = 'main.css?v=12';
       break;
     default:
       FlashMessage::add("Cannot load CSS file {$id}");
