@@ -7,5 +7,10 @@ Vagrant::Config.run do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.add_recipe "civvic"
+    chef.json = {
+      :mysql => {
+        :server_root_password => ""
+      }
+    }
   end
 end

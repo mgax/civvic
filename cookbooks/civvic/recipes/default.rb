@@ -1,5 +1,6 @@
 require_recipe "apt"
 require_recipe "apache2::mod_php5"
+require_recipe "mysql::server"
 
 
 ['php5-cli', 'php5-curl', 'php5-mysql', 'smarty'].each do |pkg|
