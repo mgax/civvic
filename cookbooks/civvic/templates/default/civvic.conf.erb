@@ -1,0 +1,6 @@
+<VirtualHost *:80>
+    DocumentRoot <%= @params[:docroot] %>
+    <Directory <%= @params[:docroot] %>>
+        AllowOverride All
+    </Directory>
+</VirtualHost>
