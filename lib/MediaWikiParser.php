@@ -16,6 +16,7 @@ class MediaWikiParser {
   static function wikiToHtml($actVersion, &$actReferences = null, &$monitorReferences = null) {
     $text = self::insertChangeDetails($actVersion);
     $text = self::ensureReferences($text);
+    $text = self::removeMonitorLinks($text);
     $text = self::parse($text);
     $text = self::deleteEmptyTables($text);
 
@@ -23,8 +24,8 @@ class MediaWikiParser {
     $actTypes = Model::factory('ActType')->raw_query('select * from act_type order by length(name) desc', null)->find_many();
     foreach ($actTypes as $at) {
       $type = sprintf("(%s|%s|%s)", $at->name, $at->artName, $at->genArtName);
-      // Parses "din <day> <month> <year>" or "/ <year>"
-      $date = sprintf("((\\s+din\\s+(\\d{1,2})\\s+(%s)\\s+)|(\\s*\\/\\s*))(?P<year>\\d{4})", implode('|', StringUtil::$months));
+      // Parses "(din|/) (<day> <month>)? <year>"
+      $date = sprintf("\\s*(din|\\/)\\s*(\\d{1,2}\\s+(%s)\\s+)?(?P<year>\\d{4})", implode('|', StringUtil::$months));
       $regexp = "/(?<!-){$type}\\s+(nr\\.?)?\\s*(?P<number>[-0-9A-Za-z.]+){$date}(?!<\\/a)/i";
       $matches = array();
       preg_match_all($regexp, $text, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
@@ -174,6 +175,15 @@ class MediaWikiParser {
     if (preg_match("/<\\s*ref[^>]*>/", $text) && !preg_match("/<\\s*references\\s*\\/>/", $text)) {
       $text .= "\n<references/>";
       FlashMessage::add('Dacă folosiți &lt;ref&gt; pentru a indica referințe, nu uitați să adăugați eticheta &lt;references/&gt; la sfârșit.', 'warning');
+    }
+    return $text;
+  }
+
+  private static function removeMonitorLinks($text) {
+    $count = 0;
+    $text = preg_replace("/\\[\\[Monitorul_Oficial[^|]+\\|([^\\]]+)\\]\\]/", '$1', $text, -1, $count);
+    if ($count) {
+      FlashMessage::add("Am eliminat {$count} legături wiki către alte monitoare.", 'warning');
     }
     return $text;
   }
