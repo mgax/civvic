@@ -14,7 +14,7 @@ class Db {
   /**
    * Returns an array mapping user, password, host and database to their respective values.
    **/
-  private static function parseDsn($dsn = null) {
+  static function parseDsn($dsn = null) {
     $matches = array();
     $numMatches = preg_match('/^([^:]+):\/\/([^:@]+)(:([^@]+))?@([^\/]+)\/(.+)$/', $dsn, $matches);
     return array('driver' => $matches[1],
